@@ -1,5 +1,5 @@
 import shelve
-
+'''Learning process'''
 class Compound:
     def __init__(self, formula, alphas='', name='', m_mass='', bond='', electronegativity='', density='', melting='', boiling='',
                  Vanderwaals_radius='', Ionic_radius='', Isotopes='', electronic_shell='', Energy_of_first_ionization='',
