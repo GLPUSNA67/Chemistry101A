@@ -636,7 +636,7 @@ def Synthesis():
                             if '-1' in eci_2_valence:
                                 print('-1 is in the string eci_2_valence')
                                 eci_2_valence = 1
-                                print('eci_2_valence is ', eci_2_valence[0])
+                                print('eci_2_valence is ', eci_2_valence)
                         else: eci_2_valence = 6
                         #print('eci_2_valence is a string')
                     #eci_2_valence= -1
@@ -781,15 +781,15 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
 # An alpha dictionary/list is a list of compound (or ion) elements in alphabetic order and a list of the compounds or ions 
 # that have the same list of elements. After a set of elements have been chosen and alphabetized, these lists will be used
 #  to determine which compounds have these elements, and that list will be used to fill the appropriate combo box
-def make_element_dictionary()
+def make_element_dictionary():
     pass
-def make_compound_dictionary()
+def make_compound_dictionary():
     pass
-def make_ion_dictionary()
+def make_ion_dictionary():
     pass
-def make_compound_alpha_dictionary()
+def make_compound_alpha_dictionary():
     pass
-def make_ion_alpha_dictionary()
+def make_ion_alpha_dictionary():
     pass
     #a_list = [eci_1, eci_2, eci_3]
     #alpha = (sorted(a_list)) #Does not concatenate
