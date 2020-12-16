@@ -20,7 +20,7 @@ class Compound:
         self.Energy_of_first_ionization  = Energy_of_first_ionization
         self.energy_of_second_ionization  = energy_of_second_ionization
         self.standard_potential = standard_potential
-        self.standard_potential = standard_potential
+        self.structure = structure
 
 class Ion:
     def __init__(self, formula, alphas='', name='', charge="", m_mass='', bond='', electronegativity='', density='', melting='', boiling='',
@@ -30,20 +30,34 @@ class Ion:
         self.alphas = alphas
         self.name = name
         self.charge = charge
+        self.m_mass  = m_mass
+        self.bond  = bond
+        self.electronegativity  = electronegativity
+        self.density = density
+        self.melting = melting
+        self.boiling = boiling
+        self.Vanderwaals_radius  = Vanderwaals_radius
+        self.Ionic_radius = Ionic_radius
+        self.Isotopes = Isotopes
+        self.electronic_shell = electronic_shell
+        self.Energy_of_first_ionization  = Energy_of_first_ionization
+        self.energy_of_second_ionization  = energy_of_second_ionization
+        self.standard_potential = standard_potential
+        self.structure = structure
 '''
-    P"Al4C3BCl3BeH22HBrCaICa(OH)2CdSCH3CO2HCOCO2CsFCuSFeCl2FeCl3GaBr3HgOHg2OHNO2HNO3H2CO3H2SO3H2SO4H3PO4HC2H3O2HClHClO4HFHIH2SLiClK2SO4KBrKOHMg3N2NaClNaOHNa2ONH3NONO2N2O4N2O5H2OZZnCO3"
+    "Al4C3BCl3BeH22HBrCaICa(OH)2CdSCH3CO2HCOCO2CsFCuSFeCl2FeCl3GaBr3HgOHg2OHNO2HNO3H2CO3H2SO3H2SO4H3PO4HC2H3O2HClHClO4HFHIH2SLiClK2SO4KBrKOHMg3N2NaClNaOHNa2ONH3NONO2N2O4N2O5H2OZZnCO3"
     "Al4C3 BCl3 BeH2 2HBr CaICa(OH)2CdSCH3CO2HCOCO2CsFCuSFeCl2FeCl3GaBr3HgOHg2OHNO2HNO3H2CO3H2SO3H2SO4H3PO4HC2H3O2HClHClO4HFHIH2SLiClK2SO4KBrKOHMg3N2NaClNaOHNa2ONH3NONO2N2O4N2O5H2OZZnCO3"
     "AlC BCl BeH HBr CaI Ca(OH) CaP CdS CHCOH CO CO CsF CuS FeCl FeCl GaBr HgO HgO HNO HNO HCO HSO HSO HPO HCHO
                                     HCl HClO HF HI HS LiCl KSO Kbr KOH MgN NaCl NaOH NaO NH NO NO NO NO HO ZnO ZnCO3"
     "CuS FeCl2 FeCl3 GaBr3 HgO Hg2O HNO2 HNO3 H2CO3 H2SO3 H2SO4 H3PO4 HC2H3O2 Hcl HclO4 HF HI H2S LiCl K2SO4
                                     Kbr KOH Mg3N2 NaCl NaOH Na2O NH3 NO NO2 N2O4 N2O5 H2O ZnO ZnCO3"
-    "AcAgAlAmArAsAtAuBBaBeBiBkBrCCaCdCeCfClCmCoCrCsCuDyErEsEuFFeFmFrGaGdGeHHeHfHgHoIInIrKKrLaLiLuMgMnMoNNaNbNdNeNiNpOOsPPaPbPdPmPoPrPtPuRaRbReRhRnRuSSbScSeSiSmSnSrTaTbTcTeThTiTlTmUVWXeYYbZnZr"
+    # Elements "AcAgAlAmArAsAtAuBBaBeBiBkBrCCaCdCeCfClCmCoCrCsCuDyErEsEuFFeFmFrGaGdGeHHeHfHgHoIInIrKKrLaLiLuMgMnMoNNaNbNdNeNiNpOOsPPaPbPdPmPoPrPtPuRaRbReRhRnRuSSbScSeSiSmSnSrTaTbTcTeThTiTlTmUVWXeYYbZnZr"
 
 '''
 
 
 if __name__ == '__main__':
-    #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
+    
     Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
     AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
     Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements=  'ArHeKrNeXeRn', name= 'air')
@@ -103,6 +117,7 @@ if __name__ == '__main__':
     NaHCO3 = dict(formula= 'NaHCO33', elements= 'CHNaO)', name= 'bicarbonate_of_soda')
     Na2O = dict(formula= 'Na2O', elements= 'NaO', name= 'sodium_oxide')
     NaOH = dict(formula= 'NaOH', elements= 'HNaO', name= 'sodium_hydroxide')
+    Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
     NH3 = dict(formula= 'NH3', elements= 'HN', name= 'ammonia')
     N2H4 = dict(formula= 'N2H4', elements= 'HN', name= 'hydrazine')
     NO = dict(formula= 'NO', elements= 'NO', name= 'nitric_oxide')
@@ -114,7 +129,6 @@ if __name__ == '__main__':
     SO2 = dict(formula= 'SO2', elements= 'OS', name= 'sulfur_dioxide')
     SO3 = dict(formula= 'SO3', elements= 'OS', name= 'sulfur_trioxide')
 
-    # Ions follow
     C2H3O2 = dict(formula= 'C2H3O2-', elements= 'CHO', name= 'acetate', charge= '-')
     ClO2 = dict(formula= 'ClO2-', elements= 'ClO', name= 'chlorite', charge= '-')
     ClO3 = dict(formula= 'ClO3-', elements= 'ClO', name= 'chlorate', charge= '-')
@@ -139,6 +153,7 @@ if __name__ == '__main__':
     O22 = dict(formula= 'O22-', elements= 'O', name= 'peroxide', charge= '-')
     SO42 = dict(formula= 'SO42-', elements= 'OS', name= 'sulfate', charge= '-')
     SO32 = dict(formula= 'SO32-', elements= 'So', name= 'sulfite', charge= '-')
+    # Ions follow
     PO43 = Ion(formula= 'PO43-', elements= 'PO', name= 'phosphate', charge= '-')
     # ***
 '''
