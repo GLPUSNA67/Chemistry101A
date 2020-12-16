@@ -782,9 +782,9 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
 # that have the same list of elements. After a set of elements have been chosen and alphabetized, these lists will be used
 #  to determine which compounds have these elements, and that list will be used to fill the appropriate combo box
 def make_element_dictionary():
-    pass
+    print("In make_element_dictionary")
 def make_compound_dictionary():
-    pass
+    pass    
 def make_ion_dictionary():
     pass
 def make_compound_alpha_dictionary():
