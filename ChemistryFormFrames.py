@@ -747,6 +747,7 @@ def CountElements():    # The following does not work. Need valid test for value
     else: intElementCount = intElementCount + 1
     print('element count is', intElementCount)
     #rtb_Explanation.Text = rtb_Explanation.Text & intElementCount
+    
 def AlphabetizeElements():   #TypeError: '<' not supported between instances of 'StringVar' and 'StringVar'
     e_Explanation.insert(tk.END, "AlphabetizeElements process entered\n")
     strAlphaElements = ""
@@ -773,12 +774,29 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
     #e_Explanation.insert(tk.END, 'strAlphaElements is %', strAlphaElements) #How do I insert arguments?
     print('strAlphaElements is ', strAlphaElements)
 
+# Make new dictionaries of elements, compounds and ions to ensure they are current.
+# Also, if the data is changed in a dictionary, it needs to be changed in the database.
+# Current, data will be changed in a dictionary and then changed in the database.
+# Make new alpha lists of compounds and ions to ensure they are current.
+# An alpha dictionary/list is a list of compound (or ion) elements in alphabetic order and a list of the compounds or ions 
+# that have the same list of elements. After a set of elements have been chosen and alphabetized, these lists will be used
+#  to determine which compounds have these elements, and that list will be used to fill the appropriate combo box
+def make_element_dictionary()
+    pass
+def make_compound_dictionary()
+    pass
+def make_ion_dictionary()
+    pass
+def make_compound_alpha_dictionary()
+    pass
+def make_ion_alpha_dictionary()
+    pass
     #a_list = [eci_1, eci_2, eci_3]
     #alpha = (sorted(a_list)) #Does not concatenate
     #beta = alpha(0) + alpha(1) + alpha(2)
     #print('In AlphabetizeElements', alpha)
     #print('In AlphabetizeElements', sorted(alpha))
-    '''
+'''
     #rtb_Explanation.Text = rtb_Explanation.Text & strAlphaElement
 '''
 # *** End function descriptions
@@ -1403,6 +1421,11 @@ lbl_blank.config(font=labelfont)
 # *** End GUI layout
 
 if __name__ == '__main__':
+    make_element_dictionary()
+    make_compound_dictionary()
+    make_ion_dictionary()
+    make_compound_alpha_dictionary()
+    make_ion_alpha_dictionary()
     root.mainloop()
 
 
