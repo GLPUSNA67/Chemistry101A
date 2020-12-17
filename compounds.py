@@ -30,6 +30,20 @@ class Ion:
         self.alphas = alphas
         self.name = name
         self.charge = charge
+        self.m_mass  = m_mass
+        self.bond  = bond
+        self.electronegativity  = electronegativity
+        self.density = density
+        self.melting = melting
+        self.boiling = boiling
+        self.Vanderwaals_radius  = Vanderwaals_radius
+        self.Ionic_radius = Ionic_radius
+        self.Isotopes = Isotopes
+        self.electronic_shell = electronic_shell
+        self.Energy_of_first_ionization  = Energy_of_first_ionization
+        self.energy_of_second_ionization  = energy_of_second_ionization
+        self.standard_potential = standard_potential
+        self.standard_potential = standard_potential
 '''
     P"Al4C3BCl3BeH22HBrCaICa(OH)2CdSCH3CO2HCOCO2CsFCuSFeCl2FeCl3GaBr3HgOHg2OHNO2HNO3H2CO3H2SO3H2SO4H3PO4HC2H3O2HClHClO4HFHIH2SLiClK2SO4KBrKOHMg3N2NaClNaOHNa2ONH3NONO2N2O4N2O5H2OZZnCO3"
     "Al4C3 BCl3 BeH2 2HBr CaICa(OH)2CdSCH3CO2HCOCO2CsFCuSFeCl2FeCl3GaBr3HgOHg2OHNO2HNO3H2CO3H2SO3H2SO4H3PO4HC2H3O2HClHClO4HFHIH2SLiClK2SO4KBrKOHMg3N2NaClNaOHNa2ONH3NONO2N2O4N2O5H2OZZnCO3"
