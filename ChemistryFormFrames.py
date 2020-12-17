@@ -35,7 +35,7 @@ elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine 
     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
 element = zip(elements_symbols_list, elements_name_list)
 
-compound_symbols_list = "Al4C3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
+compound_symbols_list = "AlC3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
                         "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
                         "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
@@ -58,7 +58,6 @@ des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl
                 "C9H20", "C10H22", "C14H30", "C18H38"]}
 ion_symbols_list = "OH- SO3-"
 ion_names_list = "hydroxide sulfate"
-
 
 record_name = ""
 process_list = "Acid_Base Oxidization_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
@@ -88,7 +87,7 @@ eci_3 = StringVar()
 eci_4 = StringVar()
 eci_5 = StringVar()
 eci_6 = StringVar()
-eci_1_name = ""
+eci_1_name = StringVar()
 eci_1_col = IntVar()
 eci_2_col = IntVar()
 eci_3_col = IntVar()
@@ -206,9 +205,7 @@ d_eci_1 = dict(id= 1, eci_1_type= '', eci_1= '', eci_1_name= '', eci_1_mass= '',
                eci_1_press_units= '', eci_1_press_qty= '')
 eci_db['d_eci_1'] = d_eci_1
 '''
-c_db = {}
-Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'NaSO')
-c_db['Na2SO4'] = Na2SO4
+
  # *** End constants and variables
 
 
@@ -555,7 +552,8 @@ def Synthesis():
         eci_1 = cb_eci_1.get()
         print('eci_1 is ', eci_1)
         eci_1_name = c_db[eci_1]['name']
-        #print('eci_1_name is ', eci_1_name)
+        #eci_1_name = c_db[eci_1]['name']
+        print('eci_1_name is ', eci_1_name)
         #e_Explanation.insert(tk.END, "In Synthesis, compounds.\n")
 
 
