@@ -480,15 +480,17 @@ def Synthesis():
     #print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
-
-    eci_1_valence = db[eci_1]['valence']
-    eci_2_valence = db[eci_2]['valence']
-    print("eci_1 is", eci_1, "eci_2 is", eci_2)
+    #if cb_1_type == 'elements':
+    #    eci_1_valence = db[eci_1]['valence']
+    #    eci_2_valence = db[eci_2]['valence']
+    #    print("eci_1 is", eci_1, "eci_2 is", eci_2)
     #eci_3 = cb_eci_3.get()
      # and eci_1 != ''
-    eci_1_valence = db[eci_1]['valence']
+    #eci_1_valence = db[eci_1]['valence']
     #eci_3_group = db[eci_3]['_group']
     if cb_1_type == 'elements':
+        eci_1_valence = db[eci_1]['valence']
+        eci_2_valence = db[eci_2]['valence']
         eci_1_group = db[eci_1]['_group']
         print("eci_1_group is", eci_1_group)
         eci_1_electronegativity = db[eci_1]['electronegativity']
@@ -549,7 +551,12 @@ def Synthesis():
             e_Explanation.insert(tk.END, "In Synthesis. Can't yet process compounds.\n")
         elif cb_2_type == 'ions':
             e_Explanation.insert(tk.END, "In Synthesis. Can't yet process ions.\n")
-
+    elif cb_1_type == 'compounds':
+        eci_1 = cb_eci_1.get()
+        print('eci_1 is ', eci_1)
+        eci_1_name = c_db[eci_1]['name']
+        #print('eci_1_name is ', eci_1_name)
+        #e_Explanation.insert(tk.END, "In Synthesis, compounds.\n")
 
 
 
