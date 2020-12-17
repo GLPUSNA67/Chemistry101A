@@ -6,7 +6,7 @@ import tkinter as tk
 import sqlite3
 from sqlite3 import Error
 from ElementsDict import *
-#from ElementClass import Element
+from CompoundsDict import *
 root = tk.Tk()
 #root = Tk()
 root.title('Chemistry')
@@ -577,8 +577,9 @@ def setClassItem(eventObject):
         print("db[eci_1]['mass'] is ", eci_temp_1_qty)
         print("db[eci_1]['name'] is ", eci_1_name)
     elif cb_1_type == 'compounds':
-        #eci_1 = cb_eci_1.get()
-        #print('eci_1 = ', eci_1)
+        eci_1 = cb_eci_1.get()
+        eci_1_name = c_db[eci_1]['name']
+        print('eci_1 = ', eci_1)
         print("In setClassItem at elif compounds")
 def Parse_Compounds(compound):
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
