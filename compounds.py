@@ -7,8 +7,8 @@ class Compound:
         self.formula = formula
         self.alphas = alphas
         self.name = name
-        self.m_mass  = m_mass
-        self.bond  = bond
+        self.m_mass = m_mass
+        self.bond = bond
         self.electronegativity  = electronegativity
         self.density = density
         self.melting = melting
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
     AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
     Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements=  'ArHeKrNeXeRn', name= 'air')
-    BCl3 = dict('formula= BCl3', elements= 'BCl',name= 'boron_trichloride')
+    BCl3 = dict(formula= 'BCl3', elements= 'BCl',name= 'boron_trichloride')
     CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)
     C2H6 = dict(formula= 'C2H6', elements= 'CH', name= 'ethane', melting=-183.2, boiling=-88.6)
     C3H8 = dict(formula= 'C3H8', elements= 'CH', name= 'propane', melting=-187.7, boiling=-42.1)
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     O22 = dict(formula= 'O22-', elements= 'O', name= 'peroxide', charge= '-')
     SO42 = dict(formula= 'SO42-', elements= 'OS', name= 'sulfate', charge= '-')
     SO32 = dict(formula= 'SO32-', elements= 'So', name= 'sulfite', charge= '-')
-    PO43 = Ion(formula= 'PO43-', elements= 'PO', name= 'phosphate', charge= '-')
+    #PO43 = Ion(formula= 'PO43-', elements= 'PO', name= 'phosphate', charge= '-')
     # ***
 '''
     #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
@@ -226,42 +226,42 @@ if __name__ == '__main__':
     SO2 = Compound(formula= 'SO2', elements= 'OS', name= 'sulfur_dioxide')
     SO3 = Compound(formula= 'SO3', elements= 'OS', name= 'sulfur_trioxide')
 
-    db = shelve.open('chem-compounds')
-    db['air'] = Ar2He2Kr2Ne2Xe2Rn2
-    db['Al4C3'] = Al4C3
-    db['BCl3'] = BCl3
-    db['CH4'] = CH4
-    db['C2H6'] = C2H6
-    db['C3H8'] = C3H8
-    db['C4H10'] = C4H10
-    db['C4H10_M'] = C4H10_M
-    db['C5H12'] = C5H12
-    db['C6H14'] = C6H14
-    db['C7H16'] = C7H16
-    db['C8H18'] = C8H18
-    db['C9H20'] = C9H20
-    db['C10H22'] = C10H22
-    db['C14H30'] = C14H30
-    db['C18H38'] = C18H38
+    #c_db = shelve.open('chem-compounds')
+    c_db['air'] = Ar2He2Kr2Ne2Xe2Rn2
+    c_db['Al4C3'] = Al4C3
+    c_db['BCl3'] = BCl3
+    c_db['CH4'] = CH4
+    c_db['C2H6'] = C2H6
+    c_db['C3H8'] = C3H8
+    c_db['C4H10'] = C4H10
+    c_db['C4H10_M'] = C4H10_M
+    c_db['C5H12'] = C5H12
+    c_db['C6H14'] = C6H14
+    c_db['C7H16'] = C7H16
+    c_db['C8H18'] = C8H18
+    c_db['C9H20'] = C9H20
+    c_db['C10H22'] = C10H22
+    c_db['C14H30'] = C14H30
+    c_db['C18H38'] = C18H38
 
-    db['CaH2PO4'] = CaH2PO4
-    db['CaI'] = CaI
-    db['CaOH2'] = CaOH2
-    db['Ca3P2'] = Ca3P2
-    db['CdS'] = CdS
-    db['C6H8O7'] = C6H8O7
-    db['CH3CO2H'] = CH3CO2H
-    db['C2H4COH'] = C2H4COH
-    db['CO'] = CO
-    db['CO2'] = CO2
-    db['HBr_g'] = HBr_g
-    db['HBr_aq'] = HBr_aq
-    db['HC2H3O2'] = HC2H3O2
-    db['HCl'] = HCl
-    db['HCl_g'] = HCl_g
-    db['HCl_aq'] = HCl_aq
-    db['HClO4'] = HClO4
-    db['H2CO3'] = H2CO3
+    c_db['CaH2PO4'] = CaH2PO4
+    c_db['CaI'] = CaI
+    c_db['CaOH2'] = CaOH2
+    c_db['Ca3P2'] = Ca3P2
+    c_db['CdS'] = CdS
+    c_db['C6H8O7'] = C6H8O7
+    c_db['CH3CO2H'] = CH3CO2H
+    c_db['C2H4COH'] = C2H4COH
+    c_db['CO'] = CO
+    c_db['CO2'] = CO2
+    c_db['HBr_g'] = HBr_g
+    c_db['HBr_aq'] = HBr_aq
+    c_db['HC2H3O2'] = HC2H3O2
+    c_db['HCl'] = HCl
+    c_db['HCl_g'] = HCl_g
+    c_db['HCl_aq'] = HCl_aq
+    c_db['HClO4'] = HClO4
+    c_db['H2CO3'] = H2CO3
 
     #db.close()
     # formula, alphas='', name
@@ -313,13 +313,7 @@ if __name__ == '__main__':
     db['OH'] = OH
 '''
 
-
-
-    db.close()
-    print(CuS.formula, CuS.alphas, CuS.name, CuS.charge)
-    print(FeCl2.formula, FeCl2.alphas, FeCl2.name, FeCl2.charge)
-    print(FeCl3.formula, FeCl3.alphas, FeCl3.name, FeCl3.charge)
-    desn = {"Al4C3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
+desn = {"Al4C3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
             "CH4":  "methane", "C2H6": "ethane", "C3H8": "propane", "C4H10": "butane",
             "C4H10_M": "2-methylpropane", "C5H12": "pentane", "C6H14": "hexane", "C7H16": "heptane",
             "C8H18": "octane", "C9H20": "nonane", "C10H22": "decane", "C14H30": "tetradecane",
@@ -341,15 +335,15 @@ if __name__ == '__main__':
             "N2O": "nitrous_oxide", "N2O5": "dinitrogen_pentoxide", "PF5": "phosphorus_pentafluoride",
             "SO2": "sulfur_dioxide", "SO3": "sulfur_trioxide"}
 
-    des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
+des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
                 "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
                 "C9H20", "C10H22", "C14H30", "C18H38"]}
 
-    compound_symbols_list= ""      #Al4C3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
+compound_symbols_list= ""      #Al4C3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
 
 
-    for key in desn.keys():
-        compound_symbols_list = compound_symbols_list  + "'"+ key + "' "
+for key in desn.keys():
+    compound_symbols_list = compound_symbols_list  + "'"+ key + "' "
 
     #compound_names_list = "aluminum carbide air boron trichloride methane ethane propane butane 2-methylpropane pentane hexane heptane octane nonane decane tetradecane octadecane calcium dihydrogen phosphate calcium iodide calcium hydroxide calcium phosphide cadmium sulfide cesium fluoride citric acid acetic acid acetic acid carbon monoxide carbon dioxide hydrogen bromide hydrobromic acid acetic acid hydrogen chloride hydrogen chloride hydrochloric acid Perchloric acid hydrogen cyanide Carbonic acid hydrogen fluoride hydrofluoric acid hydrogen iodide hydroiodic acid nitrous acid nitric acid phosphoric acid hydrogen suflide hydrosulfuric acid sulfurous acid sulfuric acid iodine heptafluoride potassium bromide potassium hydroxide lithium chloride magnesium nitride sodium chloride bicarbonate of soda sodium oxide sodium hydroxide ammonia hydrazine nitric oxide nitorgen dioxide dinitrogen tetroxide nitrous oxide dinitrogen pentoxide phosphorus pentafluoride sulfur dioxide sulfur trioxide"
     compound_names_list = ""
