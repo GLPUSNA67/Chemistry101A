@@ -1,3 +1,4 @@
+# Time to refactor
 from tkinter import *  # get widget classes
 from tkinter.ttk import Combobox #,Textbox
 from tkinter.messagebox import *  # get standard dialogs
