@@ -60,5 +60,7 @@ i_db['Cr3'] = Cr3
 i_db['K1'] = K1
 i_db['Mg2'] = Mg2
 
+print(CuS)
+
 
 
