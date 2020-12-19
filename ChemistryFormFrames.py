@@ -443,10 +443,10 @@ def Oxidation_Rate():
         eci_1_valence = db[eci_1]['valence']
         print("db[eci_1]['name'] is ", eci_1_name)
         #print("db[eci_1]['elements'] is ", eci_1_valence)
-        if eci_1_valence.isdigit():
-            print("db[eci_1]['elements'] is digit ", eci_1_valence)
-        elif not eci_1_valence.isdigit():   # if eci_1_valence is a string of valence values
-            print("db[eci_1]['elements'] is string ", eci_1_valence)
+        if eci_1_valence.isnumeric():
+            print("db[eci_1]['elements'] is numeric ", eci_1_valence)
+        elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
+            print("db[eci_1]['elements'] is not numberic -- is string.", eci_1_valence)
         else: print("In Oxidization_Rate process else clause.")
         #Parse_Compounds(eci_1_elements)
         #Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'Na 2 S O 4')
