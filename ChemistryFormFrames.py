@@ -420,13 +420,24 @@ def Precipitation():
     #print("Precipitation process entered")
 
 def Oxidation_Rate():
-    ''' This function has been entered after elements have been selected and the COntinue button pressed'''
+    ''' This function has been entered after elements have been selected and the Continue button pressed'''
     e_Explanation.insert(tk.END, "Oxidization_Rate process entered\n")
-    #print("Oxidization_Rate process entered")
-    cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
-    print('eci_1_type = ', cb_1_type)
+    #print("Oxidation_Rate process entered")
+    # Get the selected type of: element, compound, or ion for each reactant.
+    # It is necessary to get the valence and electronegativity values because the valence of some
+    # elements is determined by the relative electronegativity of the elements
+    cb_1_type = cb_Select_CB1.get()
+    cb_2_type = cb_Select_CB2.get()
+    cb_3_type = cb_Select_CB3.get()
+
     eci_1 = cb_eci_1.get()
+    eci_2 = cb_eci_2.get()
+    eci_3 = cb_eci_3.get()
     print('eci_1 = ', eci_1)
+    print('eci_2 = ', eci_2)
+    print('eci_3 = ', eci_3)
+    #if cb_2_type == 'elements':
+    #    print('eci_2 = ', eci_2)
     '''
         if cb_1_type == 'elements':
         eci_1_valence = db[eci_1]['valence']
@@ -441,12 +452,30 @@ def Oxidation_Rate():
     if cb_1_type == 'elements':
         eci_1_name = db[eci_1]['name']
         eci_1_valence = db[eci_1]['valence']
+        eci_1_electronegativity = db[eci_1]['electronegativity']
         print("db[eci_1]['name'] is ", eci_1_name)
-        #print("db[eci_1]['elements'] is ", eci_1_valence)
+        print("db[eci_1]['valence'] is ", eci_1_valence)
+        print("db[eci_1]['electronegativity'] is ", eci_1_electronegativity)
         if eci_1_valence.isnumeric():
-            print("db[eci_1]['elements'] is numeric ", eci_1_valence)
+            print("db[eci_1]['valence'] is numeric ", eci_1_valence)
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
-            print("db[eci_1]['elements'] is not numberic -- is string.", eci_1_valence)
+            # If valence is a string, need to get the electronegativity of each element
+            # to determine the relative electronegativity -- and then the valence
+            if cb_2_type == 'elements':
+                eci_2_name = db[eci_2]['name']
+                eci_2_valence = db[eci_2]['valence']
+                eci_2_electronegativity = db[eci_2]['electronegativity']
+                print("db[eci_2]['name'] is ", eci_2_name)
+                print("db[eci_2]['valence'] is ", eci_2_valence)
+                print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
+            if cb_3_type == 'elements':
+                eci_3_name = db[eci_3]['name']
+                eci_3_valence = db[eci_3]['valence']
+                eci_3_electronegativity = db[eci_3]['electronegativity']
+                #print("db[eci_1]['name'] is ", eci_1_name)
+                print("db[eci_3]['name'] is ", eci_3_name)
+                print("db[eci_3]['valence'] is ", eci_3_valence)
+                print("db[eci_3]['electronegativity'] is ", eci_3_electronegativity)
         else: print("In Oxidization_Rate process else clause.")
         #Parse_Compounds(eci_1_elements)
         #Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'Na 2 S O 4')
