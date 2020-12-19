@@ -17,11 +17,11 @@ buttonfont= ('Ariel', 12) #, 'bold')
 entryfont= ('Ariel', 12) #, 'bold')
 
 # *** Start constants and variables
-elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu" \
+elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
  "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
  "U V W Xe Y Yb Zn Zr "
-elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu" \
+elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
  "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
  "U V W Xe Y Yb Zn Zr "
@@ -61,7 +61,7 @@ ion_symbols_list = "OH- SO3-"
 ion_names_list = "hydroxide sulfate"
 
 record_name = ""
-process_list = "Acid_Base Oxidization_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
+process_list = "Acid_Base Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
 energy_type = "heat electricity"
 catalyst = "blah1 blah2 blah3 blah4"
@@ -192,7 +192,7 @@ cb_6_type = ""
 
 #process = "Mine Refine Make Use Purify "
 environment = "Laboratory Industry Nature"
-temp_umits = "K C F"
+temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
 
 '''
@@ -313,7 +313,7 @@ def Continue():
         Metathesis()
         #print("Decompose process entered")
     elif process_selected == "Oxidation_Rate": #
-        Oxidization_Rate()
+        Oxidation_Rate()
     elif process_selected == "Precipitation":
         Precipitation()
     elif process_selected == "Reduction":
@@ -329,7 +329,7 @@ def Continue():
     #print("Process selected is " , process_selected)
     #print('eci_1 = ', eci_1)
     #print("Pressed Continue button")
-def Oxidization_Reduction():
+def Oxidation_Reduction():
     ''' This function has been entered after elements have been selected and the COntinue button pressed'''
     e_Explanation.insert(tk.END, "Oxidization_Reduction process entered\n")
     #print("Oxidization_Reduction process entered")
@@ -419,7 +419,7 @@ def Precipitation():
     e_Explanation.insert(tk.END, "Precipitation process entered\n")
     #print("Precipitation process entered")
 
-def Oxidization_Rate():
+def Oxidation_Rate():
     ''' This function has been entered after elements have been selected and the COntinue button pressed'''
     e_Explanation.insert(tk.END, "Oxidization_Rate process entered\n")
     #print("Oxidization_Rate process entered")
@@ -427,16 +427,42 @@ def Oxidization_Rate():
     print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
     print('eci_1 = ', eci_1)
-    if cb_1_type == 'compounds':
+    '''
+        if cb_1_type == 'elements':
+        eci_1_valence = db[eci_1]['valence']
+        eci_2_valence = db[eci_2]['valence']
+        eci_1_group = db[eci_1]['_group']
+        print("eci_1_group is", eci_1_group)
+        eci_1_electronegativity = db[eci_1]['electronegativity']
+        print('eci_1_electronegativity is:', eci_1_electronegativity)
+        if eci_1_group == '1A':
+            eci_1_valence= 1
+    '''
+    if cb_1_type == 'elements':
+        eci_1_name = db[eci_1]['name']
+        eci_1_valence = db[eci_1]['valence']
+        print("db[eci_1]['name'] is ", eci_1_name)
+        #print("db[eci_1]['elements'] is ", eci_1_valence)
+        if eci_1_valence.isdigit():
+            print("db[eci_1]['elements'] is digit ", eci_1_valence)
+        elif not eci_1_valence.isdigit():   # if eci_1_valence is a string of valence values
+            print("db[eci_1]['elements'] is string ", eci_1_valence)
+        else: print("In Oxidization_Rate process else clause.")
+        #Parse_Compounds(eci_1_elements)
+        #Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'Na 2 S O 4')
+        #  *** Need to process each element of the compound separately
+        #Acquire the electronegativity of each element and calculate the affinities
+        #    ***
+    elif cb_1_type == 'compounds':
         eci_1_name = c_db[eci_1]['name']
         eci_1_elements = c_db[eci_1]['elements']
         print("c_db[eci_1]['name'] is ", eci_1_name)
         print("c_db[eci_1]['elements'] is ", eci_1_elements)
         Parse_Compounds(eci_1_elements)
-        #Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'Na 2 S O 4')
-        #  *** Need to process each element of the compound separately
-        #Acquire the electronegativity of each element and calculate the affinities
-        #    ***
+
+    elif cb_1_type == 'ions':
+        pass
+    else: e_Explanation.insert(tk.END, "In Oxidization_Rate process else clause\n")
 
 
 def Acid_Base():
