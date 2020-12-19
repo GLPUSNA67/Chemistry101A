@@ -459,8 +459,13 @@ def Oxidation_Rate():
         if eci_1_valence.isnumeric():
             print("db[eci_1]['valence'] is numeric ", eci_1_valence)
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
-            # If valence is a string, need to get the electronegativity of each element
-            # to determine the relative electronegativity -- and then the valence
+            '''
+            If valence is a string, need to get the electronegativity of each other element
+             to determine the relative electronegativity -- and then the valence.
+             Negative oxidation states are commonly limited to nonmetals and semimetals and
+             are used only when these are combined with less electronegative elements.
+             Still need to determine how to determine which valence values to use.
+            '''
             if cb_2_type == 'elements':
                 eci_2_name = db[eci_2]['name']
                 eci_2_valence = db[eci_2]['valence']
