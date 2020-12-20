@@ -108,6 +108,12 @@ eci_3_group = StringVar()
 eci_4_group = StringVar()
 eci_5_group = StringVar()
 eci_6_group = StringVar()
+eci_1_M_qty = StringVar()
+eci_2_M_qty = StringVar()
+eci_3_M_qty = StringVar()
+eci_4_M_qty = StringVar()
+eci_5_M_qty = StringVar()
+eci_6_M_qty = StringVar()
 eci_1_mass = DoubleVar()
 eci_2_mass = DoubleVar()
 eci_3_mass = DoubleVar()
@@ -120,6 +126,18 @@ eci_3_N = StringVar()
 eci_4_N = StringVar()
 eci_5_N = StringVar()
 eci_6_N = StringVar()
+eci_1_Oxidation_State = StringVar()
+eci_2_Oxidation_State = StringVar()
+eci_3_Oxidation_State = StringVar()
+eci_4_Oxidation_State = StringVar()
+eci_5_Oxidation_State = StringVar()
+eci_6_Oxidation_State = StringVar()
+eci_1_qty = StringVar()
+eci_2_qty = StringVar()
+eci_3_qty = StringVar()
+eci_4_qty = StringVar()
+eci_5_qty = StringVar()
+eci_6_qty = StringVar()
 eci_1_type = StringVar()
 eci_2_type = StringVar()
 eci_3_type = StringVar()
@@ -132,20 +150,12 @@ eci_3_units = StringVar()
 eci_4_units = StringVar()
 eci_5_units = StringVar()
 eci_6_units = StringVar()
-
-eci_1_qty = StringVar()
-eci_2_qty = StringVar()
-eci_3_qty = StringVar()
-eci_4_qty = StringVar()
-eci_5_qty = StringVar()
-eci_6_qty = StringVar()
-
-eci_1_M_qty = StringVar()
-eci_2_M_qty = StringVar()
-eci_3_M_qty = StringVar()
-eci_4_M_qty = StringVar()
-eci_5_M_qty = StringVar()
-eci_6_M_qty = StringVar()
+eci_1_valence = StringVar()
+eci_2_valence = StringVar()
+eci_3_valence = StringVar()
+eci_4_valence = StringVar()
+eci_5_valence = StringVar()
+eci_6_valence = StringVar()
 
 eci_temp_1_units = StringVar()
 eci_temp_2_units = StringVar()
@@ -172,12 +182,7 @@ eci_press_3_qty = DoubleVar()
 eci_press_4_qty = DoubleVar()
 eci_press_5_qty = DoubleVar()
 eci_press_6_qty = DoubleVar()
-eci_1_valence = StringVar()
-eci_2_valence = StringVar()
-eci_3_valence = StringVar()
-eci_4_valence = StringVar()
-eci_5_valence = StringVar()
-eci_6_valence = StringVar()
+
 energy_amount = DoubleVar()
 
 unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
@@ -421,6 +426,23 @@ def Precipitation():
     #print("Precipitation process entered")
 
 def Oxidation_Rate():
+    cb_1_type = cb_Select_CB1.get()
+    cb_2_type = cb_Select_CB2.get()
+    cb_3_type = cb_Select_CB3.get()
+    if cb_1_type == elements and cb_2_type == elements and cb_3_type == elements or cb_3_type == "":
+        Oxidation_Rate_Elements()
+    elif cb_1_type == compounds or cb_2_type == compounds and cb_3_type == compounds:
+        Oxidation_Rate_Compounds()
+    elif cb_1_type == ions or cb_2_type == ions and cb_3_type == ions:
+        Oxidation_Rate_Ions()
+    else: e_Explanation.insert(tk.END, "Oxidation_Rate process fell through to else clause\n")
+''' Oxidation_Rate_Compounds and Oxidation_Rate_Ions are placeholders for future use as needed. '''
+def Oxidation_Rate_Compounds():
+    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Compounds process\n")
+def Oxidation_Rate_Ions():
+    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions process\n")
+
+def Oxidation_Rate_Elements():
     ''' This function has been entered after elements have been selected and the Continue button pressed'''
     e_Explanation.insert(tk.END, "Oxidation_Rate process entered\n")
     #print("Oxidation_Rate process entered")
@@ -468,10 +490,14 @@ def Oxidation_Rate():
         print("db[eci_3]['electronegativity'] is ", eci_3_electronegativity)
     if cb_1_type == 'elements':
         if eci_1_valence.isnumeric():
+            eci_1_Oxidation_State = eci_1_valence
+            print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
             print("db[eci_1]['valence'] is numeric ", eci_1_valence)
             if cb_2_type == 'elements':
                 if eci_2_valence.isnumeric():
-                    print("db[eci_1]['valence'] is numeric ", eci_1_valence)
+                    eci_2_Oxidation_State = eci_2_valence
+                    print("db[eci_2]['valence'] is numeric ", eci_2_valence)
+                    print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
                     ''' Now we can solve for the valences'''
                 elif not eci_2_valence.isnumeric():
                     print("In elif not eci_1_valence.isnumeric")
@@ -479,6 +505,8 @@ def Oxidation_Rate():
                         print("db[eci_2]['_group'] is ", eci_2_group)
                         if eci_1_electronegativity < eci_2_electronegativity:
                             eci_2_valence = -1
+                            eci_2_Oxidation_State = eci_2_valence
+                            print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
                             eci_1_M_qty = 1
                             ''' The following do not set the entry boxes to these values. '''
                             e_eci_1_M_qty = eci_1_M_qty
@@ -512,19 +540,21 @@ def Oxidation_Rate():
                     elif eci_2_group == "6A":   # Will need to exclude Oxygen for some compounds
                         print("db[eci_2]['_group'] is ", eci_2_group)
                         if eci_1_electronegativity < eci_2_electronegativity:
-                            eci_2_valence = 2
+                            eci_2_valence = -2
                             eci_1_M_qty = eci_2_valence
                             eci_2_M_qty = eci_1_valence
+                            eci_2_Oxidation_State = eci_2_valence
+                            print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
                             if eci_2_valence == 2 and eci_1_valence == 1:
                                 eci_4 = eci_1 + eci_2_valence + eci_2
-                            else: eci_4 = eci_1 + str(eci_2_valence) + eci_2 + str(eci_1_valence)
+                            else: eci_4 = eci_1 + str(-eci_2_valence) + eci_2 + str(eci_1_valence)
                             #eci_4 = eci_1 + eci_2 + eci_1_valence
                             cb_eci_4.set(eci_4)
                             print("eci_4 is ", eci_4)
                             #eci_1_M_qty = 1
                         print("In Oxidation_Rate not eci_2_group == 6A.")
-                    elif not eci_2_group == "7A":
-                        print("In Oxidation_Rate not eci_2_group == 7A.")
+                    elif not eci_2_group == "6A"and not eci_2_group == "7A":
+                        print("In Oxidation_Rate not eci_2_group == 6A or 7A.")
                     elif eci_1_electronegativity > eci_1_electronegativity:
                         pass
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
