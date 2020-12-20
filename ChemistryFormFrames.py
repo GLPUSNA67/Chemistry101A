@@ -306,9 +306,9 @@ def Continue():
     elif process_selected == "Decompose":
         #print("Decompose process entered")
         Decompose()
-    elif process_selected == "Oxidization_Reduction":
+    elif process_selected == "Oxidation_Reduction":
         #print("Decompose process entered")
-        Oxidization_Reduction()
+        Oxidation_Reduction()
     elif process_selected == "Metathesis":  #Oxidation_Rate
         Metathesis()
         #print("Decompose process entered")
@@ -429,7 +429,6 @@ def Oxidation_Rate():
     cb_1_type = cb_Select_CB1.get()
     cb_2_type = cb_Select_CB2.get()
     cb_3_type = cb_Select_CB3.get()
-
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
     eci_3 = cb_eci_3.get()
@@ -451,28 +450,101 @@ def Oxidation_Rate():
     '''
     if cb_1_type == 'elements':
         eci_1_name = db[eci_1]['name']
+        eci_1_group = db[eci_1]['_group']
         eci_1_valence = db[eci_1]['valence']
         eci_1_electronegativity = db[eci_1]['electronegativity']
         print("db[eci_1]['name'] is ", eci_1_name)
+        print("db[eci_1]['_group'] is ", eci_1_group)
         print("db[eci_1]['valence'] is ", eci_1_valence)
         print("db[eci_1]['electronegativity'] is ", eci_1_electronegativity)
+    if cb_2_type == 'elements':
+        eci_2_name = db[eci_2]['name']
+        eci_2_group = db[eci_2]['_group']
+        eci_2_valence = db[eci_2]['valence']
+        eci_2_electronegativity = db[eci_2]['electronegativity']
+        print("db[eci_2]['name'] is ", eci_2_name)
+        print("db[eci_2]['_group'] is ", eci_2_group)
+        print("db[eci_2]['valence'] is ", eci_2_valence)
+        print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
+    if cb_1_type == 'elements':
         if eci_1_valence.isnumeric():
             print("db[eci_1]['valence'] is numeric ", eci_1_valence)
+            if cb_2_type == 'elements':
+                '''eci_2_name = db[eci_2]['name']
+                eci_2_valence = db[eci_2]['valence']
+                eci_2_electronegativity = db[eci_2]['electronegativity']
+                eci_2_group = db[eci_2]['_group']
+                print("db[eci_2]['name'] is ", eci_2_name)
+                print("db[eci_2]['valence'] is ", eci_2_valence)
+                print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity) '''
+                if eci_2_valence.isnumeric():
+                    print("db[eci_1]['valence'] is numeric ", eci_1_valence)
+                    ''' Now we can solve for the valences'''
+                elif not eci_2_valence.isnumeric():
+                    print("In elif not eci_1_valence.isnumeric")
+                    if eci_2_group == "7A":
+                        print("db[eci_2]['_group'] is ", eci_2_group)
+                        if eci_1_electronegativity < eci_2_electronegativity:
+                            eci_2_valence = -1
+                            eci_1_M_qty = 1
+                            eci_2_M_qty = eci_1_valence
+                            cb_4_type = "compound"
+                            eci_4_type = "compound"
+                            eci_4 = eci_1 + eci_2
+                            ''' Need to set cb_eci_4 selected item to eci_4'''
+                            cb_eci_4.set(eci_4)
+                            #cb_eci_4['values'] = eci_4
+                            e_eci_1_M_qty = eci_1_M_qty
+                            e_eci_2_M_qty = eci_2_M_qty
+                            e_eci_2_M_qty = 1
+                            print("eci_4 is ", eci_4)
+                        elif eci_1_electronegativity > eci_2_electronegativity:
+                            print("In Oxidation_Rate eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
+                    elif not eci_2_group == "7A":
+                        print("In Oxidation_Rate not eci_2_group == 7A.")
+                    elif eci_1_electronegativity > eci_1_electronegativity:
+                        pass
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
+            print("In Oxidation_Rate not eci_1_valence.isnumeri.")
             '''
             If valence is a string, need to get the electronegativity of each other element
              to determine the relative electronegativity -- and then the valence.
              Negative oxidation states are commonly limited to nonmetals and semimetals and
              are used only when these are combined with less electronegative elements.
              Still need to determine how to determine which valence values to use.
-            '''
+
             if cb_2_type == 'elements':
                 eci_2_name = db[eci_2]['name']
                 eci_2_valence = db[eci_2]['valence']
                 eci_2_electronegativity = db[eci_2]['electronegativity']
+                eci_2_group = db[eci_2]['group']
                 print("db[eci_2]['name'] is ", eci_2_name)
                 print("db[eci_2]['valence'] is ", eci_2_valence)
                 print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
+                if eci_2_valence.isnumeric():
+                    print("db[eci_1]['valence'] is numeric ", eci_1_valence)
+                     Now we can solve for the valences
+                    if eci_1_electronegativity < eci_1_electronegativity:
+                        pass
+                    elif eci_1_electronegativity > eci_1_electronegativity:
+                        pass
+                elif eci_2_group == "7A":
+                if eci_1_electronegativity < eci_1_electronegativity:
+                    #Now we can solve for the valences and more
+                    eci_2_valence = -1
+                    eci_1_M_qty = 1
+                    eci_2_M_qty = eci_1_valence
+                    eci_4_type = "compound"
+                    eci_4 = eci_1 & eci_2 & eci_1_valence
+                    e_eci_1_M_qty = eci_1_M_qty
+                    e_eci_2_M_qty = eci_2_M_qty
+                    e_eci_2_M_qty = 1
+                   
+                elif eci_1_electronegativity > eci_1_electronegativity:
+                    pass
+
+                elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
+                    pass
             if cb_3_type == 'elements':
                 eci_3_name = db[eci_3]['name']
                 eci_3_valence = db[eci_3]['valence']
@@ -496,6 +568,7 @@ def Oxidation_Rate():
 
     elif cb_1_type == 'ions':
         pass
+'''
     else: e_Explanation.insert(tk.END, "In Oxidization_Rate process else clause\n")
 
 
