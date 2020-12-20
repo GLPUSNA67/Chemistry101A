@@ -1,6 +1,7 @@
 # Time to refactor
 from tkinter import *  # get widget classes
 from tkinter.ttk import Combobox #,Textbox
+from tkinter.ttk import Entry
 from tkinter.messagebox import *  # get standard dialogs
 import tkinter as tk
 import sqlite3
@@ -331,8 +332,8 @@ def Continue():
     #print("Pressed Continue button")
 def Oxidation_Reduction():
     ''' This function has been entered after elements have been selected and the COntinue button pressed'''
-    e_Explanation.insert(tk.END, "Oxidization_Reduction process entered\n")
-    #print("Oxidization_Reduction process entered")
+    e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+    #print("Oxidation_Reduction process entered")
     cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
     print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
@@ -351,13 +352,13 @@ def Oxidation_Reduction():
     elif cb_1_type == 'compounds':
         #eci_1 = cb_eci_1.get()
         #print('eci_1 = ', eci_1)
-        e_Explanation.insert(tk.END, "Oxidization_Reduction process entered\n")
-        print("Error in Oxidization_Reduction eci_1 can't process compounds yet")
+        e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+        print("Error in Oxidation_Reduction eci_1 can't process compounds yet")
     elif cb_1_type == 'ions':
         #eci_1 = cb_eci_1.get()
         #print('eci_1 = ', eci_1)
-        e_Explanation.insert(tk.END, "Error in Oxidization_Reduction eci_1 can't process compounds yet")
-    else: print("Error in Oxidization_Reduction process eci_1 else clause")
+        e_Explanation.insert(tk.END, "Error in Oxidation_Reduction eci_1 can't process compounds yet")
+    else: print("Error in Oxidation_Reduction process eci_1 else clause")
     cb_2_type = cb_Select_CB2.get()   # Get the selected type of: element, compound, or ion
     print('eci_2_type = ', cb_2_type)
     if cb_2_type == 'elements':
@@ -376,12 +377,12 @@ def Oxidation_Reduction():
     elif cb_2_type == 'compounds':
         #eci_2 = cb_eci_2.get()
         #print('eci_2 = ', eci_2)
-        print("Error in Oxidization_Reduction eci_2 can't process compounds yet")
+        print("Error in Oxidation_Reduction eci_2 can't process compounds yet")
     elif cb_2_type == 'ions':
         #eci_2 = cb_eci_2.get()
         #print('eci_2 = ', eci_2)
-        print("Error in Oxidization_Reduction eci_2 can't process ions yet")
-    else: print("Error in Oxidization_Reduction process eci_2 else clause")
+        print("Error in Oxidation_Reduction eci_2 can't process ions yet")
+    else: print("Error in Oxidation_Reduction process eci_2 else clause")
     cb_3_type = cb_Select_CB3.get()   # Get the selected type of: element, compound, or ion
     print('eci_3_type = ', cb_3_type)
     eci_3 = cb_eci_3.get()
@@ -402,14 +403,14 @@ def Oxidation_Reduction():
     elif cb_3_type == 'compounds':
         #eci_3 = cb_eci_3.get()
         #print('eci_3 = ', eci_3)
-        print("Error in Oxidization_Reduction eci_3 can't process compounds yet")
+        print("Error in Oxidation_Reduction eci_3 can't process compounds yet")
     elif cb_3_type == 'ions':
         #eci_3 = cb_eci_3.get()
         #print('eci_3 = ', eci_3)
-        print("Error in Oxidization_Reduction eci_3 can't process ions yet")
+        print("Error in Oxidation_Reduction eci_3 can't process ions yet")
     elif cb_3_type == "":
         pass
-    else: e_Explanation.insert(tk.END, "Error in Oxidization_Reduction process eci_3 else clause\n")
+    else: e_Explanation.insert(tk.END, "Error in Oxidation_Reduction process eci_3 else clause\n")
 
     #if cb_eci_1.get() == 'elements':
     #    eci_1 = cb_eci_1.get()
@@ -421,7 +422,7 @@ def Precipitation():
 
 def Oxidation_Rate():
     ''' This function has been entered after elements have been selected and the Continue button pressed'''
-    e_Explanation.insert(tk.END, "Oxidization_Rate process entered\n")
+    e_Explanation.insert(tk.END, "Oxidation_Rate process entered\n")
     #print("Oxidation_Rate process entered")
     # Get the selected type of: element, compound, or ion for each reactant.
     # It is necessary to get the valence and electronegativity values because the valence of some
@@ -489,8 +490,10 @@ def Oxidation_Rate():
                             eci_1_M_qty = 1
                             ''' The following do not set the entry boxes to these values. '''
                             e_eci_1_M_qty = eci_1_M_qty
+                            #e_eci_1_M_qty.insert(tk.END, "3.14")
+
                             eci_2_M_qty = eci_1_valence
-                            e_eci_2_M_qty = eci_2_M_qty
+                            #e_eci_2_M_qty= Entry(root, textvariable=eci_2_M_qty)
                             cb_4_type = "compound"
                             eci_4_type = "compound"
                             if eci_2_valence == -1 and eci_1_valence == 1:
@@ -498,10 +501,20 @@ def Oxidation_Rate():
                             else: eci_4 = eci_1 + eci_2 + eci_1_valence
                             ''' Need to set cb_eci_4 selected item to eci_4'''
                             cb_eci_4.set(eci_4)
-                            e_eci_1_M_qty = eci_1_M_qty
-                            e_eci_2_M_qty = eci_2_M_qty
+                            #e_eci_1_M_qty= Entry(root, textvariable=eci_1_M_qty)
                             e_eci_2_M_qty = 1
+                            ''' The following does not work'''
+                            #e_eci_2_M_qty = StringVar(root, value=e_eci_2_M_qty)
+                            #e_eci_2_M_qty.delete(0, END)
+                            '''e_eci_2_M_qty.delete(0, END) AttributeError: 'int' object has no attribute 'delete'''
+                            #e_eci_2_M_qty.insert(0, e_eci_2_M_qty)
+                            #e_eci_2_M_qty= Entry(root, textvariable=v)
+                            #e_eci_2_M_qty = Entry(root, textvariable = e_eci_2_M_qty, text=e_eci_2_M_qty)
+                            #e_eci_2_M_qty.set(e_eci_2_M_qty)
                             print("eci_4 is ", eci_4)
+                            print("e_eci_1_M_qty is ", e_eci_1_M_qty)
+                            print("e_eci_2_M_qty is ", e_eci_2_M_qty)
+                            ''' print gives "e_eci_2_M_qty is  .!entry28" '''
                         elif eci_1_electronegativity > eci_2_electronegativity:
                             print("In Oxidation_Rate eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
                     elif not eci_2_group == "7A":
@@ -1017,7 +1030,7 @@ cb_eci_4_valence.grid(row=12, column=7)   #, padx=4)
 cb_eci_4_valence.config(font=entryfont)
 cb_eci_4_valence['values'] = valences
 
-e_eci_1_M_qty = Entry(root, text="", textvariable=eci_1_M_qty, width=8)
+e_eci_1_M_qty = Entry(root, text="4.25", textvariable=eci_1_M_qty, width=8)
 e_eci_1_M_qty.grid(row=13, column=0)   #, padx=4)
 e_eci_1_M_qty.config(font=entryfont)
 
