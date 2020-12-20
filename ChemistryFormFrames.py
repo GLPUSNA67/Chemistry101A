@@ -37,7 +37,7 @@ elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine 
     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
 element = zip(elements_symbols_list, elements_name_list)
 
-compound_symbols_list = "AlC3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
+compound_symbols_list = "AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
                         "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
                         "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
@@ -133,19 +133,19 @@ eci_4_units = StringVar()
 eci_5_units = StringVar()
 eci_6_units = StringVar()
 
-eci_1_qty = DoubleVar()
-eci_2_qty = DoubleVar()
-eci_3_qty = DoubleVar()
-eci_4_qty = DoubleVar()
-eci_5_qty = DoubleVar()
-eci_6_qty = DoubleVar()
+eci_1_qty = StringVar()
+eci_2_qty = StringVar()
+eci_3_qty = StringVar()
+eci_4_qty = StringVar()
+eci_5_qty = StringVar()
+eci_6_qty = StringVar()
 
-eci_1_M_qty = DoubleVar()
-eci_2_M_qty = DoubleVar()
-eci_3_M_qty = DoubleVar()
-eci_4_M_qty = DoubleVar()
-eci_5_M_qty = DoubleVar()
-eci_6_M_qty = DoubleVar()
+eci_1_M_qty = StringVar()
+eci_2_M_qty = StringVar()
+eci_3_M_qty = StringVar()
+eci_4_M_qty = StringVar()
+eci_5_M_qty = StringVar()
+eci_6_M_qty = StringVar()
 
 eci_temp_1_units = StringVar()
 eci_temp_2_units = StringVar()
@@ -438,17 +438,7 @@ def Oxidation_Rate():
     print('eci_3 = ', eci_3)
     #if cb_2_type == 'elements':
     #    print('eci_2 = ', eci_2)
-    '''
-        if cb_1_type == 'elements':
-        eci_1_valence = db[eci_1]['valence']
-        eci_2_valence = db[eci_2]['valence']
-        eci_1_group = db[eci_1]['_group']
-        print("eci_1_group is", eci_1_group)
-        eci_1_electronegativity = db[eci_1]['electronegativity']
-        print('eci_1_electronegativity is:', eci_1_electronegativity)
-        if eci_1_group == '1A':
-            eci_1_valence= 1
-    '''
+
     if cb_1_type == 'elements':
         eci_1_name = db[eci_1]['name']
         eci_1_group = db[eci_1]['_group']
@@ -467,17 +457,19 @@ def Oxidation_Rate():
         print("db[eci_2]['_group'] is ", eci_2_group)
         print("db[eci_2]['valence'] is ", eci_2_valence)
         print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
+    if cb_3_type == 'elements':
+        eci_3_name = db[eci_3]['name']
+        eci_3_group = db[eci_3]['_group']
+        eci_3_valence = db[eci_3]['valence']
+        eci_3_electronegativity = db[eci_3]['electronegativity']
+        print("db[eci_3]['name'] is ", eci_3_name)
+        print("db[eci_3]['_group'] is ", eci_3_group)
+        print("db[eci_3]['valence'] is ", eci_3_valence)
+        print("db[eci_3]['electronegativity'] is ", eci_3_electronegativity)
     if cb_1_type == 'elements':
         if eci_1_valence.isnumeric():
             print("db[eci_1]['valence'] is numeric ", eci_1_valence)
             if cb_2_type == 'elements':
-                '''eci_2_name = db[eci_2]['name']
-                eci_2_valence = db[eci_2]['valence']
-                eci_2_electronegativity = db[eci_2]['electronegativity']
-                eci_2_group = db[eci_2]['_group']
-                print("db[eci_2]['name'] is ", eci_2_name)
-                print("db[eci_2]['valence'] is ", eci_2_valence)
-                print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity) '''
                 if eci_2_valence.isnumeric():
                     print("db[eci_1]['valence'] is numeric ", eci_1_valence)
                     ''' Now we can solve for the valences'''
@@ -490,9 +482,9 @@ def Oxidation_Rate():
                             eci_1_M_qty = 1
                             ''' The following do not set the entry boxes to these values. '''
                             e_eci_1_M_qty = eci_1_M_qty
-                            #e_eci_1_M_qty.insert(tk.END, "3.14")
-
-                            eci_2_M_qty = eci_1_valence
+                            #e_eci_1_M_qty.delete(0, END)
+                            #e_eci_1_M_qty.insert(0, "3.14")
+                            eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
                             #e_eci_2_M_qty= Entry(root, textvariable=eci_2_M_qty)
                             cb_4_type = "compound"
                             eci_4_type = "compound"
@@ -503,13 +495,13 @@ def Oxidation_Rate():
                             cb_eci_4.set(eci_4)
                             #e_eci_1_M_qty= Entry(root, textvariable=eci_1_M_qty)
                             e_eci_2_M_qty = 1
-                            ''' The following does not work'''
+                            ''' The following attempts to assign a value to an entry box do not work'''
                             #e_eci_2_M_qty = StringVar(root, value=e_eci_2_M_qty)
                             #e_eci_2_M_qty.delete(0, END)
                             '''e_eci_2_M_qty.delete(0, END) AttributeError: 'int' object has no attribute 'delete'''
                             #e_eci_2_M_qty.insert(0, e_eci_2_M_qty)
                             #e_eci_2_M_qty= Entry(root, textvariable=v)
-                            #e_eci_2_M_qty = Entry(root, textvariable = e_eci_2_M_qty, text=e_eci_2_M_qty)
+                            e_eci_2_M_qty = Entry(root, text=e_eci_2_M_qty)
                             #e_eci_2_M_qty.set(e_eci_2_M_qty)
                             print("eci_4 is ", eci_4)
                             print("e_eci_1_M_qty is ", e_eci_1_M_qty)
@@ -517,77 +509,31 @@ def Oxidation_Rate():
                             ''' print gives "e_eci_2_M_qty is  .!entry28" '''
                         elif eci_1_electronegativity > eci_2_electronegativity:
                             print("In Oxidation_Rate eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
+                    elif eci_2_group == "6A":   # Will need to exclude Oxygen for some compounds
+                        print("db[eci_2]['_group'] is ", eci_2_group)
+                        if eci_1_electronegativity < eci_2_electronegativity:
+                            eci_2_valence = 2
+                            eci_1_M_qty = eci_2_valence
+                            eci_2_M_qty = eci_1_valence
+                            if eci_2_valence == 2 and eci_1_valence == 1:
+                                eci_4 = eci_1 + eci_2_valence + eci_2
+                            else: eci_4 = eci_1 + str(eci_2_valence) + eci_2 + str(eci_1_valence)
+                            #eci_4 = eci_1 + eci_2 + eci_1_valence
+                            cb_eci_4.set(eci_4)
+                            print("eci_4 is ", eci_4)
+                            #eci_1_M_qty = 1
+                        print("In Oxidation_Rate not eci_2_group == 6A.")
                     elif not eci_2_group == "7A":
                         print("In Oxidation_Rate not eci_2_group == 7A.")
                     elif eci_1_electronegativity > eci_1_electronegativity:
                         pass
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
             print("In Oxidation_Rate not eci_1_valence.isnumeri.")
-            '''
-            If valence is a string, need to get the electronegativity of each other element
-             to determine the relative electronegativity -- and then the valence.
-             Negative oxidation states are commonly limited to nonmetals and semimetals and
-             are used only when these are combined with less electronegative elements.
-             Still need to determine how to determine which valence values to use.
-
-            if cb_2_type == 'elements':
-                eci_2_name = db[eci_2]['name']
-                eci_2_valence = db[eci_2]['valence']
-                eci_2_electronegativity = db[eci_2]['electronegativity']
-                eci_2_group = db[eci_2]['group']
-                print("db[eci_2]['name'] is ", eci_2_name)
-                print("db[eci_2]['valence'] is ", eci_2_valence)
-                print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
-                if eci_2_valence.isnumeric():
-                    print("db[eci_1]['valence'] is numeric ", eci_1_valence)
-                     Now we can solve for the valences
-                    if eci_1_electronegativity < eci_1_electronegativity:
-                        pass
-                    elif eci_1_electronegativity > eci_1_electronegativity:
-                        pass
-                elif eci_2_group == "7A":
-                if eci_1_electronegativity < eci_1_electronegativity:
-                    #Now we can solve for the valences and more
-                    eci_2_valence = -1
-                    eci_1_M_qty = 1
-                    eci_2_M_qty = eci_1_valence
-                    eci_4_type = "compound"
-                    eci_4 = eci_1 & eci_2 & eci_1_valence
-                    e_eci_1_M_qty = eci_1_M_qty
-                    e_eci_2_M_qty = eci_2_M_qty
-                    e_eci_2_M_qty = 1
-                   
-                elif eci_1_electronegativity > eci_1_electronegativity:
-                    pass
-
-                elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
-                    pass
-            if cb_3_type == 'elements':
-                eci_3_name = db[eci_3]['name']
-                eci_3_valence = db[eci_3]['valence']
-                eci_3_electronegativity = db[eci_3]['electronegativity']
-                #print("db[eci_1]['name'] is ", eci_1_name)
-                print("db[eci_3]['name'] is ", eci_3_name)
-                print("db[eci_3]['valence'] is ", eci_3_valence)
-                print("db[eci_3]['electronegativity'] is ", eci_3_electronegativity)
-        else: print("In Oxidization_Rate process else clause.")
-        #Parse_Compounds(eci_1_elements)
-        #Na2SO4 = dict(formula= 'Na2SO4', name= 'sodium sulfate', elements= 'Na 2 S O 4')
-        #  *** Need to process each element of the compound separately
-        #Acquire the electronegativity of each element and calculate the affinities
-        #    ***
     elif cb_1_type == 'compounds':
-        eci_1_name = c_db[eci_1]['name']
-        eci_1_elements = c_db[eci_1]['elements']
-        print("c_db[eci_1]['name'] is ", eci_1_name)
-        print("c_db[eci_1]['elements'] is ", eci_1_elements)
-        Parse_Compounds(eci_1_elements)
-
+        pass
     elif cb_1_type == 'ions':
         pass
-'''
-    else: e_Explanation.insert(tk.END, "In Oxidization_Rate process else clause\n")
-
+    else: e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
 
 def Acid_Base():
     e_Explanation.insert(tk.END, "Acid_Base process entered\n")
@@ -707,19 +653,15 @@ def Synthesis():
         print('eci_1_name is ', eci_1_name)
         #e_Explanation.insert(tk.END, "In Synthesis, compounds.\n")
 
-
-
 '''
-
-                if eci_1_valence < eci_2_valence:
-                    balance = eci_2_valence / eci_1_valence
-                    print('Synthesis balance is:' ,balance)
-                elif eci_2_valence > eci_1_valence:
-                    pass
-                elif eci_2_valence == eci_1_valence:
-                    balance = 1
-                    print('Synthesis balance is:' ,balance)
-
+        if eci_1_valence < eci_2_valence:
+            balance = eci_2_valence / eci_1_valence
+            print('Synthesis balance is:' ,balance)
+        elif eci_2_valence > eci_1_valence:
+            pass
+        elif eci_2_valence == eci_1_valence:
+            balance = 1
+            print('Synthesis balance is:' ,balance)
 '''
 def setClassItem(eventObject):
     e_Explanation.insert(tk.END, "setClassItem process entered\n")
@@ -847,9 +789,9 @@ def make_compound_dictionary():
     pass    
 def make_ion_dictionary():
     pass
-def make_compound_alpha_dictionary():
+def make_compound_alpha_list():
     pass
-def make_ion_alpha_dictionary():
+def make_ion_alpha_list():
     pass
     #a_list = [eci_1, eci_2, eci_3]
     #alpha = (sorted(a_list)) #Does not concatenate
@@ -903,12 +845,6 @@ btn_create_record = Button(root, text = 'Get Record', command=get_record)
 btn_create_record.grid(row=3, column=3)
 btn_create_record.config(font=buttonfont)
 btn_create_record.bind("<<ComboboxSelected>>", create_record)
-
-
-#lbl_blank = Label(root, text="")
-#lbl_blank.grid(row=6, column=0, columnspan=2)
-#lbl_blank.config(font=labelfont)
-
 
 lbl_LU_Compound = Label(text="   Look up compound:")
 lbl_LU_Compound.grid(row=6, column=0)   #, columnspan=1)
@@ -1030,7 +966,7 @@ cb_eci_4_valence.grid(row=12, column=7)   #, padx=4)
 cb_eci_4_valence.config(font=entryfont)
 cb_eci_4_valence['values'] = valences
 
-e_eci_1_M_qty = Entry(root, text="4.25", textvariable=eci_1_M_qty, width=8)
+e_eci_1_M_qty = Entry(root, text="", textvariable=eci_1_M_qty, width=8)
 e_eci_1_M_qty.grid(row=13, column=0)   #, padx=4)
 e_eci_1_M_qty.config(font=entryfont)
 
@@ -1187,9 +1123,10 @@ cb_eci_5_valence.grid(row=20, column=7)   #, padx=4)
 cb_eci_5_valence.config(font=entryfont)
 cb_eci_5_valence['values'] = valences
 
-e_eci_2_M_qty = Entry(root, text=" ", width=8)
+# mEntry = Entry(mGui, textvariable = ment, text="bebe") In stackoverflow, this was supposed to work
+e_eci_2_M_qty = Entry(root, textvariable = eci_2_M_qty, text=" ", width=8)
 e_eci_2_M_qty.grid(row=21, column=0)   #, padx=4)
-e_eci_2_M_qty.config(font=entryfont, textvariable=eci_2_M_qty)
+e_eci_2_M_qty.config(font=entryfont)
 lbl_eci_2_units_M = Label(root, text="Moles", width=10)
 lbl_eci_2_units_M.grid(row=21, column=1)   #, padx=4)
 lbl_eci_2_units_M.config(font=labelfont)
@@ -1470,10 +1407,7 @@ e_Explanation.rowconfigure(99)
 S = tk.Scrollbar(root)
 S.grid(row=37, column=7, sticky=E)
 S.config(command=e_Explanation.yview)
-#e_Explanation = tk.Text(root, text="", height=6, width=100) # , width=12
-#e_Explanation.grid(row=37, column=0, columnspan=6)
-#e_Explanation.config(font=entryfont)
-#e_Explanation.rowconfigure(99)
+
 
 lbl_blank = Label(root, text="")
 lbl_blank.grid(row=40, column=0, columnspan=2)
@@ -1487,29 +1421,13 @@ lbl_blank.config(font=labelfont)
 # *** End GUI layout
 
 if __name__ == '__main__':
-    make_element_dictionary()
-    make_compound_dictionary()
-    make_ion_dictionary()
-    make_compound_alpha_dictionary()
-    make_ion_alpha_dictionary()
+    #make_element_dictionary()
+    #make_compound_dictionary()
+    #make_ion_dictionary()
+    make_compound_alpha_list()
+    #make_ion_alpha_list()
     root.mainloop()
 
-
 '''
-        eci_1_name = c_db[eci_1]['name']
-        eci_1_col = db[eci_1]['column']
-        eci_1_mass = db[eci_1]['mass']
-        eci_1_valence = db[eci_1]['valence']
-        print("db[eci_1]['name'] is ", eci_1_name)
-        print("db[eci_1]['column'] is ", eci_1_col)
-        print("db[eci_1]['mass'] is ", eci_1_mass)
-        print("db[eci_1]['valence'] is ", eci_1_valence)
-        #print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
-        #elif cb_1_type == 'compounds':
-        #eci_1 = cb_eci_1.get()
-        #print('eci_1 = ', eci_1)
-        #    print("Error in Oxidization_Reduction eci_1 can't process compounds yet")
-        #if eci_1 == 'H':
-        #eci_temp_1_qty =  H['mass']
-        #eci_temp_1_qty = db['H']['mass']   # db[H]['mass']
+
 '''
