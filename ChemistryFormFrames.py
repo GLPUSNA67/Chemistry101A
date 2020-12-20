@@ -487,13 +487,17 @@ def Oxidation_Rate():
                         if eci_1_electronegativity < eci_2_electronegativity:
                             eci_2_valence = -1
                             eci_1_M_qty = 1
+                            ''' The following do not set the entry boxes to these values. '''
+                            e_eci_1_M_qty = eci_1_M_qty
                             eci_2_M_qty = eci_1_valence
+                            e_eci_2_M_qty = eci_2_M_qty
                             cb_4_type = "compound"
                             eci_4_type = "compound"
-                            eci_4 = eci_1 + eci_2
+                            if eci_2_valence == -1 and eci_1_valence == 1:
+                                eci_4 = eci_1 + eci_2
+                            else: eci_4 = eci_1 + eci_2 + eci_1_valence
                             ''' Need to set cb_eci_4 selected item to eci_4'''
                             cb_eci_4.set(eci_4)
-                            #cb_eci_4['values'] = eci_4
                             e_eci_1_M_qty = eci_1_M_qty
                             e_eci_2_M_qty = eci_2_M_qty
                             e_eci_2_M_qty = 1
