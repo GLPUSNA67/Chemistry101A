@@ -9,9 +9,8 @@ from sqlite3 import Error
 from ElementsDict import *
 from CompoundsDict import *
 from ionDict import *
-#from eciDict1 import *
+from eciDict import *
 root = tk.Tk()
-#root = Tk()
 root.title('Chemistry')
 titlefont= ('Ariel', 14, 'bold')
 labelfont= ('Ariel', 12) #, 'bold')
@@ -19,14 +18,20 @@ buttonfont= ('Ariel', 12) #, 'bold')
 entryfont= ('Ariel', 12) #, 'bold')
 
 # *** Start constants and variables
+''' The element list below has been superceded and will be deleted when it has been confirmed to be
+unnecessary. '''
 elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
  "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
  "U V W Xe Y Yb Zn Zr "
+''' The following is a list of all elements that are likely to be used, and a few more. 
+Not all the elements and their attributes have been added to the database. '''
 elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
  "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
  "U V W Xe Y Yb Zn Zr "
+''' An element name list is used to fill the element name combo box to help the user who knows 
+the name of an element, but not the symbols. '''
 elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine Gold Boron Barium Beryllium " \
     "Bismuth Berkelium Bromine Carbon Calcium Cadmium Cerium Californium Chlorine Curium Cobalt Chromium " \
     "Cesium Copper Dysprosium Erbium Einsteinium Europium Fluorine Iron Fermium Francium Gallium Gadolinium "\
@@ -36,6 +41,7 @@ elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine 
     "Platnum Plutonium Radium Rubidium Rhenium Rhodium Radon Rutherfordium Sulfur Antimony Scandium Selenium Silicon " \
     "Samarium Tin Strontium Tantalum Terbium Technetium Tellurium Thorium Titanium " \
     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
+''' This list of elements and names will help retrieve names from symbols. '''
 element = zip(elements_symbols_list, elements_name_list)
 
 compound_symbols_list = "AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
@@ -54,15 +60,29 @@ compound_names_list = "aluminum_carbide air boron_trichloride methane ethane pro
                       " sodium_chloride bicarbonate_of_soda sodium_oxide sodium_hydroxide sodium_sulfate ammonia hydrazine nitric_oxide" \
                       " nitorgen_dioxide dinitrogen_tetroxide nitrous_oxide dinitrogen_pentoxide phosphorus_pentafluoride" \
                       " sulfur_dioxide sulfur_trioxide"
+''' This list of compounds and names will help retrieve names from formulas. '''
 compounds = zip(compound_symbols_list, compound_names_list)
 
+''' Process documentation 
+ A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
+ in a compound. When elements are selected in various combo boxes and user chooses a process to perform,
+ an alphabetic string is made of the list of elements in the combo boxes. Then a procedure will use 
+ the alphabetic string as a key to the dictionary. The values returned are a list of compounds which
+ have those elements. That list is used to fill a compound combo box. User will then be prompted to
+ confirm a single item or to select an item from the list as the goal compound to use in the process.
+ An additional function will be needed to fill the names combo box with the names associated with 
+ the compoounds. This will help a user who knows the name of the compound desired, but not the formula.
+ des_lists need to be recreated for compounds and ions when a compound or ion is added to the database.
+ '''
 des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
                 "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
                 "C9H20", "C10H22", "C14H30", "C18H38"]}
+''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
 ion_symbols_list = "OH- SO3-"
 ion_names_list = "hydroxide sulfate"
 
-record_name = ""
+record_name = ""    # This is a placeholder for a record name to store the process in the database.
+''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
 process_list = "Acid_Base Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
 energy_type = "heat electricity"
@@ -70,6 +90,7 @@ catalyst = "blah1 blah2 blah3 blah4"
 side_effects = "air_polution water_polution land_polution"
 by_products = "CO CO2 NO NO2"
 variables ="Av Bv Cv Kv"     # Variable names cannot conflict with element symbols like B C H K etc
+''' Variables to hold the selected items of combo boxes. '''
 process_selected = ""
 equipment_selected = ""
 energy_type_selected = ""
@@ -82,47 +103,27 @@ Av = DoubleVar()
 Bv = DoubleVar()
 Cv = DoubleVar()
 Kv = DoubleVar()
+''' Miscellaneous variables to use until proper variables are created. '''
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
 '''
-The following is a first guess at what an eci dictiionary will contain. It includes all the items for the first eci.
-Similar dictionaries will be needed for each other eci.
-Also, all the other process items will be added to all these dictionaries to create a database record of the step
-of the process.
-eci_db = {}
-d_eci_1 = dict(eci='', eci_type= '', eci_1_name= '', eci_1_mass= '', eci_1_column= '', eci_1_valence= '',
-               eci_1_units= '', eci_1_qty= '', eci_1_moles= '', eci_1_temp_units= '', eci_1_temp_qty= '',
-               eci_1_press_units= '', eci_1_press_qty= '')
-eci_db['d_eci_1'] = d_eci_1
-Now, try the following
+The following is a guess at what an eci dictionary will contain. 
+It includes all the items needed for each frame of elements, compounds or ions.
+It will hold variables essential to a process. 
+*** Everytime a new eci is selected, the dictionary for that frame will need to be reset
+so incorrect values are not retained. ***
+Also, when creating a database record of each step of the process, all of these items and
+all the other process related items will be added to a process dictionary, and that dictionary
+will be used to create a database record of each step of the process.
+
+*** The following line describes the structure of the eci dictionary. ***
+d_eci_1 = dict(eci='', eci_type= '', name= '', column= '', electronegativity = "", _group = "", 
+            qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+            temp_units= "", temp_qty="", press_units= "", press_qty= "")
+
 '''
-'''
-eci_1 = dict(eci = 'eci_1', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_2 = dict(eci = 'eci_2', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_3 = dict(eci = 'eci_3', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_4 = dict(eci = 'eci_4', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_5 = dict(eci = 'eci_5', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_6 = dict(eci = 'eci_6', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
-             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_db = {}
-eci_db['eci_1'] = eci_1
-eci_db['eci_2'] = eci_2
-eci_db['eci_3'] = eci_3
-eci_db['eci_4'] = eci_4
-eci_db['eci_5'] = eci_5
-eci_db['eci_6'] = eci_6
-'''
+''' Many of the variables below are needed because they record selection of items in combo boxes. 
+The extraneous ones will be deleted as they are identified. '''
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
@@ -227,7 +228,9 @@ energy_amount = DoubleVar()
 
 unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
 eci_cb_values = "elements compounds ions"
-
+environment = "Laboratory Industry Nature"
+temp_umits = "K F C"
+press_umits = "ATM torr psi hg"
 ions = "OH- SO3-"
 cb_1_type = ""  # elements compounds ions
 cb_2_type = ""
@@ -236,27 +239,20 @@ cb_4_type = ""
 cb_5_type = ""
 cb_6_type = ""
 
-#process = "Mine Refine Make Use Purify "
-environment = "Laboratory Industry Nature"
-temp_umits = "K F C"
-press_umits = "ATM torr psi hg"
-
-
-
  # *** End constants and variables
 
-
 # *** Start function descriptions
+''' All the select_eci_type functions work. User selects the type eci 
+and the function loads the appropriate elements,compounds or ions in the symbol/formula
+combo boxes and their names in the names combo boxes. '''
 def select_eci_1_type(eventObject):
-    cb_1_type = cb_Select_CB1.get()
+    cb_1_type = cb_Select_CB1.get() # use cb_1_type as a local variable to improve readability
     eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
+    print("cb_1_type is ", cb_1_type)
+    ''' Both of the assignments below work. '''
     print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
-    ''' The "code eci_1['eci_type'] = cb_1_type" does not work 
-    TypeError: 'StringVar' object does not support item assignment
-    '''
-    #eci_1['eci_type'] = cb_1_type
-    #eci_1['eci_type'] = cb_Select_CB1.get()
-    #print("eci_1['eci_type'] is ", eci_1['eci_type'])
+    print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
+    eci_db['eci_1']['eci_type'] = cb_1_type
     if cb_1_type == 'elements':
         cb_eci_1['values'] = elements_symbols_list
         cb_eci_1_N['values'] = elements_name_list
@@ -266,10 +262,10 @@ def select_eci_1_type(eventObject):
     elif cb_1_type == 'ions':
         cb_eci_1['values'] = ion_symbols_list
         cb_eci_1_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_1_type")
+    else: print("Error is select_eci_1_type")
 def select_eci_2_type(eventObject):
     cb_2_type = cb_Select_CB2.get()
+    print("cb_2_type is ", cb_2_type)
     eci_db['eci_2']['eci_type'] = cb_Select_CB2.get()
     if cb_2_type == 'elements':
         cb_eci_2['values'] = elements_symbols_list
@@ -280,10 +276,10 @@ def select_eci_2_type(eventObject):
     elif cb_2_type == 'ions':
         cb_eci_2['values'] = ion_symbols_list
         cb_eci_2_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_2_type")
+    else: print("Error is select_eci_2_type")
 def select_eci_3_type(eventObject):
     cb_3_type = cb_Select_CB3.get()
+    print("cb_3_type is ", cb_3_type)
     eci_db['eci_3']['eci_type'] = cb_Select_CB3.get()
     if cb_3_type == 'elements':
         cb_eci_3['values'] = elements_symbols_list
@@ -294,10 +290,10 @@ def select_eci_3_type(eventObject):
     elif cb_3_type == 'ions':
         cb_eci_3['values'] = ion_symbols_list
         cb_eci_3_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_3_type")
+    else: print("Error is select_eci_3_type")
 def select_eci_4_type(eventObject):
     cb_4_type = cb_Select_CB4.get()
+    print("cb_4_type is ", cb_4_type)
     eci_db['eci_4']['eci_type'] = cb_Select_CB4.get()
     if cb_4_type == 'elements':
         cb_eci_4['values'] = elements_symbols_list
@@ -308,10 +304,10 @@ def select_eci_4_type(eventObject):
     elif cb_4_type == 'ions':
         cb_eci_4['values'] = ion_symbols_list
         cb_eci_4_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_4_type")
+    else: print("Error is select_eci_4_type")
 def select_eci_5_type(eventObject):
     cb_5_type = cb_Select_CB5.get()
+    print("cb_5_type is ", cb_5_type)
     eci_db['eci_5']['eci_type'] = cb_Select_CB5.get()
     if cb_5_type == 'elements':
         cb_eci_5['values'] = elements_symbols_list
@@ -322,10 +318,10 @@ def select_eci_5_type(eventObject):
     elif cb_5_type == 'ions':
         cb_eci_5['values'] = ion_symbols_list
         cb_eci_5_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_5_type")
+    else: print("Error is select_eci_5_type")
 def select_eci_6_type(eventObject):
     cb_6_type = cb_Select_CB6.get()
+    print("cb_6_type is ", cb_6_type)
     eci_db['eci_6']['eci_type'] = cb_Select_CB6.get()
     if cb_6_type == 'elements':
         cb_eci_6['values'] = elements_symbols_list
@@ -336,8 +332,7 @@ def select_eci_6_type(eventObject):
     elif cb_6_type == 'ions':
         cb_eci_6['values'] = ion_symbols_list
         cb_eci_6_N['values'] = ion_names_list
-    else:
-        print("Error is select_eci_6_type")
+    else: print("Error is select_eci_6_type")
 def create_record():
     pass
 def get_record():
