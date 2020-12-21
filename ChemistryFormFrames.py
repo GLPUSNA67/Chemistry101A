@@ -84,22 +84,35 @@ Cv = DoubleVar()
 Kv = DoubleVar()
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
-eci_1 = dict(eci = 'eci_1', type = "", name ="", col = "", electronegativity = "", _group = "",
+'''
+The following is a first guess at what an eci dictiionary will contain. It includes all the items for the first eci.
+Similar dictionaries will be needed for each other eci.
+Also, all the other process items will be added to all these dictionaries to create a database record of the step
+of the process.
+eci_db = {}
+d_eci_1 = dict(eci='', eci_type= '', eci_1_name= '', eci_1_mass= '', eci_1_column= '', eci_1_valence= '',
+               eci_1_units= '', eci_1_qty= '', eci_1_moles= '', eci_1_temp_units= '', eci_1_temp_qty= '',
+               eci_1_press_units= '', eci_1_press_qty= '')
+eci_db['d_eci_1'] = d_eci_1
+Now, try the following
+'''
+
+eci_1 = dict(eci = 'eci_1', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_2 = dict(eci = 'eci_2', type = "", name ="", col = "", electronegativity = "", _group = "",
+eci_2 = dict(eci = 'eci_2', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_3 = dict(eci = 'eci_3', type = "", name ="", col = "", electronegativity = "", _group = "",
+eci_3 = dict(eci = 'eci_3', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_4 = dict(eci = 'eci_4', type = "", name ="", col = "", electronegativity = "", _group = "",
+eci_4 = dict(eci = 'eci_4', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_5 = dict(eci = 'eci_5', type = "", name ="", col = "", electronegativity = "", _group = "",
+eci_5 = dict(eci = 'eci_5', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_6 = dict(eci = 'eci_6', type = "", name ="", col = "", electronegativity = "", _group = "",
+eci_6 = dict(eci = 'eci_6', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
 eci_db = {}
@@ -109,6 +122,7 @@ eci_db['eci_3'] = eci_3
 eci_db['eci_4'] = eci_4
 eci_db['eci_5'] = eci_5
 eci_db['eci_6'] = eci_6
+
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
@@ -227,17 +241,7 @@ environment = "Laboratory Industry Nature"
 temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
 
-'''
-The following is a first guess at what an eci dictiionary will contain. It includes all the items for the first eci.
-Similar dictionaries will be needed for each other eci.
-Also, all the other process items will be added to all these dictionaries to create a database record of the step
-of the process.
-eci_db = {}
-d_eci_1 = dict(id= 1, eci_1_type= '', eci_1= '', eci_1_name= '', eci_1_mass= '', eci_1_column= '', eci_1_valence= '',
-               eci_1_units= '', eci_1_qty= '', eci_1_moles= '', eci_1_temp_units= '', eci_1_temp_qty= '',
-               eci_1_press_units= '', eci_1_press_qty= '')
-eci_db['d_eci_1'] = d_eci_1
-'''
+
 
  # *** End constants and variables
 
@@ -245,6 +249,14 @@ eci_db['d_eci_1'] = d_eci_1
 # *** Start function descriptions
 def select_eci_1_type(eventObject):
     cb_1_type = cb_Select_CB1.get()
+    eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
+    print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
+    ''' The "code eci_1['eci_type'] = cb_1_type" does not work 
+    TypeError: 'StringVar' object does not support item assignment
+    '''
+    #eci_1['eci_type'] = cb_1_type
+    #eci_1['eci_type'] = cb_Select_CB1.get()
+    #print("eci_1['eci_type'] is ", eci_1['eci_type'])
     if cb_1_type == 'elements':
         cb_eci_1['values'] = elements_symbols_list
         cb_eci_1_N['values'] = elements_name_list
@@ -258,6 +270,7 @@ def select_eci_1_type(eventObject):
         print("Error is select_eci_1_type")
 def select_eci_2_type(eventObject):
     cb_2_type = cb_Select_CB2.get()
+    eci_db['eci_2']['eci_type'] = cb_Select_CB2.get()
     if cb_2_type == 'elements':
         cb_eci_2['values'] = elements_symbols_list
         cb_eci_2_N['values'] = elements_name_list
@@ -271,6 +284,7 @@ def select_eci_2_type(eventObject):
         print("Error is select_eci_2_type")
 def select_eci_3_type(eventObject):
     cb_3_type = cb_Select_CB3.get()
+    eci_db['eci_3']['eci_type'] = cb_Select_CB3.get()
     if cb_3_type == 'elements':
         cb_eci_3['values'] = elements_symbols_list
         cb_eci_3_N['values'] = elements_name_list
@@ -284,6 +298,7 @@ def select_eci_3_type(eventObject):
         print("Error is select_eci_3_type")
 def select_eci_4_type(eventObject):
     cb_4_type = cb_Select_CB4.get()
+    eci_db['eci_4']['eci_type'] = cb_Select_CB4.get()
     if cb_4_type == 'elements':
         cb_eci_4['values'] = elements_symbols_list
         cb_eci_4_N['values'] = elements_name_list
@@ -297,6 +312,7 @@ def select_eci_4_type(eventObject):
         print("Error is select_eci_4_type")
 def select_eci_5_type(eventObject):
     cb_5_type = cb_Select_CB5.get()
+    eci_db['eci_5']['eci_type'] = cb_Select_CB5.get()
     if cb_5_type == 'elements':
         cb_eci_5['values'] = elements_symbols_list
         cb_eci_5_N['values'] = elements_name_list
@@ -310,6 +326,7 @@ def select_eci_5_type(eventObject):
         print("Error is select_eci_5_type")
 def select_eci_6_type(eventObject):
     cb_6_type = cb_Select_CB6.get()
+    eci_db['eci_6']['eci_type'] = cb_Select_CB6.get()
     if cb_6_type == 'elements':
         cb_eci_6['values'] = elements_symbols_list
         cb_eci_6_N['values'] = elements_name_list
@@ -371,14 +388,27 @@ def Oxidation_Reduction():
     print('eci_1 = ', eci_1)
     if cb_1_type == 'elements':
         '''  *** The following works! '''
+
+        #eci_db['eci_1']['name']
+        eci_db['eci_1']['name'] = db[eci_1]['name']
+        #eci_db[eci_1]['name'] = db[eci_1]['name']
+        print("eci_db['eci_1']['name'] is ", eci_db['eci_1']['name'])
         eci_1_name = db[eci_1]['name']
+        print("db[eci_1]['name'] is ", eci_1_name)
+
         eci_1_col = db[eci_1]['column']
         eci_1_mass = db[eci_1]['mass']
         eci_1_valence = db[eci_1]['valence']
-        print("db[eci_1]['name'] is ", eci_1_name)
-        print("db[eci_1]['column'] is ", eci_1_col)
-        print("db[eci_1]['mass'] is ", eci_1_mass)
-        print("db[eci_1]['valence'] is ", eci_1_valence)
+        eci_db['eci_1']['column'] = db[eci_1]['column']
+        eci_db['eci_1']['mass'] = db[eci_1]['mass']
+        eci_db['eci_1']['valence'] = db[eci_1]['valence']
+        print("eci_db['eci_1']['column'] is ", eci_db['eci_1']['column'])
+        print("eci_db['eci_1']['mass'] is ", eci_db['eci_1']['mass'])
+        print("eci_db['eci_1']['valence'] is ", eci_db['eci_1']['valence'])
+        #print("db[eci_1]['name'] is ", eci_1_name)
+        #print("db[eci_1]['column'] is ", eci_1_col)
+        #print("db[eci_1]['mass'] is ", eci_1_mass)
+        #print("db[eci_1]['valence'] is ", eci_1_valence)
         #print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
     elif cb_1_type == 'compounds':
         #eci_1 = cb_eci_1.get()
@@ -476,18 +506,26 @@ def Oxidation_Rate_Elements():
     # It is necessary to get the valence and electronegativity values because the valence of some
     # elements is determined by the relative electronegativity of the elements
     cb_1_type = cb_Select_CB1.get()
+    eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
     cb_2_type = cb_Select_CB2.get()
+    eci_db['eci_2']['eci_type'] = cb_Select_CB2.get()
     cb_3_type = cb_Select_CB3.get()
+    eci_db['eci_3']['eci_type'] = cb_Select_CB3.get()
     eci_1 = cb_eci_1.get()
+    eci_db['eci_1']['eci'] = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
+    eci_db['eci_2']['eci'] = cb_eci_2.get()
     eci_3 = cb_eci_3.get()
-    print('eci_1 = ', eci_1)
-    print('eci_2 = ', eci_2)
-    print('eci_3 = ', eci_3)
+    eci_db['eci_3']['eci'] = cb_eci_3.get()
+    print("eci_db['eci_1']['eci'] is ", eci_db['eci_1']['eci'])
+    print("eci_db['eci_2']['eci'] is ", eci_db['eci_2']['eci'])
+    print("eci_db['eci_3']['eci'] is ", eci_db['eci_3']['eci'])
+    #print('eci_2 = ', eci_2)
+    #print('eci_3 = ', eci_3)
     #if cb_2_type == 'elements':
     #    print('eci_2 = ', eci_2)
-
-    if cb_1_type == 'elements':
+    #eci_db['eci_5']['eci_type'] = cb_Select_CB5.get()
+    if eci_db['eci_1']['eci_type'] == 'elements':
         eci_1_name = db[eci_1]['name']
         eci_1_group = db[eci_1]['_group']
         eci_1_valence = db[eci_1]['valence']
@@ -496,7 +534,7 @@ def Oxidation_Rate_Elements():
         print("db[eci_1]['_group'] is ", eci_1_group)
         print("db[eci_1]['valence'] is ", eci_1_valence)
         print("db[eci_1]['electronegativity'] is ", eci_1_electronegativity)
-    if cb_2_type == 'elements':
+    if eci_db['eci_2']['eci_type'] == 'elements':
         eci_2_name = db[eci_2]['name']
         eci_2_group = db[eci_2]['_group']
         eci_2_valence = db[eci_2]['valence']
@@ -505,7 +543,7 @@ def Oxidation_Rate_Elements():
         print("db[eci_2]['_group'] is ", eci_2_group)
         print("db[eci_2]['valence'] is ", eci_2_valence)
         print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
-    if cb_3_type == 'elements':
+    if eci_db['eci_3']['eci_type'] == 'elements':
         eci_3_name = db[eci_3]['name']
         eci_3_group = db[eci_3]['_group']
         eci_3_valence = db[eci_3]['valence']
@@ -514,12 +552,12 @@ def Oxidation_Rate_Elements():
         print("db[eci_3]['_group'] is ", eci_3_group)
         print("db[eci_3]['valence'] is ", eci_3_valence)
         print("db[eci_3]['electronegativity'] is ", eci_3_electronegativity)
-    if cb_1_type == 'elements':
+    if eci_db['eci_1']['eci_type'] == 'elements':
         if eci_1_valence.isnumeric():
             eci_1_Oxidation_State = eci_1_valence
             print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
             print("db[eci_1]['valence'] is numeric ", eci_1_valence)
-            if cb_2_type == 'elements':
+            if eci_db['eci_2']['eci_type'] == 'elements':
                 if eci_2_valence.isnumeric():
                     eci_2_Oxidation_State = eci_2_valence
                     print("db[eci_2]['valence'] is numeric ", eci_2_valence)
@@ -585,9 +623,9 @@ def Oxidation_Rate_Elements():
                         pass
         elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
             print("In Oxidation_Rate not eci_1_valence.isnumeri.")
-    elif cb_1_type == 'compounds':
+    elif eci_db['eci_1']['eci_type'] == 'compounds':
         pass
-    elif cb_1_type == 'ions':
+    elif eci_db['eci_1']['eci_type'] == 'ions':
         pass
     else: e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
 
@@ -1477,6 +1515,7 @@ lbl_blank.config(font=labelfont)
 # *** End GUI layout
 
 if __name__ == '__main__':
+
     #make_element_dictionary()
     #make_compound_dictionary()
     #make_ion_dictionary()
