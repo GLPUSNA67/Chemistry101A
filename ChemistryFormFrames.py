@@ -9,7 +9,7 @@ from sqlite3 import Error
 from ElementsDict import *
 from CompoundsDict import *
 #from ionDict import *
-from eciDict import *
+#from eciDict1 import *
 root = tk.Tk()
 #root = Tk()
 root.title('Chemistry')
@@ -84,7 +84,31 @@ Cv = DoubleVar()
 Kv = DoubleVar()
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
-
+eci_1 = dict(eci = 'eci_1', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_2 = dict(eci = 'eci_2', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_3 = dict(eci = 'eci_3', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_4 = dict(eci = 'eci_4', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_5 = dict(eci = 'eci_5', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_6 = dict(eci = 'eci_6', type = "", name ="", col = "", electronegativity = "", _group = "",
+             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+eci_db = {}
+eci_db['eci_1'] = eci_1
+eci_db['eci_2'] = eci_2
+eci_db['eci_3'] = eci_3
+eci_db['eci_4'] = eci_4
+eci_db['eci_5'] = eci_5
+eci_db['eci_6'] = eci_6
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
