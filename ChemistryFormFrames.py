@@ -83,6 +83,7 @@ Cv = DoubleVar()
 Kv = DoubleVar()
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
+
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
