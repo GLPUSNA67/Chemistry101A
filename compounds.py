@@ -43,11 +43,12 @@ class Ion:
 
 
 if __name__ == '__main__':
+
     #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
     Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
     AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
     Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements=  'ArHeKrNeXeRn', name= 'air')
-    BCl3 = dict('formula= BCl3', elements= 'BCl',name= 'boron_trichloride')
+    BCl3 = dict(formula= 'BCl3', elements= 'BCl',name= 'boron_trichloride')
     CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)
     C2H6 = dict(formula= 'C2H6', elements= 'CH', name= 'ethane', melting=-183.2, boiling=-88.6)
     C3H8 = dict(formula= 'C3H8', elements= 'CH', name= 'propane', melting=-187.7, boiling=-42.1)
@@ -139,7 +140,7 @@ if __name__ == '__main__':
     O22 = dict(formula= 'O22-', elements= 'O', name= 'peroxide', charge= '-')
     SO42 = dict(formula= 'SO42-', elements= 'OS', name= 'sulfate', charge= '-')
     SO32 = dict(formula= 'SO32-', elements= 'So', name= 'sulfite', charge= '-')
-    PO43 = Ion(formula= 'PO43-', elements= 'PO', name= 'phosphate', charge= '-')
+    PO43 = dict(formula= 'PO43-', elements= 'PO', name= 'phosphate', charge= '-')
     # ***
 '''
     #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
@@ -299,43 +300,41 @@ if __name__ == '__main__':
     db['OH'] = OH
 '''
 
+print(CuS.formula, CuS.alphas, CuS.name, CuS.charge)
+print(FeCl2.formula, FeCl2.alphas, FeCl2.name, FeCl2.charge)
+print(FeCl3.formula, FeCl3.alphas, FeCl3.name, FeCl3.charge)
+''' A dictionary of compounds and their names '''
+desn = {"AlCl3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
+        "CH4":  "methane", "C2H6": "ethane", "C3H8": "propane", "C4H10": "butane",
+        "C4H10_M": "2-methylpropane", "C5H12": "pentane", "C6H14": "hexane", "C7H16": "heptane",
+        "C8H18": "octane", "C9H20": "nonane", "C10H22": "decane", "C14H30": "tetradecane",
+        "C18H38": "octadecane", "CaH2PO4": "calcium_dihydrogen_phosphate", "CaI": "calcium_iodide",
+        "CaOH2": "calcium_hydroxide", "Ca3P2": "calcium_phosphide", "CdS": "cadmium_sulfide",
+        "CsF": "cesium_fluoride", "C6H8O7": "citric_acid", "CH3CO2H": "acetic_acid",
+        "C2H4COH": "acetic_acid", "CO": "carbon_monoxide", "CO2": "carbon_dioxide",
+        "HBr_g": "hydrogen_bromide", "HBr_aq": "hydrobromic_acid", "HC2H3O2": "acetic_acid",
+        "HCl": "hydrogen_chloride", "HCl_g": "hydrogen_chloride", "HCl_aq": "hydrochloric_acid",
+        "HClO4": "perchloric_acid", "HCN": "hydrogen_cyanide", "H2CO3": "carbonic_acid",
+        "HF_g": "hydrogen_fluoride", "HF_aq": "hydrofluoric_acid", "HI_g": "hydrogen_iodide",
+        "HI_aq": "hydroiodic_acid", "HNO2": "nitrous_acid", "HNO3": "nitric_acid",
+        "H3PO4": "phosphoric_acid", "H2S_g": "hydrogen_suflide", "H2S_aq": "hydrosulfuric_acid",
+        "H2SO3": "sulfurous_acid", "H2SO4": "sulfuric_acid", "IF7": "iodine_heptafluoride",
+        "KBr": "potassium_bromide", "KOH": "potassium_hydroxide", "LiCl": "lithium_chloride",
+        "Mg3N2": "magnesium_nitride", "NaCl": "sodium_chloride", "NaHCO3": "bicarbonate_of_soda",
+        "Na2O": "sodium_oxide", "NaOH": "sodium_hydroxide", "NH3": "ammonia", "N2H4": "hydrazine",
+        "NO": "nitric_oxide", "NO2": "nitorgen_dioxide", "N2O4": "dinitrogen_tetroxide",
+        "N2O": "nitrous_oxide", "N2O5": "dinitrogen_pentoxide", "PF5": "phosphorus_pentafluoride",
+        "SO2": "sulfur_dioxide", "SO3": "sulfur_trioxide"}
+''' Following is an alphabetical list of elements and the compounds that are made of  those elements '''
+des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
+            "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
+            "C9H20", "C10H22", "C14H30", "C18H38"]}
+
+compound_symbols_list= ""      #Al4C3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
 
 
-    db.close()
-    print(CuS.formula, CuS.alphas, CuS.name, CuS.charge)
-    print(FeCl2.formula, FeCl2.alphas, FeCl2.name, FeCl2.charge)
-    print(FeCl3.formula, FeCl3.alphas, FeCl3.name, FeCl3.charge)
-    desn = {"Al4C3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
-            "CH4":  "methane", "C2H6": "ethane", "C3H8": "propane", "C4H10": "butane",
-            "C4H10_M": "2-methylpropane", "C5H12": "pentane", "C6H14": "hexane", "C7H16": "heptane",
-            "C8H18": "octane", "C9H20": "nonane", "C10H22": "decane", "C14H30": "tetradecane",
-            "C18H38": "octadecane", "CaH2PO4": "calcium_dihydrogen_phosphate", "CaI": "calcium_iodide",
-            "CaOH2": "calcium_hydroxide", "Ca3P2": "calcium_phosphide", "CdS": "cadmium_sulfide",
-            "CsF": "cesium_fluoride", "C6H8O7": "citric_acid", "CH3CO2H": "acetic_acid",
-            "C2H4COH": "acetic_acid", "CO": "carbon_monoxide", "CO2": "carbon_dioxide",
-            "HBr_g": "hydrogen_bromide", "HBr_aq": "hydrobromic_acid", "HC2H3O2": "acetic_acid",
-            "HCl": "hydrogen_chloride", "HCl_g": "hydrogen_chloride", "HCl_aq": "hydrochloric_acid",
-            "HClO4": "perchloric_acid", "HCN": "hydrogen_cyanide", "H2CO3": "carbonic_acid",
-            "HF_g": "hydrogen_fluoride", "HF_aq": "hydrofluoric_acid", "HI_g": "hydrogen_iodide",
-            "HI_aq": "hydroiodic_acid", "HNO2": "nitrous_acid", "HNO3": "nitric_acid",
-            "H3PO4": "phosphoric_acid", "H2S_g": "hydrogen_suflide", "H2S_aq": "hydrosulfuric_acid",
-            "H2SO3": "sulfurous_acid", "H2SO4": "sulfuric_acid", "IF7": "iodine_heptafluoride",
-            "KBr": "potassium_bromide", "KOH": "potassium_hydroxide", "LiCl": "lithium_chloride",
-            "Mg3N2": "magnesium_nitride", "NaCl": "sodium_chloride", "NaHCO3": "bicarbonate_of_soda",
-            "Na2O": "sodium_oxide", "NaOH": "sodium_hydroxide", "NH3": "ammonia", "N2H4": "hydrazine",
-            "NO": "nitric_oxide", "NO2": "nitorgen_dioxide", "N2O4": "dinitrogen_tetroxide",
-            "N2O": "nitrous_oxide", "N2O5": "dinitrogen_pentoxide", "PF5": "phosphorus_pentafluoride",
-            "SO2": "sulfur_dioxide", "SO3": "sulfur_trioxide"}
-
-    des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
-                "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
-                "C9H20", "C10H22", "C14H30", "C18H38"]}
-
-    compound_symbols_list= ""      #Al4C3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
-
-
-    for key in desn.keys():
-        compound_symbols_list = compound_symbols_list  + "'"+ key + "' "
+for key in desn.keys():
+    compound_symbols_list = compound_symbols_list  + "'"+ key + "' "
 
     #compound_names_list = "aluminum carbide air boron trichloride methane ethane propane butane 2-methylpropane pentane hexane heptane octane nonane decane tetradecane octadecane calcium dihydrogen phosphate calcium iodide calcium hydroxide calcium phosphide cadmium sulfide cesium fluoride citric acid acetic acid acetic acid carbon monoxide carbon dioxide hydrogen bromide hydrobromic acid acetic acid hydrogen chloride hydrogen chloride hydrochloric acid Perchloric acid hydrogen cyanide Carbonic acid hydrogen fluoride hydrofluoric acid hydrogen iodide hydroiodic acid nitrous acid nitric acid phosphoric acid hydrogen suflide hydrosulfuric acid sulfurous acid sulfuric acid iodine heptafluoride potassium bromide potassium hydroxide lithium chloride magnesium nitride sodium chloride bicarbonate of soda sodium oxide sodium hydroxide ammonia hydrazine nitric oxide nitorgen dioxide dinitrogen tetroxide nitrous oxide dinitrogen pentoxide phosphorus pentafluoride sulfur dioxide sulfur trioxide"
     compound_names_list = ""
@@ -346,8 +345,6 @@ if __name__ == '__main__':
     print (compound_symbols_list)
     print(compound_names_list)
     print(des_list)
-
-
 
     '''
     #alphabetic list of compounds that have similar alphabetic element lists

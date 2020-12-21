@@ -8,8 +8,8 @@ import sqlite3
 from sqlite3 import Error
 from ElementsDict import *
 from CompoundsDict import *
-#from ionDict import *
-from eciDict1 import *
+from ionDict import *
+#from eciDict1 import *
 root = tk.Tk()
 #root = Tk()
 root.title('Chemistry')
@@ -96,7 +96,7 @@ d_eci_1 = dict(eci='', eci_type= '', eci_1_name= '', eci_1_mass= '', eci_1_colum
 eci_db['d_eci_1'] = d_eci_1
 Now, try the following
 '''
-
+'''
 eci_1 = dict(eci = 'eci_1', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
@@ -122,7 +122,7 @@ eci_db['eci_3'] = eci_3
 eci_db['eci_4'] = eci_4
 eci_db['eci_5'] = eci_5
 eci_db['eci_6'] = eci_6
-
+'''
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
