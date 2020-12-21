@@ -9,7 +9,7 @@ from sqlite3 import Error
 from ElementsDict import *
 from CompoundsDict import *
 #from ionDict import *
-#from eciDict1 import *
+from eciDict1 import *
 root = tk.Tk()
 #root = Tk()
 root.title('Chemistry')
