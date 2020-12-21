@@ -44,8 +44,8 @@ class Ion:
 
 if __name__ == '__main__':
     #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
-    Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
-    AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
+    AlC3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
+    AlCl3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
     Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements=  'ArHeKrNeXeRn', name= 'air')
     BCl3 = dict('formula= BCl3', elements= 'BCl',name= 'boron_trichloride')
     CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)

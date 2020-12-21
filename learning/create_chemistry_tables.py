@@ -76,10 +76,25 @@ def main():
 
     sql_create_compounds_table = """ CREATE TABLE IF NOT EXISTS compounds (
                                         id integer PRIMARY KEY,
-                                        name text,
                                         formula text,
+                                        name text,      
                                         alpha text
+                                        m_mass text,
+                                        bond text,
+                                        electronegativity text,
+                                        density text,
+                                        melting text,
+                                        boiling text,
+                                        Vanderwaals_radius text,
+                                        Ionic_radius text,
+                                        Isotopes text,
+                                        electronic_shell text,
+                                        Energy_of_first_ionization text,
+                                        energy_of_second_ionization text,
+                                        standard_potential text,
+                                        structure text
                                     ); """
+
     sql_create_ions_table = """ CREATE TABLE IF NOT EXISTS ions (
                                         id integer PRIMARY KEY,
                                         name text,
@@ -102,9 +117,9 @@ def main():
     # create tables
     if conn is not None:
 
-        create_table(conn, sql_create_element_table)
-        #create_table(conn, sql_create_compounds_table)
-        #create_table(conn, sql_create_ions_table)
+        #create_table(conn, sql_create_element_table)
+        create_table(conn, sql_create_compounds_table)
+        create_table(conn, sql_create_ions_table)
         #create_table(conn, sql_create_processes_table)
 
     else:
