@@ -1,7 +1,6 @@
 import sqlite3
 from sqlite3 import Error
 
-
 def create_connection(chemistry_db_file):
     """ create a database connection to the SQLite database
         specified by chemistry_db_file
@@ -15,7 +14,6 @@ def create_connection(chemistry_db_file):
         print(e)
 
     return conn
-
 
 def create_element(conn, element):
     """
@@ -48,7 +46,6 @@ def insert_element(conn, element):
     cur.execute(sql, element)
     conn.commit()
     return cur.lastrowid
-
 
 def main():
     database = r"C:\sqlite\db\chemistrysqlite.db"
