@@ -1,25 +1,27 @@
-eci_1 = dict(eci = 'eci_1', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_1 = dict(eci = 'eci_1', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_2 = dict(eci = 'eci_2', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_2 = dict(eci = 'eci_2', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_3 = dict(eci = 'eci_3', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_3 = dict(eci = 'eci_3', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_4 = dict(eci = 'eci_4', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_4 = dict(eci = 'eci_4', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_5 = dict(eci = 'eci_5', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_5 = dict(eci = 'eci_5', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-eci_6 = dict(eci = 'eci_6', type = "", name ="", col = "", electronegativity = "", _group = "" ,
+eci_6 = dict(eci = 'eci_6', type = "", name ="", col = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
-db = {}
-db['eci_1'] = eci_1
-db['eci_2'] = eci_2
-db['eci_3'] = eci_3
-db['eci_4'] = eci_4
-db['eci_5'] = eci_5
-db['eci_6'] = eci_6
+#Cd = dict(id= 48, symbol= 'Cd', name= 'Cadmium', atomic_number= 48, mass= '112.411', period= 5, row= 5, column= 12, _group= '2B', protons= 48, neutrons= 48, electrons= 48, _1s= 2, _2s= 2, _2p= 6, _3s= 2, _3p= 6, _4s= 2, _3d= 10, _4p= 6, _4d= 10, _5s= 2, _5p= 0, _6s= 0, _5d= 0, _6p= 0, _7s= 0, affinity= 'NULL', density= '8.650', electronegativity= '1.7', melt= '321.069', boil= '767', e_fusion= 'E Fusion', e_vapor= 'E Vapor', t_crit= 'Temp Crit', p_crit= 'Press Crit', valence= '2', a_radius= '161')
+
+eci_db = {}
+eci_db['eci_1'] = eci_1
+eci_db['eci_2'] = eci_2
+eci_db['eci_3'] = eci_3
+eci_db['eci_4'] = eci_4
+eci_db['eci_5'] = eci_5
+eci_db['eci_6'] = eci_6
