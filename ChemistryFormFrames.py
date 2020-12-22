@@ -390,11 +390,13 @@ def Calculate():
     eci_1 = cb_eci_1.get()
     #print('eci_1 is ', eci_1)
     eci_1_M_qty = e_eci_1_M_qty.get()
+    ''' e_eci_1_qty.insert(0, eci_1_M_qty) WORKS!!! '''
     #print('eci_1_M_qty is ', eci_1_M_qty)
     if not eci_1_M_qty == "":
         eci_1_mass = (db[eci_1]['mass'])
         #print('eci_1_mass = ', eci_1_mass)
         m_mass =  float(eci_1_M_qty) * float(eci_1_mass)
+        e_eci_1_qty.insert(0, m_mass)
         print('m_mass is ', m_mass)
 
 def Oxidation_Reduction():
