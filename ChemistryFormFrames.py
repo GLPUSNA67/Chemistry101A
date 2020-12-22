@@ -13,7 +13,7 @@ from eciDict import *
 root = tk.Tk()
 root.title('Chemistry')
 titlefont= ('Ariel', 14, 'bold')
-labelfont= ('Ariel', 12) #, 'bold')
+labelfont= ('Ariel', 14) #, 'bold')
 buttonfont= ('Ariel', 12) #, 'bold')
 entryfont= ('Ariel', 12) #, 'bold')
 
@@ -25,7 +25,11 @@ elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr C
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
  "U V W Xe Y Yb Zn Zr "
 ''' The following is a list of all elements that are likely to be used, and a few more. 
-Not all the elements and their attributes have been added to the database. '''
+
+Text with unicode can be included in combo boxes. Such use requires setting up a dictionary
+to associate the text with elements that have quantities different from the standard.
+
+Not all the elements and their attributes have been added to the database. H\u2082 works for H2 subscript'''
 elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
  "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
  "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
@@ -596,9 +600,25 @@ def Oxidation_Rate_Elements():
                     ''' e_eci_1_M_qty= Entry(root, textvariable=eci_1_M_qty) 
                     does not the value of the entry box. Why? '''
                     e_eci_2_M_qty = 1
-                    ''' The following attempts to assign a value to an entry box do not work'''
-                    #e_eci_2_M_qty = StringVar(root, value=e_eci_2_M_qty)
-                    #e_eci_2_M_qty.delete(0, END)
+                    ''' The following attempts to assign a value to an entry box do not work
+                    I left them in green because they are easier to read.
+                    e_eci_2_M_qty = StringVar(root, value=e_eci_2_M_qty)
+                    e_eci_2_M_qty.delete(0, END)
+                    eci_1_quantity = StringVar()
+                    eci_1_quantity.set(eci_1_qty)
+                    e_eci_1_qty["textvariable"] = eci_1_quantity.get()
+                    e_eci_1_qty["textvariable"] = eci_1_qty
+                    '''
+                    '''     From https://docs.python.org/3.8/library/tkinter.html#tkinter.Text.insert
+                            I did not try the entire frame app as written
+                            # Create the application variable.
+                            self.contents = tk.StringVar()
+                            # Set it to some value.
+                            self.contents.set("this is a variable")
+                            # Tell the entry widget to watch this variable.
+                            self.entrythingy["textvariable"] = self.contents
+                            contents.get()
+                    '''
                     '''e_eci_2_M_qty.delete(0, END) AttributeError: 'int' object has no attribute 'delete'''
                     #e_eci_2_M_qty.insert(0, e_eci_2_M_qty)
                     #e_eci_2_M_qty= Entry(root, textvariable=v)
@@ -1041,6 +1061,7 @@ lbl_eci_4_valence.config(font=labelfont)
 e_eci_1_qty = Entry(root, text="", textvariable=eci_1_qty, width=8)
 e_eci_1_qty.grid(row=12, column=0)   #, padx=4)
 e_eci_1_qty.config(font=entryfont)
+
 #e_eci_1_qty.bind(callback_eci_1_qty)            #root, textvariable=user_input
 cb_eci_1_units = Combobox(root, values=unit_values, textvariable=eci_1_units, width=10)
 cb_eci_1_units.grid(row=12, column=1)   #, padx=4)
@@ -1498,11 +1519,32 @@ lbl_blank.config(font=labelfont)
 lbl_Explanation = Label(root, text="Explanation", width=10)
 lbl_Explanation.grid(row=36, column=0) #, padx=8
 lbl_Explanation.config(font=labelfont)
-e_Explanation = tk.Text(root, height=6, width=100)
-
+lbl_Explanation = Label(root, text="Super subscript ", width=12)
+lbl_Explanation.grid(row=36, column=1,) #, padx=8  columnspan=2
+lbl_Explanation.config(font=labelfont)
+lbl_LU_Process = Label(text='360\u2070 \u2070C H\u2082O') # C2H3O2-
+lbl_LU_Process.grid(row=36, column=2)  #, columnspan=1)
+lbl_LU_Process.config(font=labelfont)
+#lbl_LU_Process = Label(text='H\u2082O')
+#lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
+#lbl_LU_Process.config(font=labelfont)
+lbl_LU_Process = Label(text='X\u2074 + X\u00B2 = 0')
+lbl_LU_Process.grid(row=36, column=3)  #, columnspan=1)
+lbl_LU_Process.config(font=labelfont)
+lbl_LU_Process = Label(text='C\u2082H\u2083O\u2082\u207B C\u2082H\u2083O\u00B2\u207B')
+#lbl_LU_Process = Label(text='C\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
+lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
+lbl_LU_Process.config(font=labelfont)
+lbl_LU_Process = Label(text='Cl\u2091 Fe\u00B3\u207A ')
+lbl_LU_Process.grid(row=36, column=5)  #, columnspan=1)
+lbl_LU_Process.config(font=labelfont)
+e_Explanation = Text(root, height=6, width=100)
 e_Explanation.grid(row=37, column=0, columnspan=6, sticky=W)
 e_Explanation.config(font=entryfont)
 e_Explanation.rowconfigure(99)
+
+
+#e_Explanation.insert(1, 'Fe\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
 S = tk.Scrollbar(root)
 S.grid(row=37, column=7, sticky=E)
 S.config(command=e_Explanation.yview)
