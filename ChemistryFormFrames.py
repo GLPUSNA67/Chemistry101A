@@ -17,6 +17,8 @@ labelfont= ('Ariel', 14) #, 'bold')
 buttonfont= ('Ariel', 12) #, 'bold')
 entryfont= ('Ariel', 12) #, 'bold')
 
+''' *** e_eci_1_qty.insert(0, eci_1_M_qty) WORKS to insert a value into an entry box !!! *** '''
+
 # *** Start constants and variables
 ''' The element list below has been superceded and will be deleted when it has been confirmed to be
 unnecessary. '''
