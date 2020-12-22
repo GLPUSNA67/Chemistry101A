@@ -93,7 +93,7 @@ ions = "OH- SO3-"
 
 record_name = ""    # This is a placeholder for a record name to store the process in the database.
 ''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
-process_list = "Acid_Base Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
+process_list = "Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
 energy_type = "heat electricity"
 catalyst = "blah1 blah2 blah3 blah4"
@@ -159,7 +159,7 @@ eci_3_group = StringVar()
 eci_4_group = StringVar()
 eci_5_group = StringVar()
 eci_6_group = StringVar()
-eci_1_M_qty = StringVar()
+eci_1_M_qty = DoubleVar()
 eci_2_M_qty = StringVar()
 eci_3_M_qty = StringVar()
 eci_4_M_qty = StringVar()
@@ -356,7 +356,10 @@ def Continue():
     if process_selected == "Acid_Base":
         #print("Synthesis process entered")
         Acid_Base()
-    elif process_selected == "Decompose":
+    elif process_selected == "Calculate":
+        #print("Decompose process entered")
+       Calculate()
+    elif process_selected == "Decompose":   #Calculate()
         #print("Decompose process entered")
         Decompose()
     elif process_selected == "Oxidation_Reduction":
@@ -382,6 +385,18 @@ def Continue():
     #print("Process selected is " , process_selected)
     #print('eci_1 = ', eci_1)
     #print("Pressed Continue button")
+def Calculate():
+    ''' a step toward calculating variables associated with an eci. '''
+    eci_1 = cb_eci_1.get()
+    #print('eci_1 is ', eci_1)
+    eci_1_M_qty = e_eci_1_M_qty.get()
+    #print('eci_1_M_qty is ', eci_1_M_qty)
+    if not eci_1_M_qty == "":
+        eci_1_mass = (db[eci_1]['mass'])
+        #print('eci_1_mass = ', eci_1_mass)
+        m_mass =  float(eci_1_M_qty) * float(eci_1_mass)
+        print('m_mass is ', m_mass)
+
 def Oxidation_Reduction():
     ''' This function has been entered after elements have been selected and the COntinue button pressed'''
     e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
