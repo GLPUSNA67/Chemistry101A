@@ -606,60 +606,35 @@ def Oxidation_Rate_Elements():
                     eci_1_M_qty = 1
                     e_eci_1_M_qty.delete(0)
                     e_eci_1_M_qty.insert(0, eci_1_M_qty)
-
-                    eci_2_M_qty = eci_1_valence
-                    e_eci_2_qty.delete(0)
-                    e_eci_2_qty.insert(0, eci_2_M_qty)
-                    ''' The following does not set the entry box to these values. '''
-                    '''e_eci_2_M_qty.delete(0)
-                    UnboundLocalError: local variable 'e_eci_2_M_qty' referenced before assignment'''
-                    #e_eci_2_M_qty.insert(0, eci_2_M_qty)
-
-                    #e_eci_1_M_qty.delete(0, END)
-                    #e_eci_1_M_qty.insert(0, "3.14")
                     eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
-                    #e_eci_2_M_qty= Entry(root, textvariable=eci_2_M_qty)
+                    e_eci_2_M_qty.delete(0, END)
+                    e_eci_2_M_qty.insert(0, eci_2_M_qty)
                     ''' Set the type and value of the compound.'''
                     ''' These functions will be moved to other processes when they are defined. 
                     Oxidation_Rate_Elements will only store the oxidation states in the frame directories. '''
                     cb_4_type = "compound"
                     eci_4_type = "compound"
-                    if eci_2_valence == -1 and eci_1_valence == 1:
-                        eci_4 = eci_1 + eci_2
-                    else: eci_4 = eci_1 + eci_2 + eci_1_valence
+                    ''' Set a temporary variable to hold the formula variable
+                    because the formula assumes quantity is 1, so it doen't need to be shown'''
+                    eci_1a = eci_1
+                    eci_2a = eci_2
+                    if eci_2_valence == -1:
+                        eci_1a = eci_1
+                    elif not eci_2_valence == -1:
+                        eci_1a = eci_1 + str(eci_2_valence)
+                    if eci_1_valence == '1':
+                        eci_2a = eci_2
+                        print('eci_2a is ', eci_2a)
+                    elif not eci_1_valence == '1':
+                        eci_2a = eci_2 + str(eci_1_valence)
+                    eci_4 = eci_1a + eci_2a
                     ''' Need to set cb_eci_4 selected item to eci_4'''
                     cb_eci_4.set(eci_4)
-                    ''' e_eci_1_M_qty= Entry(root, textvariable=eci_1_M_qty) 
-                    does not the value of the entry box. Why? '''
-                    e_eci_2_M_qty = 1
-                    ''' The following attempts to assign a value to an entry box do not work
-                    I left them in green because they are easier to read.
-                    e_eci_2_M_qty = StringVar(root, value=e_eci_2_M_qty)
-                    e_eci_2_M_qty.delete(0, END)
-                    eci_1_quantity = StringVar()
-                    eci_1_quantity.set(eci_1_qty)
-                    e_eci_1_qty["textvariable"] = eci_1_quantity.get()
-                    e_eci_1_qty["textvariable"] = eci_1_qty
-                    '''
-                    '''     From https://docs.python.org/3.8/library/tkinter.html#tkinter.Text.insert
-                            I did not try the entire frame app as written
-                            # Create the application variable.
-                            self.contents = tk.StringVar()
-                            # Set it to some value.
-                            self.contents.set("this is a variable")
-                            # Tell the entry widget to watch this variable.
-                            self.entrythingy["textvariable"] = self.contents
-                            contents.get()
-                    '''
-                    '''e_eci_2_M_qty.delete(0, END) AttributeError: 'int' object has no attribute 'delete'''
-                    #e_eci_2_M_qty.insert(0, e_eci_2_M_qty)
-                    #e_eci_2_M_qty= Entry(root, textvariable=v)
-                    e_eci_2_M_qty = Entry(root, text=e_eci_2_M_qty)
-                    #e_eci_2_M_qty.set(e_eci_2_M_qty)
+                    e_eci_4_M_qty.delete(0, END)
+                    e_eci_4_M_qty.insert(0, 1)
                     print("eci_4 is ", eci_4)
-                    print("e_eci_1_M_qty is ", e_eci_1_M_qty)
-                    print("e_eci_2_M_qty is ", e_eci_2_M_qty)
-                    ''' print gives "e_eci_2_M_qty is  .!entry28" '''
+                    print("e_eci_1_M_qty is ", e_eci_1_M_qty.get())
+                    print("e_eci_2_M_qty is ", e_eci_2_M_qty.get())
                 elif eci_1_electronegativity > eci_2_electronegativity:
                     print("In Oxidation_Rate_Elements eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
             elif eci_2_group == "6A":   # Will need to exclude Oxygen for some compounds
@@ -1279,10 +1254,10 @@ cb_eci_5_valence['values'] = valences
 '''    e_eci_2_M_qty.delete(0)
 UnboundLocalError: local variable 'e_eci_2_M_qty' referenced before assignment
 '''
-e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
+#e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
 #e_eci_1_M_qty.grid(row=13, column=0)   #, padx=4)
 #e_eci_1_M_qty.config(font=entryfont)
-#e_eci_2_M_qty = Entry(root, text="", textvariable = eci_2_M_qty, width=8)
+e_eci_2_M_qty = Entry(root, text="", textvariable = eci_2_M_qty, width=8)
 e_eci_2_M_qty.grid(row=21, column=0)   #, padx=4)
 e_eci_2_M_qty.config(font=entryfont)
 lbl_eci_2_units_M = Label(root, text="Moles", width=10)
