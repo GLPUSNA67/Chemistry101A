@@ -595,7 +595,7 @@ def Oxidation_Rate_Elements():
             print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
             ''' Now we can solve for the valences'''
         elif not eci_2_valence.isnumeric():
-            print("In elif not eci_1_valence.isnumeric")
+            print("In elif not eci_2_valence.isnumeric")
             if eci_2_group == "7A":
                 print("db[eci_2]['_group'] is ", eci_2_group)
                 if eci_1_electronegativity < eci_2_electronegativity:
@@ -638,21 +638,47 @@ def Oxidation_Rate_Elements():
                 elif eci_1_electronegativity > eci_2_electronegativity:
                     print("In Oxidation_Rate_Elements eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
             elif eci_2_group == "6A":   # Will need to exclude Oxygen for some compounds
+                print("In Oxidation_Rate_Elements eci_2_group == 6A.")
+                db[eci_2]['_group'] = eci_2_group
                 print("db[eci_2]['_group'] is ", eci_2_group)
                 if eci_1_electronegativity < eci_2_electronegativity:
                     eci_2_valence = -2
-                    eci_1_M_qty = eci_2_valence
+                    eci_1_M_qty = -eci_2_valence
                     eci_2_M_qty = eci_1_valence
                     eci_2_Oxidation_State = eci_2_valence
                     print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
-                    if eci_2_valence == 2 and eci_1_valence == 1:
-                        eci_4 = eci_1 + eci_2_valence + eci_2
-                    else: eci_4 = eci_1 + str(-eci_2_valence) + eci_2 + str(eci_1_valence)
-                    #eci_4 = eci_1 + eci_2 + eci_1_valence
+                    if eci_2_valence == -2 and eci_1_valence == "1":
+                        print("if eci_2_valence == -2 and eci_1_valence == 1:")
+                        print("eci_1 is", eci_1, "eci_2_valence is", eci_2_valence, "eci_2 is", eci_2 )
+                        eci_4 = eci_1 + str(abs(eci_2_valence)) + eci_2
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, eci_1_M_qty)
+                        eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, eci_2_M_qty)
+                    elif -int(eci_2_valence) == int(eci_1_valence):
+                        print("-eci_2_valence is", -eci_2_valence)
+                        eci_4 = eci_1 + eci_2
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, 1)
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, 1)
+                    elif not -int(eci_2_valence) == int(eci_1_valence):
+                        eci_4 = eci_1 + str(-eci_2_valence) + eci_2 + str(eci_1_valence)
+                        print("-int(eci_2_valence) is", -int(eci_2_valence))
+                        print("int(eci_1_valence) is", int(eci_1_valence))
+                        #eci_4 = eci_1 + eci_2 + eci_1_valence
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, eci_1_M_qty)
+                        eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, eci_2_M_qty)
                     cb_eci_4.set(eci_4)
+                    e_eci_4_M_qty.delete(0, END)
+                    e_eci_4_M_qty.insert(0, 1)
                     print("eci_4 is ", eci_4)
                     #eci_1_M_qty = 1
-                print("In Oxidation_Rate_Elements not eci_2_group == 6A.")
+
             elif not eci_2_group == "6A"and not eci_2_group == "7A":
                 print("In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.")
             elif eci_1_electronegativity > eci_1_electronegativity:
