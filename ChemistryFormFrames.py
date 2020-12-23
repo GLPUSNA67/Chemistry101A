@@ -399,6 +399,7 @@ def Calculate():
         #print('eci_1_mass = ', eci_1_mass)
         m_mass =  float(eci_1_M_qty) * float(eci_1_mass)
         e_eci_1_qty.insert(0, m_mass)
+        e_Explanation.insert(END, m_mass)
         print('m_mass is ', m_mass)
 
 def Oxidation_Reduction():
