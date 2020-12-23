@@ -162,7 +162,7 @@ eci_3_group = StringVar()
 eci_4_group = StringVar()
 eci_5_group = StringVar()
 eci_6_group = StringVar()
-eci_1_M_qty = DoubleVar()
+eci_1_M_qty = StringVar()
 eci_2_M_qty = StringVar()
 eci_3_M_qty = StringVar()
 eci_4_M_qty = StringVar()
@@ -590,6 +590,7 @@ def Oxidation_Rate_Elements():
         ''' if eci_db['eci_2']['eci_type'] == 'elements': '''
         if eci_2_valence.isnumeric():
             eci_2_Oxidation_State = eci_2_valence
+            db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
             print("db[eci_2]['valence'] is numeric ", eci_2_valence)
             print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
             ''' Now we can solve for the valences'''
@@ -600,10 +601,20 @@ def Oxidation_Rate_Elements():
                 if eci_1_electronegativity < eci_2_electronegativity:
                     eci_2_valence = -1
                     eci_2_Oxidation_State = eci_2_valence
+                    db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
                     print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
                     eci_1_M_qty = 1
-                    ''' The following do not set the entry boxes to these values. '''
-                    e_eci_1_M_qty = eci_1_M_qty
+                    e_eci_1_M_qty.delete(0)
+                    e_eci_1_M_qty.insert(0, eci_1_M_qty)
+
+                    eci_2_M_qty = eci_1_valence
+                    e_eci_2_qty.delete(0)
+                    e_eci_2_qty.insert(0, eci_2_M_qty)
+                    ''' The following does not set the entry box to these values. '''
+                    '''e_eci_2_M_qty.delete(0)
+                    UnboundLocalError: local variable 'e_eci_2_M_qty' referenced before assignment'''
+                    #e_eci_2_M_qty.insert(0, eci_2_M_qty)
+
                     #e_eci_1_M_qty.delete(0, END)
                     #e_eci_1_M_qty.insert(0, "3.14")
                     eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
@@ -1265,8 +1276,13 @@ cb_eci_5_valence.grid(row=20, column=7)   #, padx=4)
 cb_eci_5_valence.config(font=entryfont)
 cb_eci_5_valence['values'] = valences
 
-# mEntry = Entry(mGui, textvariable = ment, text="bebe") In stackoverflow, this was supposed to work
-e_eci_2_M_qty = Entry(root, textvariable = eci_2_M_qty, text=" ", width=8)
+'''    e_eci_2_M_qty.delete(0)
+UnboundLocalError: local variable 'e_eci_2_M_qty' referenced before assignment
+'''
+e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
+#e_eci_1_M_qty.grid(row=13, column=0)   #, padx=4)
+#e_eci_1_M_qty.config(font=entryfont)
+#e_eci_2_M_qty = Entry(root, text="", textvariable = eci_2_M_qty, width=8)
 e_eci_2_M_qty.grid(row=21, column=0)   #, padx=4)
 e_eci_2_M_qty.config(font=entryfont)
 lbl_eci_2_units_M = Label(root, text="Moles", width=10)
