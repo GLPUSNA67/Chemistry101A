@@ -10,6 +10,7 @@ from ElementsDict import *
 from CompoundsDict import *
 from ionDict import *
 from eciDict import *
+from Conversions import *
 root = tk.Tk()
 root.title('Chemistry')
 titlefont= ('Ariel', 14, 'bold')
