@@ -524,6 +524,9 @@ def Oxidation_Rate_Ions():
     e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions process\n")
 
 def Oxidation_Rate_Elements():
+    cb_eci_1_units.set('grams')
+    cb_eci_2_units.set('grams')
+    cb_eci_4_units.set('grams')
     ''' This function has been entered after elements have been selected and the Continue button pressed'''
     e_Explanation.insert(tk.END, "Oxidation_Rate_Elements process entered\n")
     #print("Oxidation_Rate process entered")
@@ -554,15 +557,18 @@ def Oxidation_Rate_Elements():
     ''' if eci_db['eci_1']['eci_type'] == 'elements': is no longer needed
     because all non-elements have been moved to another function. '''
     eci_1_name = db[eci_1]['name']
+    eci_1_mass = db[eci_1]['mass']
     eci_1_group = db[eci_1]['_group']
     eci_1_valence = db[eci_1]['valence']
     eci_1_electronegativity = db[eci_1]['electronegativity']
     print("db[eci_1]['name'] is ", eci_1_name)
+    print("db[eci_1]['mass'] is ", eci_1_mass)
     print("db[eci_1]['_group'] is ", eci_1_group)
     print("db[eci_1]['valence'] is ", eci_1_valence)
     print("db[eci_1]['electronegativity'] is ", eci_1_electronegativity)
     ''' if eci_db['eci_2']['eci_type'] == 'elements':  in no longer needed. '''
     eci_2_name = db[eci_2]['name']
+    eci_2_mass = db[eci_2]['mass']
     eci_2_group = db[eci_2]['_group']
     eci_2_valence = db[eci_2]['valence']
     eci_2_electronegativity = db[eci_2]['electronegativity']
@@ -677,6 +683,12 @@ def Oxidation_Rate_Elements():
                     e_eci_4_M_qty.delete(0, END)
                     e_eci_4_M_qty.insert(0, 1)
                     print("eci_4 is ", eci_4)
+                    eci_1_massa = float(eci_1_M_qty) * float(eci_1_mass)
+                    print("eci_1_massa is ", eci_1_massa)
+                    e_eci_1_qty.delete(0)
+                    e_eci_1_qty.insert(0, eci_1_massa)
+                    e_eci_2_qty.delete(0)
+                    e_eci_2_qty.insert(0, float(eci_2_M_qty) * float(eci_2_mass))
                     #eci_1_M_qty = 1
 
             elif not eci_2_group == "6A"and not eci_2_group == "7A":
