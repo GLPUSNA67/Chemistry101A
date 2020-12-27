@@ -51,12 +51,12 @@ elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine 
 ''' This list of elements and names will help retrieve names from symbols. '''
 element = zip(elements_symbols_list, elements_name_list)
 
-compound_symbols_list = "AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
+compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M, C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
                         "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
                         "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
-                        "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
-compound_names_list = "aluminum_carbide air boron_trichloride methane ethane propane butane 2-methylpropane" \
+                        "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3 "
+compound_names_list = "aluminum_carbide aluminum_chloride air boron_trichloride methane ethane propane butane 2-methylpropane" \
                       " pentane hexane heptane octane nonane decane tetradecane octadecane calcium_dihydrogen_phosphate" \
                       " calcium_iodide calcium_hydroxide calcium_phosphide cadmium_sulfide cesium_fluoride citric_acid" \
                       " acetic_acid acetic_acid carbon_monoxide carbon_dioxide hydrogen_bromide hydrobromic_acid" \
@@ -69,6 +69,7 @@ compound_names_list = "aluminum_carbide air boron_trichloride methane ethane pro
                       " sulfur_dioxide sulfur_trioxide"
 ''' This list of compounds and names will help retrieve names from formulas. '''
 compounds = zip(compound_symbols_list, compound_names_list)
+compounds_names_dict = zip(compound_names_list, compound_symbols_list)
 
 ''' Process documentation 
  A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
@@ -93,6 +94,7 @@ environment = "Laboratory Industry Nature"
 temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
 ions = "OH- SO3-"
+c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
 record_name = ""    # This is a placeholder for a record name to store the process in the database.
 ''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
@@ -341,7 +343,7 @@ def select_eci_6_type(eventObject):
 
 ''' Start defining process and chemistry related functions '''
 def create_record():
-    pass
+    print("Pressed create_record button")
 def get_record():
     print("Pressed Get Record button")
 def retrieve_record():
@@ -717,15 +719,30 @@ def Reduction():
     e_Explanation.insert(tk.END, "Reduction process entered\n")
 
 def Synthesis():
-    AlphabetizeElements()
-
-    #H = dict(id= 1, symbol= 'H', name= 'Hydrogen', atomic_number= 1, mass= '1.008', period= 1, row= 1, column= 1, _group= '1A 7A',
-    # protons= 1, neutrons= 0, electrons= 1, _1s= 1, _2s= 0, _2p= 0, _3s= 0, _3p= 0, _4s= 0, _3d= 0, _4p= 0, _4d= 0, _5s= 0, _5p= 0, _6s= 0, _5d= 0, _6p= 0, _7s= 0,
-    # affinity= '-72', density= '0.00008988', electronegativity= '2.1', melt= '14.01', boil= '-252.76', e_fusion= 'ef', e_vapor= 'ev',
-    # t_crit= '-240.17', p_crit= '12.77', valence= '1 -1', a_radius= '53')
-    #CountElements()
     e_Explanation.insert(tk.END, "Synthesis process entered\n")
     print("Synthesis process entered")
+    CountElements()
+    AlphabetizeElements()
+    ''' Consider starting with a compound formula or name.'''
+
+    '''
+    Option 1. The user will select a product and the progrtam will determine the reactants 
+    and the by-products.
+    Option 2. The user will start by entering compounds and or elements in the left side of the
+    GUI. Since there are so many possibilities, the user will need to specify the reactants and
+    the primary product. Any other products will be considered by-products. 
+    Start by counting the number if reactants, alphabetize them, look up all the products 
+    that have any combination of those reactant elements, and fill the product combo box
+    with that list. Since the program will not know which items will be products and which 
+    will be by-products, the list must contain all the compounds that have any of the reactants.
+    All products that do not have those elements can be eliminated from the products box -- 
+    even catalysts can be eliminated because they will be specified in a separate combo box.
+    When a pirmary product has been selected, start the synthesis process by calculating the 
+    ozidation status, then 
+    
+    '''
+    Oxidation_Rate()
+
     cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
     cb_2_type = cb_Select_CB2.get()
     cb_3_type = cb_Select_CB3.get()
@@ -843,6 +860,19 @@ def setClassItem(eventObject):
         eci_1_name = c_db[eci_1]['name']
         print('eci_1 = ', eci_1)
         print("In setClassItem at elif compounds")
+def setItemFormula():
+    if not eci_1_N == "" and eci_1 == "":
+        if eci_1_type == 'elements':
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+        elif eci_1_type == 'compounds':
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+        elif eci_1_type == 'ions':
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+    ''' after the above code works, do the same for each name combo box '''
+
 def Parse_Compounds(compound):
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
     if compound == "":
@@ -1065,7 +1095,7 @@ lbl_eci_1.config(font=labelfont)
 cb_Select_CB1 = Combobox(root, values=eci_cb_values, width=10)
 cb_Select_CB1.grid(row=9, column=3, sticky=W)
 cb_Select_CB1.config(font=entryfont)
-cb_Select_CB1.bind("<<ComboboxSelected>>", select_eci_1_type)
+cb_Select_CB1.bind("<<ComboboxSelected>>", select_eci_1_type) #select_eci_1_type
 #cb_Select_CB1.bind("<<ComboboxSelected>>", callback1)
 #cb_Process = Combobox(root, values=process_list, width=20)
 #cb_Process.grid(row=9, column=3) # , columnspan=2
@@ -1106,7 +1136,6 @@ lbl_eci_4_valence.config(font=labelfont)
 e_eci_1_qty = Entry(root, text="", textvariable=eci_1_qty, width=8)
 e_eci_1_qty.grid(row=12, column=0)   #, padx=4)
 e_eci_1_qty.config(font=entryfont)
-
 #e_eci_1_qty.bind(callback_eci_1_qty)            #root, textvariable=user_input
 cb_eci_1_units = Combobox(root, values=unit_values, textvariable=eci_1_units, width=10)
 cb_eci_1_units.grid(row=12, column=1)   #, padx=4)
@@ -1117,6 +1146,7 @@ cb_eci_1.grid(row=12, column=2)   #, padx=4)
 cb_eci_1.config(font=entryfont)
 cb_eci_1['values'] = elements_symbols_list
 cb_eci_1.bind("<<ComboboxSelected>>", setClassItem)
+
 cb_eci_1_valence = Combobox(root, textvariable=eci_1_valence, width=8)
 cb_eci_1_valence.grid(row=12, column=3)   #, padx=4)
 cb_eci_1_valence.config(font=entryfont)
@@ -1149,6 +1179,7 @@ cb_eci_1_N = Combobox(root,  textvariable=eci_1_N, width=12)
 cb_eci_1_N.grid(row=13, column=2)   #, padx=4)
 cb_eci_1_N.config(font=entryfont)
 cb_eci_1_N['values'] = compound_names_list
+cb_eci_1_N.bind("<<ComboboxSelected>>", setItemFormula)
 e_eci_4_M_qty = Entry(root, text="", textvariable=eci_4_M_qty, width=8)
 e_eci_4_M_qty.grid(row=13, column=4)   #, padx=4)
 e_eci_4_M_qty.config(font=entryfont)
@@ -1562,41 +1593,34 @@ e_Variable_Value = Entry(root, text="", textvariable=variable_value, width=8)
 e_Variable_Value.grid(row=34, column=7)   #, padx=4)
 e_Variable_Value.config(font=entryfont)
 
-lbl_blank = Label(root, text="", width=4)
-lbl_blank.grid(row=35, column=8)   #, columnspan=2)
-lbl_blank.config(font=labelfont)
-
 lbl_Explanation = Label(root, text="Explanation", width=10)
-lbl_Explanation.grid(row=36, column=0) #, padx=8
+lbl_Explanation.grid(row=35, column=0) #, padx=8
 lbl_Explanation.config(font=labelfont)
 lbl_Explanation = Label(root, text="Super subscript ", width=12)
-lbl_Explanation.grid(row=36, column=1,) #, padx=8  columnspan=2
+lbl_Explanation.grid(row=35, column=1,) #, padx=8  columnspan=2
 lbl_Explanation.config(font=labelfont)
 lbl_LU_Process = Label(text='360\u2070 \u2070C H\u2082O') # C2H3O2-
-lbl_LU_Process.grid(row=36, column=2)  #, columnspan=1)
+lbl_LU_Process.grid(row=35, column=2)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
-#lbl_LU_Process = Label(text='H\u2082O')
-#lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
-#lbl_LU_Process.config(font=labelfont)
+
 lbl_LU_Process = Label(text='X\u2074 + X\u00B2 = 0')
-lbl_LU_Process.grid(row=36, column=3)  #, columnspan=1)
+lbl_LU_Process.grid(row=35, column=3)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
 lbl_LU_Process = Label(text='C\u2082H\u2083O\u2082\u207B C\u2082H\u2083O\u00B2\u207B')
 #lbl_LU_Process = Label(text='C\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
-lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
+lbl_LU_Process.grid(row=35, column=4)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
 lbl_LU_Process = Label(text='Cl\u2091 Fe\u00B3\u207A ')
-lbl_LU_Process.grid(row=36, column=5)  #, columnspan=1)
+lbl_LU_Process.grid(row=35, column=5)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
 e_Explanation = Text(root, height=6, width=100)
-e_Explanation.grid(row=37, column=0, columnspan=6, sticky=W)
+e_Explanation.grid(row=36, column=0, columnspan=6, sticky=W)
 e_Explanation.config(font=entryfont)
 e_Explanation.rowconfigure(99)
 
-
 #e_Explanation.insert(1, 'Fe\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
 S = tk.Scrollbar(root)
-S.grid(row=37, column=7, sticky=E)
+S.grid(row=36, column=7, sticky=E)
 S.config(command=e_Explanation.yview)
 
 lbl_blank = Label(root, text="")
@@ -1618,7 +1642,30 @@ if __name__ == '__main__':
     make_compound_alpha_list()
     #make_ion_alpha_list()
     root.mainloop()
-
+    #print(element)
 '''
+sys.path is:
+['C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\pydev',
+'C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\third_party\\thriftpy',
+'C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\pydev', 
+'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\python38.zip', 
+'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\DLLs', 
+'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\lib', 
+'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38', 
+'C:\\Users\\Owner\\Chemistry101A', 
+'C:\\Users\\Owner\\Chemistry101A\\lib\\site-packages', 
+'C:\\projects\\Chemistry101A', 
+'C:/projects/Chemistry101A']
 
+#lbl_LU_Process = Label(text='H\u2082O')
+#lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
+#lbl_LU_Process.config(font=labelfont)
+lbl_blank = Label(root, text="", width=4)
+lbl_blank.grid(row=35, column=8)   #, columnspan=2)
+lbl_blank.config(font=labelfont)
+    #H = dict(id= 1, symbol= 'H', name= 'Hydrogen', atomic_number= 1, mass= '1.008', period= 1, row= 1, column= 1, _group= '1A 7A',
+    # protons= 1, neutrons= 0, electrons= 1, _1s= 1, _2s= 0, _2p= 0, _3s= 0, _3p= 0, _4s= 0, _3d= 0, _4p= 0, _4d= 0, _5s= 0, _5p= 0, _6s= 0, _5d= 0, _6p= 0, _7s= 0,
+    # affinity= '-72', density= '0.00008988', electronegativity= '2.1', melt= '14.01', boil= '-252.76', e_fusion= 'ef', e_vapor= 'ev',
+    # t_crit= '-240.17', p_crit= '12.77', valence= '1 -1', a_radius= '53')
+    #CountElements()
 '''
