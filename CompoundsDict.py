@@ -1,5 +1,5 @@
 #Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
-AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_carbide')
+Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
 AlCl3 = dict(formula= 'AlCl3', elements= 'AlCl',name= 'aluminum_chloride')
 Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements= 'ArHeKrNeXeRn', name= 'air')
 BCl3 = dict(formula= 'BCl3', elements= 'BCl', name= 'boron_trichloride')
@@ -71,7 +71,7 @@ SO2 = dict(formula= 'SO2', elements= 'OS', name= 'sulfur_dioxide')
 SO3 = dict(formula= 'SO3', elements= 'OS', name= 'sulfur_trioxide')
 
 c_db = {}
-c_db['AlC3'] = AlC3
+c_db['Al4C3'] = Al4C3
 c_db['AlCl3'] = AlCl3
 c_db['Ar2He2Kr2Ne2Xe2Rn2'] = Ar2He2Kr2Ne2Xe2Rn2
 c_db['BCl3'] = BCl3
