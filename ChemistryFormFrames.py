@@ -118,6 +118,7 @@ Av = DoubleVar()
 Bv = DoubleVar()
 Cv = DoubleVar()
 Kv = DoubleVar()
+
 ''' Miscellaneous variables to use until proper variables are created. '''
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
@@ -1602,7 +1603,10 @@ lbl_Explanation.config(font=labelfont)
 lbl_LU_Process = Label(text='360\u2070 \u2070C H\u2082O') # C2H3O2-
 lbl_LU_Process.grid(row=35, column=2)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
-
+'''
+unicode numbers. degrees: \u2070 subscript 2: \u2082 subscript 3: \u2083 subscript e: \u2091
+superscript 2:\u00B2 superscript 3:\u00B3 superscript 4: \u2074 superscript -: \u207B
+'''
 lbl_LU_Process = Label(text='X\u2074 + X\u00B2 = 0')
 lbl_LU_Process.grid(row=35, column=3)  #, columnspan=1)
 lbl_LU_Process.config(font=labelfont)
