@@ -1,87 +1,211 @@
+from collections import defaultdict
 '''
-This file starts with a list fom compounds -- the compound_symbols_list -- a a dictionary of compound formulas.
+This file starts with a list of compounds -- the compound_symbols_list -- a dictionary of compound 'formula's.
 The objective is to iterate through the compound_symbols_list and for each compound, look up the alphabetical
-list of elements, and add the compound name to an existing list with that alphabetical name, or create a new list
-with that name and add the compound name to that new list. Also, there is a add the compound name to an existing list; so add the
-new list name to that add the compound name to an existing list.
+list of 'elements', and add the compound 'name' to an existing list with that alphabetical 'name', or create a new list
+with that 'name' and add the compound 'name' to that new list. Also, there is a add the compound 'name' to an existing list; so add the
+new list 'name' to that add the compound 'name' to an existing list.
+
+compound_symbols_list is not currently in list format. It is in a format with space separaters
+that is used to fill a combo box. Need to automate the transformation of this list into list form.
+Needed to reformat the compound_symbols_list as a dictionary -- csl
+'''
+'''
+compound_symbols_list = ('AlCl3', 'Ar2He2Kr2Ne2Xe2Rn2', 'BCl3', 'CH4', 'C2H6', 'C3H8', 'C4H10', 'C4H10_M', 'C5H12', 'C6H14', 'C7H16', 'C8H18',
+'C9H20', 'C10H22', 'C14H30', 'C18H38', 'CaH2PO4', 'CaI', 'CaOH2', 'Ca3P2', 'CdS', 'CsF', 'C6H8O7', 'CH3CO2H', 'C2H4COH',
+'CO', 'CO2', 'CuS', 'HBr_g', 'HBr_aq', 'HC2H3O2', 'HCl', 'HCl_g', 'HCl_aq', 'HClO4', 'HCN', 'H2CO3', 'HF_g', 'HF_aq', 'HI_g', 'HI_aq',
+'HNO2', 'HNO3', 'H3PO4', 'H2S_g', 'H2S_aq', 'H2SO3', 'H2SO4', 'IF7', 'KBr', 'KOH', 'LiCl', 'Mg3N2', 'NaCl', 'NaHCO3', 'Na2O', 'NaOH',
+'Na2SO4', 'NH3', 'N2H4', 'NO', 'NO2', 'N2O4', 'N2O', 'N2O5', 'PF5', 'SO2', 'SO3')
+'''
+
+csl = [{'formula': 'AlC3', 'elements': 'AlC', 'name': 'aluminum_carbide'},
+       {'formula': 'Ar2He2Kr2Ne2Xe2Rn2', 'elements': 'ArHeKrNeXeRn', 'name': 'air'},
+       {'formula': 'BCl3', 'elements': 'BCl', 'name': 'boron_trichloride'},
+       {'formula': 'CH4', 'elements': 'CH', 'name': 'methane', 'melting':-182.5, 'boiling':-161.5},
+       {'formula': 'C2H6', 'elements': 'CH', 'name': 'ethane', 'melting':-183.2, 'boiling':-88.6},
+       {'formula': 'C3H8', 'elements': 'CH', 'name': 'propane', 'melting':-187.7, 'boiling':-42.1},
+       {'formula': 'C4H10', 'elements': 'CH', 'name': 'butane', 'melting':-138.3, 'boiling':-0.5},
+       {'formula': 'C4H10_M', 'elements': 'CH', 'name': '2-methylpropane', 'melting':'', 'boiling':''},
+       {'formula': 'C5H12', 'elements': 'CH', 'name': 'pentane', 'melting':-129.7, 'boiling':36.1},
+       {'formula': 'C6H14', 'elements': 'CH', 'name': 'hexane', 'melting':-95.3, 'boiling':68.7},
+       {'formula': 'C7H16', 'elements': 'CH', 'name': 'heptane', 'melting':-90.6, 'boiling':98.4},
+       {'formula': 'C8H18', 'elements': 'CH', 'name': 'octane', 'melting':-56.8, 'boiling':125.7},
+       {'formula': 'C9H20', 'elements': 'CH', 'name': 'nonane', 'melting':-53.6, 'boiling':150.8},
+       {'formula': 'C10H22', 'elements': 'CH', 'name': 'decane', 'melting':-29.7, 'boiling':174.0},
+       {'formula': 'C14H30', 'elements': 'CH', 'name': 'tetradecane', 'melting':5.9, 'boiling':253.5},
+       {'formula': 'C18H38', 'elements': 'CH', 'name': 'octadecane', 'melting':28.2, 'boiling':316.1},
+       {'formula': 'Ca(H2PO4)2', 'elements': 'CaHOP','name': 'calcium_dihydrogen_phosphate'},
+       {'formula': 'CaI', 'elements': 'CaI','name': 'calcium_iodide'},
+       {'formula': 'Ca{OH}2', 'elements': 'CaHO', 'name': 'calcium_hydroxide'},
+       {'formula': 'Ca3P2', 'elements': 'CaP', 'name': 'calcium_phosphide'},
+       {'formula': 'CdS', 'elements': 'CdS', 'name': 'cadmium_sulfide'},
+       {'formula': 'CsF', 'elements': 'CsF', 'name': 'cesium_fluoride'},
+       {'formula': 'C6H8O7', 'elements': 'CHO', 'name': 'citric_acid'},
+       {'formula': 'CH3CO2H', 'elements': 'CHO', 'name': 'acetic_acid'},
+       {'formula': 'C2H4COH', 'elements': 'CHO', 'name': 'acetic_acid'},
+       {'formula': 'CO', 'elements': 'CO', 'name': 'carbon_monoxide'},
+       {'formula': 'CO2', 'elements': 'CO', 'name': 'carbon_dioxide'},
+       {'formula': 'CuS', 'elements': 'CuS', 'name': 'copper_sulfide'},
+       {'formula': 'HBr_g', 'elements': 'BrH', 'name': 'hydrogen_bromide'},
+       {'formula': 'HBr_aq', 'elements': 'BrH', 'name': 'hydrobromic_acid'},
+       {'formula': 'HC2H3O2', 'elements': 'CHO', 'name': 'acetic_acid'},
+       {'formula': 'HCl', 'elements': 'ClH', 'name': 'hydrogen_chloride'},
+       {'formula': 'HCl_g', 'elements': 'ClH', 'name': 'hydrogen_chloride_g'},
+       {'formula': 'HCl_aq', 'elements': 'ClH', 'name': 'hydrochloric_acid'},
+       {'formula': 'HClO4', 'elements': 'ClHO', 'name': 'perchloric_acid'},
+       {'formula': 'HCN', 'elements': 'CHN', 'name': 'hydrogen_cyanide'},
+       {'formula': 'H2CO3', 'elements': 'CHO', 'name': 'carbonic_acid'},
+       {'formula': 'HF_g', 'elements': 'FH', 'name': 'hydrogen_fluoride'},
+       {'formula': 'HF_aq', 'elements': 'FH', 'name': 'hydrofluoric_acid'},
+       {'formula': 'HI_g', 'elements': 'HI', 'name': 'hydrogen_iodide'},
+       {'formula': 'HI_aq', 'elements': 'HI', 'name': 'hydroiodic_acid'},
+       {'formula': 'HNO2', 'elements': 'HNO', 'name': 'nitrous_acid'},
+       {'formula': 'HNO3', 'elements': 'HNO', 'name': 'nitric_acid'},
+       {'formula': 'H3PO4', 'elements': 'HOS', 'name': 'phosphoric_acid'},
+       {'formula': 'H2S_g', 'elements': 'HS', 'name': 'hydrogen_suflide'},
+       {'formula': 'H2S_aq', 'elements': 'HS', 'name': 'hydrosulfuric_acid'},
+       {'formula': 'H2SO3', 'elements': 'HOS', 'name': 'sulfurous_acid'},
+       {'formula': 'H2SO4', 'elements': 'HOS', 'name': 'sulfuric_acid'},
+       {'formula': 'IF7', 'elements': 'FI', 'name': 'iodine_heptafluoride'},
+       {'formula': 'KBr', 'elements': 'BrK', 'name': 'potassium_bromide'},
+       {'formula': 'KOH', 'elements': 'HKO', 'name': 'potassium_hydroxide'},
+       {'formula': 'LiCl', 'elements': 'ClLi', 'name': 'lithium_chloride'},
+       {'formula': 'Mg3N2', 'elements': 'MgN', 'name': 'magnesium_nitride'},
+       {'formula': 'NaCl', 'elements': 'ClNa', 'name': 'sodium_chloride'},
+       {'formula': 'NaHCO33', 'elements': 'CHNaO}', 'name': 'bicarbonate_of_soda'},
+       {'formula': 'Na2O', 'elements': 'NaO', 'name': 'sodium_oxide'},
+       {'formula': 'NaOH', 'elements': 'HNaO', 'name': 'sodium_hydroxide'},
+       {'formula': 'NH3', 'elements': 'HN', 'name': 'ammonia'},
+       {'formula': 'N2H4', 'elements': 'HN', 'name': 'hydrazine'},
+       {'formula': 'NO', 'elements': 'NO', 'name': 'nitric_oxide'},
+       {'formula': 'NO2', 'elements': 'NO', 'name': 'nitorgen_dioxide'},
+       {'formula': 'N2O4', 'elements': 'NO', 'name': 'dinitrogen_tetroxide'},
+       {'formula': 'N2O', 'elements': 'NO', 'name': 'nitrous_oxide'},
+       {'formula': 'N2O5', 'elements': 'NO', 'name': 'dinitrogen_pentoxide'},
+       {'formula': 'PF5', 'elements': 'FP', 'name': 'phosphorus_pentafluoride'},
+       {'formula': 'SO2', 'elements': 'OS', 'name': 'sulfur_dioxide'},
+       {'formula': 'SO3', 'elements': 'OS', 'name': 'sulfur_trioxide'}]
+
 
 '''
 
-compound_symbols_list = "AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M C5H12 C6H14 C7H16 C8H18 " \
-                        "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
-                        "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
-                        "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
-                        "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3"
+# words = ['cat', 'window', 'defenestrate']
+# for w in words:
+# Dict = {'name': 'Geeks', 1: [1, 2, 3, 4]}
+# The following did not work. It printed every letter and number.
+# Changed compound_symbols_list into a regular list and the print statement works.
 
-AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
-Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements= 'ArHeKrNeXeRn', name= 'air')
-BCl3 = dict(formula= 'BCl3', elements= 'BCl', name= 'boron_trichloride')
-CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)
-C2H6 = dict(formula= 'C2H6', elements= 'CH', name= 'ethane', melting=-183.2, boiling=-88.6)
-C3H8 = dict(formula= 'C3H8', elements= 'CH', name= 'propane', melting=-187.7, boiling=-42.1)
-C4H10 = dict(formula= 'C4H10', elements= 'CH', name= 'butane', melting=-138.3, boiling=-0.5)
-C4H10_M = dict(formula= 'C4H10_M', elements= 'CH', name= '2-methylpropane', melting='', boiling='')
-C5H12 = dict(formula= 'C5H12', elements= 'CH', name= 'pentane', melting=-129.7, boiling=36.1)
-C6H14 = dict(formula= 'C6H14', elements= 'CH', name= 'hexane', melting=-95.3, boiling=68.7)
-C7H16 = dict(formula= 'C7H16', elements= 'CH', name= 'heptane', melting=-90.6, boiling=98.4)
-C8H18 = dict(formula= 'C8H18', elements= 'CH', name= 'octane', melting=-56.8, boiling=125.7)
-C9H20 = dict(formula= 'C9H20', elements= 'CH', name= 'nonane', melting=-53.6, boiling=150.8)
-C10H22 = dict(formula= 'C10H22', elements= 'CH', name= 'decane', melting=-29.7, boiling=174.0)
-C14H30 = dict(formula= 'C14H30', elements= 'CH', name= 'tetradecane', melting=5.9, boiling=253.5)
-C18H38 = dict(formula= 'C18H38', elements= 'CH', name= 'octadecane', melting=28.2, boiling=316.1)
-CaH2PO4 = dict(formula= 'Ca(H2PO4)2', elements= 'CaHOP',name= 'calcium_dihydrogen_phosphate')
-CaI = dict(formula= 'CaI', elements= 'CaI',name= 'calcium_iodide')
-CaOH2 = dict(formula= 'Ca(OH)2', elements= 'CaHO', name= 'calcium_hydroxide')
-Ca3P2 = dict(formula= 'Ca3P2', elements= 'CaP', name= 'calcium_phosphide')
-CdS = dict(formula= 'CdS', elements= 'CdS', name= 'cadmium_sulfide')
-CsF = dict(formula= 'CsF', elements= 'CsF', name= 'cesium_fluoride')
-C6H8O7 = dict(formula= 'C6H8O7', elements= 'CHO', name= 'citric_acid')
-CH3CO2H = dict(formula= 'CH3CO2H', elements= 'CHO', name= 'acetic_acid')
-C2H4COH = dict(formula= 'C2H4COH', elements= 'CHO', name= 'acetic_acid')
-CO = dict(formula= 'CO', elements= 'CO', name= 'carbon_monoxide')
-CO2 = dict(formula= 'CO2', elements= 'CO', name= 'carbon_dioxide')
-HBr_g = dict(formula= 'HBr_g', elements= 'BrH', name= 'hydrogen_bromide')
-HBr_aq = dict(formula= 'HBr_aq', elements= 'BrH', name= 'hydrobromic_acid')
-HC2H3O2 = dict(formula= 'HC2H3O2', elements= 'CHO', name= 'acetic_acid')
-HCl = dict(formula= 'HCl', elements= 'ClH', name= 'hydrogen_chloride')
-HCl_g = dict(formula= 'HCl_g', elements= 'ClH', name= 'hydrogen_chloride_g')
-HCl_aq = dict(formula= 'HCl_aq', elements= 'ClH', name= 'hydrochloric_acid')
-HClO4 = dict(formula= 'HClO4', elements= 'ClHO', name= 'perchloric_acid')
-HCN = dict(formula= 'HCN', elements= 'CHN', name= 'hydrogen_cyanide')
-H2CO3 = dict(formula= 'H2CO3', elements= 'CHO', name= 'carbonic_acid')
-HF_g = dict(formula= 'HF_g', elements= 'FH', name= 'hydrogen_fluoride')
-HF_aq = dict(formula= 'HF_aq', elements= 'FH', name= 'hydrofluoric_acid')
-HI_g = dict(formula= 'HI_g', elements= 'HI', name= 'hydrogen_iodide')
-HI_aq = dict(formula= 'HI_aq', elements= 'HI', name= 'hydroiodic_acid')
-HNO2 = dict(formula= 'HNO2', elements= 'HNO', name= 'nitrous_acid')
-HNO3 = dict(formula= 'HNO3', elements= 'HNO', name= 'nitric_acid')
-H3PO4 = dict(formula= 'H3PO4', elements= 'HOS', name= 'phosphoric_acid')
-H2S_g = dict(formula= 'H2S_g', elements= 'HS', name= 'hydrogen_suflide')
-H2S_aq = dict(formula= 'H2S_aq', elements= 'HS', name= 'hydrosulfuric_acid')
-H2SO3 = dict(formula= 'H2SO3', elements= 'HOS', name= 'sulfurous_acid')
-H2SO4 = dict(formula= 'H2SO4', elements= 'HOS', name= 'sulfuric_acid')
-IF7 = dict(formula= 'IF7', elements= 'FI', name= 'iodine_heptafluoride')
-KBr = dict(formula= 'KBr', elements= 'BrK', name= 'potassium_bromide')
-KOH = dict(formula= 'KOH', elements= 'HKO', name= 'potassium_hydroxide')
-LiCl = dict(formula= 'LiCl', elements= 'ClLi', name= 'lithium_chloride')
-Mg3N2 = dict(formula= 'Mg3N2', elements= 'MgN', name= 'magnesium_nitride')
-NaCl = dict(formula= 'NaCl', elements= 'ClNa', name= 'sodium_chloride')
-NaHCO3 = dict(formula= 'NaHCO33', elements= 'CHNaO)', name= 'bicarbonate_of_soda')
-Na2O = dict(formula= 'Na2O', elements= 'NaO', name= 'sodium_oxide')
-NaOH = dict(formula= 'NaOH', elements= 'HNaO', name= 'sodium_hydroxide')
-NH3 = dict(formula= 'NH3', elements= 'HN', name= 'ammonia')
-N2H4 = dict(formula= 'N2H4', elements= 'HN', name= 'hydrazine')
-NO = dict(formula= 'NO', elements= 'NO', name= 'nitric_oxide')
-NO2 = dict(formula= 'NO2', elements= 'NO', name= 'nitorgen_dioxide')
-N2O4 = dict(formula= 'N2O4', elements= 'NO', name= 'dinitrogen_tetroxide')
-N2O = dict(formula= 'N2O', elements= 'NO', name= 'nitrous_oxide')
-N2O5 = dict(formula= 'N2O5', elements= 'NO', name= 'dinitrogen_pentoxide')
-PF5 = dict(formula= 'PF5', elements= 'FP', name= 'phosphorus_pentafluoride')
-SO2 = dict(formula= 'SO2', elements= 'OS', name= 'sulfur_dioxide')
-SO3 = dict(formula= 'SO3', elements= 'OS', name= 'sulfur_trioxide')
+compound_symbols_list = ['AlC3', 'Ar2He2Kr2Ne2Xe2Rn2', 'BCl3', 'C14H30']  # , 'CH4', 'C2H6', 'C3H8', 'C4H10', 'C4H10_M']
+#compound_symbols_list = [AlC, Ar2He2Kr2Ne2Xe2Rn2, BCl3]
+#print("compound_symbols_list is ", compound_symbols_list)
+#print("compound_symbols_list[0] is ", compound_symbols_list[0])
+#portfolio
+#[{'name': 'AA',
+csl = [{'formula': 'AlC3', 'elements': 'AlC', 'name': 'aluminum_carbide'},
+       {'formula': 'Ar2He2Kr2Ne2Xe2Rn2', 'elements': 'ArHeKrNeXeRn', 'name': 'air'},
+       {'formula': 'BCl3', 'elements': 'BCl', 'name': 'boron_trichloride'},
+       {'formula': 'C14H30', 'elements': 'CH', 'name': 'tetradecane'}]
 
+Maybe the reason the following didn't work was because 
+neither a list, a set, nor another dictionary can serve as a dictionary key, 
+because lists and dictionaries are mutable.
+Reformed the compound list to csl like the above example. Some compounds have additional keys,
+but that doesn't affect the code.
+'''
+''' Try using zip function to create a new set of lists. '''
+''' Since we want multiple formulas matched with a single common alpha element, 
+try making a zip list or dictionary with formula and elements. 
+Then, use that list to create the desired list of lists.
+The alphas_dict can't be used because it is missing the duplicates. 
+Or, iterate through the csl and build the list structure as originally imagined.
+Try using a  defaultdict.
+
+from collections import defaultdict
+holdings = defaultdict(list)
+for name, shares, price in portfolio:
+    holdings[name].append((shares, price))
+holdings['IBM'] # [ (50, 91.1), (100, 45.23) ]
+'''
 c_alpa_list = []
-for compound in compound_symbols_list:
-    ''' The following does not work. It prints every letter and number. 
-    Need to define compound as strings separated by spaces. '''
-    print('compound is ', compound)
+a_list = []
+try_zip = []
+alphas_dict = {}
+''' The following csl and arguments may not be formatted correctly. '''
+'''
+e_f = defaultdict(list)
+for elements, formula in csl:
+    e_f['elements'].append('formula')
+'''
+for c in csl:   #csl was compound_symbols_list, but now is an immutable list of dictionaries.
+    try:
+        items = c.items()
+        for k in c:
+            if k == 'elements':
+                #print(c['formula'], k, '=', c[k])
+                c_alpa_list.append(c['elements'])   #changed from c[k] to c['elements'] for readability
+                #a_list.append(c[k])
+                #print('a_list is', a_list)
+                for f in c:
+                    if f == 'formula':
+                        ''' Following only lists last occurance of an alpha formula combo. '''
+                        ''' Need to add code: if the alpha list c[k] already exists in the 
+                        dictionary, add it to a list of compounds'''
+                        ''' Make a list of every formula to be added so processing will
+                        always look for a list. '''
+
+                        d_l = [c['formula']]    # d_l stands for dictionary list
+                        ''' If this list already exists in alphas_dict, 
+                        add the formula to that list. 
+                        '''
+                        #d_l = d_l + d_l.append[c['formula']]
+                        alphas_dict[c['elements']] = d_l    #list.append(c[k], c[f])
+                        #z = list(zip(c['elements'], c['formula']))
+    except:
+        print('except c is ', c)
+print(alphas_dict)
+print(c_alpa_list)
+''' The following gets very close. Now, I need to combine the multiples.'''
+new_alpha =[ (s['elements'], s['formula']) for s in csl ]
+print(new_alpha)
+'''
+if isinstance(a, list):
+'''
+#try_zip = list(zip(csl('formula'), csl('elements'))
+#print(z)
+'''
+# compound_symbols_list = ['AlC3'] #, 'Ar2He2Kr2Ne2Xe2Rn2', 'BCl3', 'CH4', 'C2H6', 'C3H8', 'C4H10', 'C4H10_M']
+# Dict = {'name': 'Geeks', 1: [1, 2, 3, 4]}
+# AlC3 = {'formula': 'AlC3', 'elements': 'AlC','name': 'aluminum_carbide'}
+ Try using find and isdigit. Will need to iterate through length of string to get them all.
+
+temp = ''
+c_db = {}
+c_db['AlC3'] = AlC3
+c_db['Ar2He2Kr2Ne2Xe2Rn2'] = Ar2He2Kr2Ne2Xe2Rn2
+c_db['BCl3'] = BCl3
+c_db['C14H30'] = C14H30
+#list(d)
+#items = d.items()
+#items
+#dict_items([('name', 'AA'), ('shares', 75), ('price', 32.2), ('date', (6, 11, 2007))])
+#for k, v in d.items():
+#    print('k items', k)
+#    print(k, '=', v)
+#for k in d:
+#    print(k, '=', d[k])
+    #print('keys =', k)
+#list(c)
+#print('c is ', c)
+#k = c.keys()
+#print('keys =', k)
+#print('c is ', c)
+#print('keys =', k)
+#temp = c['elements']  # AlC3 compound
+#temp1 = temp
+#temp1 = temp('elements')
+#print('temp is ', temp)
+#print('c is ', c)
+
+For Formatting, see Practical Python Programming, 2.3 Formatting
+
+'''
