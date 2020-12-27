@@ -115,7 +115,6 @@ c_db['HNO3'] = HNO3
 c_db['H3PO4'] = H3PO4
 c_db['H2S_g'] = H2S_g
 c_db['H2S_aq'] = H2S_aq
-c_db['AlC3'] = AlC3
 c_db['H2SO3'] = H2SO3
 c_db['H2SO4'] = H2SO4
 c_db['IF7'] = IF7
