@@ -1,5 +1,6 @@
 #Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
-AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
+AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_carbide')
+AlCl3 = dict(formula= 'AlCl3', elements= 'AlCl',name= 'aluminum_chloride')
 Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements= 'ArHeKrNeXeRn', name= 'air')
 BCl3 = dict(formula= 'BCl3', elements= 'BCl', name= 'boron_trichloride')
 CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)
@@ -27,6 +28,7 @@ CH3CO2H = dict(formula= 'CH3CO2H', elements= 'CHO', name= 'acetic_acid')
 C2H4COH = dict(formula= 'C2H4COH', elements= 'CHO', name= 'acetic_acid')
 CO = dict(formula= 'CO', elements= 'CO', name= 'carbon_monoxide')
 CO2 = dict(formula= 'CO2', elements= 'CO', name= 'carbon_dioxide')
+CuS : dict(formula= 'CuS', elements= 'CuS', name= 'copper_sulfide')
 HBr_g = dict(formula= 'HBr_g', elements= 'BrH', name= 'hydrogen_bromide')
 HBr_aq = dict(formula= 'HBr_aq', elements= 'BrH', name= 'hydrobromic_acid')
 HC2H3O2 = dict(formula= 'HC2H3O2', elements= 'CHO', name= 'acetic_acid')
@@ -70,6 +72,7 @@ SO3 = dict(formula= 'SO3', elements= 'OS', name= 'sulfur_trioxide')
 
 c_db = {}
 c_db['AlC3'] = AlC3
+c_db['AlCl3'] = AlCl3
 c_db['Ar2He2Kr2Ne2Xe2Rn2'] = Ar2He2Kr2Ne2Xe2Rn2
 c_db['BCl3'] = BCl3
 c_db['CH4'] = CH4
@@ -103,7 +106,6 @@ c_db['HCl_g'] = HCl_g
 c_db['HCl_aq'] = HCl_aq
 c_db['HClO4'] = HClO4
 c_db['H2CO3'] = H2CO3
-
 c_db['HF_g'] = HF_g
 c_db['HF_aq'] = HF_aq
 c_db['HI_g'] = HI_g
