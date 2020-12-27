@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     #Na2SO4 = dict(formula= 'Na2SO4', elements= 'NaSO', name= 'sodium sulfate')
     Al4C3 = dict(formula= 'Al4C3', elements= 'AlC',name= 'aluminum_carbide')
-    AlC3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
+    AlCl3 = dict(formula= 'AlC3', elements= 'AlC',name= 'aluminum_chloride')
     Ar2He2Kr2Ne2Xe2Rn2 = dict(formula= 'Ar2He2Kr2Ne2Xe2Rn2', elements=  'ArHeKrNeXeRn', name= 'air')
     BCl3 = dict(formula= 'BCl3', elements= 'BCl',name= 'boron_trichloride')
     CH4 = dict(formula= 'CH4', elements= 'CH', name= 'methane', melting=-182.5, boiling=-161.5)
@@ -74,6 +74,7 @@ if __name__ == '__main__':
     C2H4COH = dict(formula= 'C2H4COH', elements= 'CHO', name= 'acetic_acid')
     CO = dict(formula= 'CO', elements= 'CO', name= 'carbon_monoxide')
     CO2 = dict(formula= 'CO2', elements= 'CO', name= 'carbon_dioxide')
+    CuS = dict(formula= 'CuS', elements= 'CuS', name= 'copper_(II)_sulfide')
     HBr_g = dict(formula= 'HBr_g', elements= 'BrH', name= 'hydrogen_bromide')
     HBr_aq = dict(formula= 'HBr_aq', elements= 'BrH', name= 'hydrobromic_acid')
     HC2H3O2 = dict(formula= 'HC2H3O2', elements= 'CHO', name= 'acetic_acid')
@@ -300,11 +301,11 @@ if __name__ == '__main__':
     db['OH'] = OH
 '''
 
-print(CuS.formula, CuS.alphas, CuS.name, CuS.charge)
-print(FeCl2.formula, FeCl2.alphas, FeCl2.name, FeCl2.charge)
-print(FeCl3.formula, FeCl3.alphas, FeCl3.name, FeCl3.charge)
+#print(CuS.formula, CuS.alphas, CuS.name, CuS.charge)
+#print(FeCl2.formula, FeCl2.alphas, FeCl2.name, FeCl2.charge)
+#print(FeCl3.formula, FeCl3.alphas, FeCl3.name, FeCl3.charge)
 ''' A dictionary of compounds and their names '''
-desn = {"AlCl3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
+desn = {"Al4C3": "aluminum_carbide", "Ar2He2Kr2Ne2Xe2Rn2": "air", "BCl3": "boron_trichloride",
         "CH4":  "methane", "C2H6": "ethane", "C3H8": "propane", "C4H10": "butane",
         "C4H10_M": "2-methylpropane", "C5H12": "pentane", "C6H14": "hexane", "C7H16": "heptane",
         "C8H18": "octane", "C9H20": "nonane", "C10H22": "decane", "C14H30": "tetradecane",
