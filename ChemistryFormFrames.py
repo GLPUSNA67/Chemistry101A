@@ -109,6 +109,14 @@ compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3
                         'nitorgen_dioxide': 'NO2', 'dinitrogen_tetroxide': 'N2O4', 'nitrous_oxide': 'N2O',
                         'dinitrogen_pentoxide': 'N2O5', 'phosphorus_pentafluoride': 'PF5', 'sulfur_dioxide': 'SO2',
                         'sulfur_trioxide': 'SO3'}
+ion__names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 'perchlorate': 'ClO4',
+                   'cyanide': 'CN', 'carbonate': 'CO32', 'copper_(II)_sulfide': 'CuS', 'iron_(II)_chloride': 'FeCl2',
+                   'iron_(III)_chloride': 'FeCl3','dihydrogen_phosphate': 'H2PO4','hydrogen_carbonate': 'HCO3',
+                   'mercury_(I)_oxide': 'Hg2O','mercury_(II)_oxide': 'HgO', 'hydronium': 'H3O',
+                   'hydrogen_phosphate': 'HPO42','hydrogen_sulfate': 'HSO4','hydroxide': 'OH',
+                   'ammonium': 'NH4', 'nitrate': 'NO3','nitrite': 'NO2',
+                   'permanganate': 'MnO4','peroxide': 'H2O22','sulfate': 'SO42',
+                   'sulfite': 'SO32', 'phosphate': 'PO43'}
 
 ''' Process documentation 
  A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
@@ -130,7 +138,8 @@ eci_cb_values = "elements compounds ions"
 environment = "Laboratory Industry Nature"
 temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
-ions = "OH- SO3-"
+ions = "OH- SO3- C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
+
 c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
 record_name = ""    # This is a placeholder for a record name to store the process in the database.
@@ -899,13 +908,38 @@ def setClassItem(eventObject):
         print('eci_1 = ', eci_1)
         print("In setClassItem at elif compounds")
 
-def setItemFormula(ComboboxSelected):
+def setSelectedItemName(ComboboxSelected):
+    print("In setSelectedItemName")
+    cb_1_type = cb_Select_CB1.get()
+    eci_1 = cb_eci_1.get()
+    eci_1_name = c_db[eci_1]['name']
+    if not eci_1_N == eci_1_name:
+        if cb_1_type == 'elements':
+            #index_N_1 = cb_eci_2_N.index()
+            print("In setItemFormula if eci_1_type == elements")
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+        elif cb_1_type == 'compounds':
+            print("In eci_1_type == 'compounds':")
+            ''' Going from formula to names, use the regular compound dictionary'''
+            if not eci_1_N == eci_1_name:
+                cb_eci_1_N.set(eci_1_name)
+            #if not eci_1_N == compounds_names_dict[cb_eci_1.get()]:
+            #    cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
+            #else: print('eci_1 is already correct and doesn\'t need to be reset')
+            #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+        elif cb_1_type == 'ions':
+            ''' Look up the name and get the symbol or formula '''
+            #cb_eci_1.set(eci_1)
+    ''' after the above code works, do the same for each name combo box '''
+
+
+def setSelectedItemFormula(ComboboxSelected):
     print("In setItemFormula")
     eci_1_N = cb_eci_1_N.get()
-    #eci_1 = cb_eci_1.get()
-    #eci_1 = cb_eci_1.get()
-    #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
-    #print('eci_1 is ', eci_1)
+
     cb_1_type = cb_Select_CB1.get()
     #cb_eci_1_units.set('grams')
     #cb_eci_1.set('AlCl3')
@@ -929,8 +963,9 @@ def setItemFormula(ComboboxSelected):
             #cb_eci_1.set(eci_1)
         elif cb_1_type == 'compounds':
             print("In eci_1_type == 'compounds':")
-            #cb_eci_1_units.set('grams')
-            cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])         # compounds_names_dict[cb_eci_1_N.get()])
+            if not eci_1 ==compounds_names_dict[cb_eci_1_N.get()]:
+                cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
+            else: print('eci_1 is already correct and doesn\'t need to be reset')
             #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
             ''' Look up the name and get the symbol or formula '''
             #cb_eci_1.set(eci_1)
@@ -1211,7 +1246,7 @@ cb_eci_1 = Combobox(root, textvariable=eci_1, width=12) #, command=setClassItem
 cb_eci_1.grid(row=12, column=2)   #, padx=4)
 cb_eci_1.config(font=entryfont)
 cb_eci_1['values'] = elements_symbols_list
-cb_eci_1.bind("<<ComboboxSelected>>", setClassItem)
+cb_eci_1.bind("<<ComboboxSelected>>", setSelectedItemName)
 
 cb_eci_1_valence = Combobox(root, textvariable=eci_1_valence, width=8)
 cb_eci_1_valence.grid(row=12, column=3)   #, padx=4)
@@ -1245,7 +1280,7 @@ cb_eci_1_N = Combobox(root,  textvariable=eci_1_N, width=12)
 cb_eci_1_N.grid(row=13, column=2)   #, padx=4)
 cb_eci_1_N.config(font=entryfont)
 cb_eci_1_N['values'] = compound_names_list
-cb_eci_1_N.bind("<<ComboboxSelected>>", setItemFormula)
+cb_eci_1_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 
 e_eci_4_M_qty = Entry(root, text="", textvariable=eci_4_M_qty, width=8)
 e_eci_4_M_qty.grid(row=13, column=4)   #, padx=4)
@@ -1738,4 +1773,9 @@ lbl_blank.config(font=labelfont)
     # affinity= '-72', density= '0.00008988', electronegativity= '2.1', melt= '14.01', boil= '-252.76', e_fusion= 'ef', e_vapor= 'ev',
     # t_crit= '-240.17', p_crit= '12.77', valence= '1 -1', a_radius= '53')
     #CountElements()
+    #eci_1 = cb_eci_1.get()
+    #eci_1 = cb_eci_1.get()
+    #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
+    #print('eci_1 is ', eci_1)
+    
 '''
