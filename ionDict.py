@@ -61,5 +61,11 @@ i_db['K1'] = K1
 i_db['Mg2'] = Mg2
 
 
+#"C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
+
+i_db['Zn2'] = Zn2
+i_db['Cr3'] = Cr3
+i_db['K1'] = K1
+i_db['Mg2'] = Mg2
 
 
