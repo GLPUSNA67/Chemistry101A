@@ -1,5 +1,13 @@
+
 '''
-*** eci dictionary definitions ***
+ the following des_list has been incorporated into the compounds_names_dict
+des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
+                "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
+                "C9H20", "C10H22", "C14H30", "C18H38"]}
+
+eci dictionary definitions
+'''
+'''
 eci_1 = dict(eci = 'eci_1', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
              qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
              temp_units= "", temp_qty="", press_units= "", press_qty= "")
