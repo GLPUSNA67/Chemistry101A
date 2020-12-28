@@ -473,4 +473,20 @@ How to tell if an object is a specific type.
 if isinstance(a, list):
     print('a is a list')
     
+def callback(eventObject):
+    print(eventObject)
+
+cbox.bind("<<ComboboxSelected>>", callback)
+
+d2 = list(zip(compound_names_list,compound_symbols_list))
+The following worked to create a dictionary of names to formulas
+keys = ['aluminum_carbide', 'aluminum_chloride', 'air']
+values = ['Al4C3', 'AlCl3', 'Ar2He2Kr2Ne2Xe2Rn2']
+D3 = dict(zip(keys, values))
+
+D3 = dict(zip(compound_names_list, compound_symbols_list))
+compound_names_Dict = {}
+for (k,v) in zip(compound_names_list, compound_symbols_list):
+    compound_names_Dict[k] = v
+    
 '''
