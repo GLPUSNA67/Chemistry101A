@@ -131,14 +131,19 @@ ion__names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 
  '''
 
 ''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
-ion_symbols_list = "OH- SO3-"
-ion_names_list = "hydroxide sulfate"
+#ion_symbols_list = "OH- SO3-"
+#ion_names_list = "hydroxide sulfate"
+
+ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper_(II)_sulfide" \
+                 "iron_(II)_chloride iron_(III)_chloride dihydrogen_phosphate hydrogen_carbonate" \
+                 "mercury_(I)_oxide mercury_(II)_oxide hydronium hydrogen_phosphate hydrogen_sulfate " \
+                 "hydroxide ammonium nitrate nitrite permanganate peroxide sulfate sulfite phosphate"
 unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
 eci_cb_values = "elements compounds ions"
 environment = "Laboratory Industry Nature"
 temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
-ions = "OH- SO3- C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
+ion_symbols_list = "OH- SO3- C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
 
 c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
