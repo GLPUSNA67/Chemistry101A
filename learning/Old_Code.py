@@ -1,5 +1,26 @@
 
 '''
+The following works.
+keys = ['a', 'b', 'c']
+values = [1, 2, 3]
+D2 = {}
+for (k,v) in zip(keys, values):
+    D2[k] = v
+
+D3 = dict(zip(keys, values))  # This was the simplest that worked.
+
+Tried various coding attempts that did not work.
+
+compounds = zip(compound_symbols_list, compound_names_list)
+compounds_names_dict = zip(compound_names_list, compound_symbols_list)
+selected_element = list(compounds_names_dict('aluminum_carbide'))
+print(selected_element)
+d2 = list(zip(compound_names_list,compound_symbols_list))
+
+keys = ['aluminum_carbide', 'aluminum_chloride', 'air']
+values = ['Al4C3', 'AlCl3', 'Ar2He2Kr2Ne2Xe2Rn2']
+D3 = dict(zip(keys, values))
+
  the following des_list has been incorporated into the compounds_names_dict
 des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
                 "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
