@@ -15,7 +15,7 @@ H3O = dict(formula= 'H3O+', elements= 'HO', name= 'hydronium', charge= '1')
 HPO42 = dict(formula= 'HPO42-', elements= 'HOP', name= 'hydrogen phosphate', charge= '-1')
 HSO4 = dict(formula= 'HSO4-', elements= 'HOS', name= 'hydrogen_sulfate', charge= '-1')
 OH = dict(formula= 'OH-', elements= 'HO', name= 'hydroxide', charge= '-1')
-#NH4 = dict(formula= 'NH4+', elements= 'HN', name= 'ammonium', charge= '1')
+NH4 = dict(formula= 'NH4+', elements= 'HN', name= 'ammonium', charge= '1')
 NO3 = dict(formula= 'NO3-', elements= 'NO', name= 'nitrate', charge= '-1')
 NO2 = dict(formula= 'NO2-', elements= 'NO', name= 'nitrite', charge= '-1')
 MnO4 = dict(formula= 'MnO4-', elements= 'MnO', name= 'permanganate', charge= '-1')
@@ -47,7 +47,7 @@ i_db['H3O'] = H3O
 i_db['HPO42'] = HPO42
 i_db['HSO4'] = HSO4
 i_db['OH'] = OH
-#i_db['NH4'] = NH4
+i_db['NH4'] = NH4
 i_db['NO3'] = NO3
 i_db['NO2'] = NO2
 i_db['MnO4'] = MnO4
