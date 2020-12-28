@@ -49,7 +49,27 @@ elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine 
     "Samarium Tin Strontium Tantalum Terbium Technetium Tellurium Thorium Titanium " \
     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
 ''' This list of elements and names will help retrieve names from symbols. '''
-element = zip(elements_symbols_list, elements_name_list)
+#element = zip(elements_symbols_list, elements_name_list)
+element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Americium': 'Am', 'Argon': 'Ar',
+                      'Arsenic': 'As', 'Astatine': 'At', 'Gold': 'Au', 'Boron': 'B', 'Barium': 'Ba',
+                      'Beryllium': 'Be', 'Bismuth': 'Bi', 'Berkelium': 'Bk', 'Bromine': 'Br', 'Carbon': 'C',
+                      'Calcium': 'Ca', 'Cadmium': 'Cd', 'Cerium': 'Ce', 'Californium': 'Cf', 'Chlorine': 'Cl',
+                      'Curium': 'Cm', 'Cobalt': 'Co', 'Chromium': 'Cr', 'Cesium': 'Cs', 'Copper': 'Cu',
+                      'Dysprosium': 'Dy', 'Erbium': 'Er', 'Einsteinium': 'Es', 'Europium': 'Eu', 'Fluorine': 'F',
+                      'Iron': 'Fe', 'Fermium': 'Fm', 'Francium': 'Fr', 'Gallium': 'Ga', 'Gadolinium': 'Gd',
+                      'Germanium': 'Ge', 'Hydrogen': 'H', 'Helium': 'He', 'Hafnium': 'Hf', 'Mercury': 'Hg',
+                      'Holmium': 'Ho', 'Iodine': 'I', 'Indium': 'In', 'Iridium': 'Ir', 'Potassium': 'K',
+                      'Krypton': 'Kr', 'Lanthanum': 'La', 'Lithium': 'Li', 'Lutetium': 'Lu', 'Mendelevium': 'Md',
+                      'Manganese': 'Mn', 'Molybdenum': 'Mo', 'Nitrogen': 'N', 'Na': 'Na', 'Niobium': 'Nb',
+                      'Neodymium': 'Nd', 'Neon': 'Ne', 'Nickel': 'Ni', 'Neptunium': 'Np', 'Oxygen': 'O',
+                      'Osmium': 'Os', 'Phosphorus': 'P', 'Protactinium': 'Pa', 'Lead': 'Pb', 'Palladium': 'Pd',
+                      'Promethium': 'Pm', 'Polonium': 'Po', 'Praseodymium': 'Pr', 'Platnum': 'Pt', 'Plutonium': 'Pu',
+                      'Radium': 'Ra', 'Rubidium': 'Rb', 'Rhenium': 'Re', 'Rhodium': 'Rh', 'Radon': 'Rn',
+                      'Rutherfordium': 'Ru', 'Sulfur': 'S', 'Antimony': 'Sb', 'Scandium': 'Sc', 'Selenium': 'Se',
+                      'Silicon': 'Si', 'Samarium': 'Sm', 'Tin': 'Sn', 'Strontium': 'Sr', 'Tantalum': 'Ta',
+                      'Terbium': 'Tb', 'Technetium': 'Tc', 'Tellurium': 'Te', 'Thorium': 'Th', 'Titanium': 'Ti',
+                      'Thallium': 'Tl', 'Thulium': 'Tm', 'Uranium': 'U', 'Vanadium': 'V', 'Tungsten': 'W',
+                      'Xenon': 'Xe', 'Yttrium': 'Y', 'Ytterbium': 'Yb', 'Zinc': 'Zn', 'Zirconium': 'Zr'}
 
 compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M, C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
@@ -67,9 +87,28 @@ compound_names_list = "aluminum_carbide aluminum_chloride air boron_trichloride 
                       " sodium_chloride bicarbonate_of_soda sodium_oxide sodium_hydroxide sodium_sulfate ammonia hydrazine nitric_oxide" \
                       " nitorgen_dioxide dinitrogen_tetroxide nitrous_oxide dinitrogen_pentoxide phosphorus_pentafluoride" \
                       " sulfur_dioxide sulfur_trioxide"
-''' This list of compounds and names will help retrieve names from formulas. '''
-compounds = zip(compound_symbols_list, compound_names_list)
-compounds_names_dict = zip(compound_names_list, compound_symbols_list)
+''' This list of compounds and names will help retrieve names from formulas. Doesn't work. Why? '''
+compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3', 'air': 'Ar2He2Kr2Ne2Xe2Rn2',
+                        'boron_trichloride': 'BCl3', 'methane': 'CH4', 'ethane': 'C2H6', 'propane': 'C3H8',
+                        'butane': 'C4H10', '2-methylpropane': 'C4H10_M', 'pentane': 'C5H12', 'hexane': 'C6H14',
+                        'heptane': 'C7H16', 'octane': 'C8H18', 'nonane': 'C9H20', 'decane': 'C10H22',
+                        'tetradecane': 'C14H30', 'octadecane': 'C18H38', 'calcium_dihydrogen_phosphate': 'CaH2PO4',
+                        'calcium_iodide': 'CaI', 'calcium_hydroxide': 'CaOH2', 'calcium_phosphide': 'Ca3P2',
+                        'cadmium_sulfide': 'CdS', 'cesium_fluoride': 'CsF', 'citric_acid': 'C6H8O7',
+                        'acetic_acid': 'HC2H3O2', 'carbon_monoxide': 'CO', 'carbon_dioxide': 'CO2',
+                        'hydrogen_bromide': 'HBr_g', 'hydrobromic_acid': 'HBr_aq', 'hydrogen_chloride': 'HCl_g',
+                        'hydrochloric_acid': 'HCl_aq', 'perchloric_acid': 'HClO4', 'hydrogen_cyanide': 'HCN',
+                        'carbonic_acid': 'H2CO3', 'hydrogen_fluoride': 'HF_g', 'hydrofluoric_acid': 'HF_aq',
+                        'hydrogen_iodide': 'HI_g', 'hydroiodic_acid': 'HI_aq', 'nitrous_acid': 'HNO2',
+                        'nitric_acid': 'HNO3', 'phosphoric_acid': 'H3PO4', 'hydrogen_suflide': 'H2S_g',
+                        'hydrosulfuric_acid': 'H2S_aq', 'sulfurous_acid': 'H2SO3', 'sulfuric_acid': 'H2SO4',
+                        'iodine_heptafluoride': 'IF7', 'potassium_bromide': 'KBr', 'potassium_hydroxide': 'KOH',
+                        'lithium_chloride': 'LiCl', 'magnesium_nitride': 'Mg3N2', 'sodium_chloride': 'NaCl',
+                        'bicarbonate_of_soda': 'NaHCO3', 'sodium_oxide': 'Na2O', 'sodium_hydroxide': 'NaOH',
+                        'sodium_sulfate': 'Na2SO4', 'ammonia': 'NH3', 'hydrazine': 'N2H4', 'nitric_oxide': 'NO',
+                        'nitorgen_dioxide': 'NO2', 'dinitrogen_tetroxide': 'N2O4', 'nitrous_oxide': 'N2O',
+                        'dinitrogen_pentoxide': 'N2O5', 'phosphorus_pentafluoride': 'PF5', 'sulfur_dioxide': 'SO2',
+                        'sulfur_trioxide': 'SO3'}
 
 ''' Process documentation 
  A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
@@ -82,9 +121,7 @@ compounds_names_dict = zip(compound_names_list, compound_symbols_list)
  the compoounds. This will help a user who knows the name of the compound desired, but not the formula.
  des_lists need to be recreated for compounds and ions when a compound or ion is added to the database.
  '''
-des_list = {"AlC": "[Al4C3]", "Ar2He2Kr2Ne2Xe2Rn2": "[Ar2He2Kr2Ne2Xe2Rn2]", "BCl": "[BCl3]",
-                "CH": ["CH4", "C2H6", "C3H8", "C4H10", "C4H10_M", "C5H12", "C6H14", "C7H16", "C8H18",
-                "C9H20", "C10H22", "C14H30", "C18H38"]}
+
 ''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
 ion_symbols_list = "OH- SO3-"
 ion_names_list = "hydroxide sulfate"
@@ -515,7 +552,7 @@ def Oxidation_Rate():
     cb_3_type = cb_Select_CB3.get()
     if cb_1_type == elements and cb_2_type == elements and cb_3_type == elements or cb_3_type == "":
         Oxidation_Rate_Elements()
-    elif cb_1_type == compounds or cb_2_type == compounds and cb_3_type == compounds:
+    elif cb_1_type == 'compounds' or cb_2_type == 'compounds' and cb_3_type == 'compounds':
         Oxidation_Rate_Compounds()
     elif cb_1_type == ions or cb_2_type == ions and cb_3_type == ions:
         Oxidation_Rate_Ions()
@@ -861,15 +898,43 @@ def setClassItem(eventObject):
         eci_1_name = c_db[eci_1]['name']
         print('eci_1 = ', eci_1)
         print("In setClassItem at elif compounds")
-def setItemFormula():
-    if not eci_1_N == "" and eci_1 == "":
-        if eci_1_type == 'elements':
+
+def setItemFormula(ComboboxSelected):
+    print("In setItemFormula")
+    eci_1_N = cb_eci_1_N.get()
+    #eci_1 = cb_eci_1.get()
+    #eci_1 = cb_eci_1.get()
+    #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
+    #print('eci_1 is ', eci_1)
+    cb_1_type = cb_Select_CB1.get()
+    #cb_eci_1_units.set('grams')
+    #cb_eci_1.set('AlCl3')
+    #print('eci_1_N is ', eci_1_N)
+    print('cb_1_type is ', cb_1_type)
+    #print('eci_1_N is ', eci_1_N)
+    #print('eci_1 is ', eci_1)
+    if not eci_1_N == "": # and eci_1 == "":  #cb_1_type == 'compounds'
+        #cb_eci_1_units.set('grams')
+        #cb_eci_1.select_clear()
+        #cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
+        #print('cb_eci_1 is ', compounds_names_dict[cb_eci_1_N.get()])
+        #print("In setItemFormula if not eci_1_N == ")
+        #print('cb_1_type is ', cb_1_type)
+        #index_N_1 = cb_eci_2_N.selection_get()
+        #print('index_N_1 is ', index_N_1)
+        if cb_1_type == 'elements':
+            #index_N_1 = cb_eci_2_N.index()
+            print("In setItemFormula if eci_1_type == elements")
             ''' Look up the name and get the symbol or formula '''
             #cb_eci_1.set(eci_1)
-        elif eci_1_type == 'compounds':
+        elif cb_1_type == 'compounds':
+            print("In eci_1_type == 'compounds':")
+            #cb_eci_1_units.set('grams')
+            cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])         # compounds_names_dict[cb_eci_1_N.get()])
+            #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
             ''' Look up the name and get the symbol or formula '''
             #cb_eci_1.set(eci_1)
-        elif eci_1_type == 'ions':
+        elif cb_1_type == 'ions':
             ''' Look up the name and get the symbol or formula '''
             #cb_eci_1.set(eci_1)
     ''' after the above code works, do the same for each name combo box '''
@@ -1181,6 +1246,7 @@ cb_eci_1_N.grid(row=13, column=2)   #, padx=4)
 cb_eci_1_N.config(font=entryfont)
 cb_eci_1_N['values'] = compound_names_list
 cb_eci_1_N.bind("<<ComboboxSelected>>", setItemFormula)
+
 e_eci_4_M_qty = Entry(root, text="", textvariable=eci_4_M_qty, width=8)
 e_eci_4_M_qty.grid(row=13, column=4)   #, padx=4)
 e_eci_4_M_qty.config(font=entryfont)
