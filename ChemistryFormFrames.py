@@ -916,7 +916,6 @@ def setClassItem(eventObject):
         print("In setClassItem at elif compounds")
 
 def setSelectedItemName(ComboboxSelected):
-    print("In setSelectedItemName")
     cb_1_type = cb_Select_CB1.get()
     cb_2_type = cb_Select_CB2.get()
     cb_3_type = cb_Select_CB3.get()
@@ -1047,7 +1046,6 @@ def setSelectedItemName(ComboboxSelected):
     else: print('In else clause of setSelectedItemName.')
 
 def setSelectedItemFormula(ComboboxSelected):
-    print("In setSelectedItemFormula")
     eci_1_N = cb_eci_1_N.get()
     eci_2_N = cb_eci_2_N.get()
     eci_3_N = cb_eci_3_N.get()
@@ -1115,7 +1113,6 @@ def setSelectedItemFormula(ComboboxSelected):
     elif cb_6_type == 'ions':
         if not eci_6 ==ion_names_dict[cb_eci_6_N.get()]:
             cb_eci_6.set(ion_names_dict[cb_eci_6_N.get()])
-    ''' copy, paste, and edit the code for each name combo box '''
 
 def Parse_Compounds(compound):
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
