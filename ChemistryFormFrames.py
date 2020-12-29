@@ -1049,26 +1049,72 @@ def setSelectedItemName(ComboboxSelected):
 def setSelectedItemFormula(ComboboxSelected):
     print("In setSelectedItemFormula")
     eci_1_N = cb_eci_1_N.get()
+    eci_2_N = cb_eci_2_N.get()
+    eci_3_N = cb_eci_3_N.get()
+    eci_4_N = cb_eci_4_N.get()
+    eci_5_N = cb_eci_5_N.get()
+    eci_6_N = cb_eci_6_N.get()
     cb_1_type = cb_Select_CB1.get()
-    #cb_eci_1_units.set('grams')
-    #cb_eci_1.set('AlCl3')
-    #print('eci_1_N is ', eci_1_N)
-    print('cb_1_type is ', cb_1_type)
-    #print('eci_1_N is ', eci_1_N)
-    #print('eci_1 is ', eci_1)
+    cb_2_type = cb_Select_CB2.get()
+    cb_3_type = cb_Select_CB3.get()
+    cb_4_type = cb_Select_CB4.get()
+    cb_5_type = cb_Select_CB5.get()
+    cb_6_type = cb_Select_CB6.get()
     if cb_1_type == 'elements':
-        print("In setSelectedItemFormula if eci_1_type == elements")
-        if not eci_1 ==element_names_Dict[cb_eci_1_N.get()]:
+         if not eci_1 ==element_names_Dict[cb_eci_1_N.get()]:
             cb_eci_1.set(element_names_Dict[cb_eci_1_N.get()])
     elif cb_1_type == 'compounds':
-        print("In setSelectedItemFormula elif eci_1_type == 'compounds':")
         if not eci_1 ==compounds_names_dict[cb_eci_1_N.get()]:
             cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
         else: print('eci_1 is already correct and doesn\'t need to be reset')
     elif cb_1_type == 'ions':
-        print("In setSelectedItemFormula if eci_1_type == ions")
         if not eci_1 ==ion_names_dict[cb_eci_1_N.get()]:
             cb_eci_1.set(ion_names_dict[cb_eci_1_N.get()])
+    if cb_2_type == 'elements':
+         if not eci_2 ==element_names_Dict[cb_eci_2_N.get()]:
+            cb_eci_2.set(element_names_Dict[cb_eci_2_N.get()])
+    elif cb_2_type == 'compounds':
+        if not eci_2 ==compounds_names_dict[cb_eci_2_N.get()]:
+            cb_eci_2.set(compounds_names_dict[cb_eci_2_N.get()])
+    elif cb_2_type == 'ions':
+        if not eci_2 ==ion_names_dict[cb_eci_2_N.get()]:
+            cb_eci_2.set(ion_names_dict[cb_eci_2_N.get()])
+    if cb_3_type == 'elements':
+         if not eci_3 ==element_names_Dict[cb_eci_3_N.get()]:
+            cb_eci_3.set(element_names_Dict[cb_eci_3_N.get()])
+    elif cb_3_type == 'compounds':
+        if not eci_3 ==compounds_names_dict[cb_eci_3_N.get()]:
+            cb_eci_3.set(compounds_names_dict[cb_eci_3_N.get()])
+    elif cb_3_type == 'ions':
+        if not eci_3 ==ion_names_dict[cb_eci_3_N.get()]:
+            cb_eci_3.set(ion_names_dict[cb_eci_3_N.get()])
+    if cb_4_type == 'elements':
+         if not eci_4 ==element_names_Dict[cb_eci_4_N.get()]:
+            cb_eci_4.set(element_names_Dict[cb_eci_4_N.get()])
+    elif cb_4_type == 'compounds':
+        if not eci_4 ==compounds_names_dict[cb_eci_4_N.get()]:
+            cb_eci_4.set(compounds_names_dict[cb_eci_4_N.get()])
+    elif cb_4_type == 'ions':
+        if not eci_4 ==ion_names_dict[cb_eci_4_N.get()]:
+            cb_eci_4.set(ion_names_dict[cb_eci_4_N.get()])
+    if cb_5_type == 'elements':
+         if not eci_5 ==element_names_Dict[cb_eci_5_N.get()]:
+            cb_eci_5.set(element_names_Dict[cb_eci_5_N.get()])
+    elif cb_5_type == 'compounds':
+        if not eci_5 ==compounds_names_dict[cb_eci_5_N.get()]:
+            cb_eci_5.set(compounds_names_dict[cb_eci_5_N.get()])
+    elif cb_5_type == 'ions':
+        if not eci_5 ==ion_names_dict[cb_eci_5_N.get()]:
+            cb_eci_5.set(ion_names_dict[cb_eci_5_N.get()])
+    if cb_6_type == 'elements':
+         if not eci_6 ==element_names_Dict[cb_eci_6_N.get()]:
+            cb_eci_6.set(element_names_Dict[cb_eci_6_N.get()])
+    elif cb_6_type == 'compounds':
+        if not eci_6 ==compounds_names_dict[cb_eci_6_N.get()]:
+            cb_eci_6.set(compounds_names_dict[cb_eci_6_N.get()])
+    elif cb_6_type == 'ions':
+        if not eci_6 ==ion_names_dict[cb_eci_6_N.get()]:
+            cb_eci_6.set(ion_names_dict[cb_eci_6_N.get()])
     ''' copy, paste, and edit the code for each name combo box '''
 
 def Parse_Compounds(compound):
@@ -1388,6 +1434,7 @@ lbl_eci_4_units_M.config(font=labelfont)
 cb_eci_4_N = Combobox(root, values=compound_symbols_list, textvariable=eci_4_name, width=12)
 cb_eci_4_N.grid(row=13, column=6)   #, padx=4)
 cb_eci_4_N.config(font=entryfont)
+cb_eci_4_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 
 lbl_Temp_Units_1 = Label(root, text="Temp Units", width=10)
 lbl_Temp_Units_1.grid(row=14, column=0)
@@ -1535,6 +1582,7 @@ lbl_eci_2_units_M.config(font=labelfont)
 cb_eci_2_N = Combobox(root, values=elements_name_list,  textvariable=eci_2_name, width=12)   #, width=30)
 cb_eci_2_N.grid(row=21, column=2)   #, padx=4)
 cb_eci_2_N.config(font=entryfont)
+cb_eci_2_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 e_eci_5_M_qty = Entry(root, text="CompoundQty 5", textvariable=eci_5_M_qty, width=8)   #, width=8)
 e_eci_5_M_qty.grid(row=21, column=4)   #, padx=4)
 e_eci_5_M_qty.config(font=entryfont)
@@ -1544,6 +1592,7 @@ lbl_eci_5_units_M.config(font=labelfont)
 cb_eci_5_N = Combobox(root, values=compound_names_list, textvariable=eci_5_name, width=12)   #, width=30)
 cb_eci_5_N.grid(row=21, column=6)   #, padx=4)
 cb_eci_5_N.config(font=entryfont)
+cb_eci_5_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 
 lbl_Temp_Units_2 = Label(root, text="Temp Units", width=10)
 lbl_Temp_Units_2.grid(row=22, column=0)
@@ -1680,6 +1729,7 @@ lbl_eci_3_units_M.config(font=labelfont)
 cb_eci_3_N = Combobox(root, values=elements_name_list,  textvariable=eci_3_name, width=12)   #, width=30)
 cb_eci_3_N.grid(row=29, column=2)   #, padx=4)
 cb_eci_3_N.config(font=entryfont)
+cb_eci_3_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 e_eci_6_M_qty = Entry(root, text="CompoundQty 6", textvariable=eci_6_M_qty, width=8)
 e_eci_6_M_qty.grid(row=29, column=4)   #, padx=4)
 e_eci_6_M_qty.config(font=entryfont)
@@ -1689,6 +1739,7 @@ lbl_eci_6_units_M.config(font=labelfont)
 cb_eci_6_N = Combobox(root, values=compound_names_list, textvariable=eci_6_name, width=12)   #, width=30)
 cb_eci_6_N.grid(row=29, column=6)   #, padx=4)
 cb_eci_6_N.config(font=entryfont)
+cb_eci_6_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
 
 lbl_Temp_Units_3 = Label(root, text="Temp Units", width=10)
 lbl_Temp_Units_3.grid(row=30, column=0)
