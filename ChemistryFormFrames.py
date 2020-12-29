@@ -70,8 +70,8 @@ element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Ameri
                       'Terbium': 'Tb', 'Technetium': 'Tc', 'Tellurium': 'Te', 'Thorium': 'Th', 'Titanium': 'Ti',
                       'Thallium': 'Tl', 'Thulium': 'Tm', 'Uranium': 'U', 'Vanadium': 'V', 'Tungsten': 'W',
                       'Xenon': 'Xe', 'Yttrium': 'Y', 'Ytterbium': 'Yb', 'Zinc': 'Zn', 'Zirconium': 'Zr'}
-''' Tried to change symbols to use subscripts, but the Compound Dictionary would not accept a subscripted formula
-as a valid key'''
+''' Tried to change symbols to use subscripts, but the Compound Dictionary would not accept 
+a subscripted formula as a valid key'''
 compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M, C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
                         "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
