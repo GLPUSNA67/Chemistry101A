@@ -918,32 +918,133 @@ def setClassItem(eventObject):
 def setSelectedItemName(ComboboxSelected):
     print("In setSelectedItemName")
     cb_1_type = cb_Select_CB1.get()
+    cb_2_type = cb_Select_CB2.get()
+    cb_3_type = cb_Select_CB3.get()
+    cb_4_type = cb_Select_CB4.get()
+    cb_5_type = cb_Select_CB5.get()
+    cb_6_type = cb_Select_CB6.get()
     eci_1 = cb_eci_1.get()
+    eci_2 = cb_eci_2.get()
+    eci_3 = cb_eci_3.get()
+    eci_4 = cb_eci_4.get()
+    eci_5 = cb_eci_5.get()
+    eci_6 = cb_eci_6.get()
     eci_1_name = cb_eci_1_N.get()
-    print("eci_1_name is ", eci_1_name)
+    eci_2_name = cb_eci_2_N.get()
+    eci_3_name = cb_eci_3_N.get()
+    eci_4_name = cb_eci_4_N.get()
+    eci_5_name = cb_eci_5_N.get()
+    eci_6_name = cb_eci_6_N.get()
+    #print("eci_1_name is ", eci_1_name)
     if cb_1_type == 'elements':
         try:
             if not eci_1_name == db[eci_1]['name']:
                 cb_eci_1_N.set(db[eci_1]['name'])
-                print("In setItemFormula if eci_1_type == elements")
         except KeyError:
             cb_eci_1_N.set("not a valid key")
     elif cb_1_type == 'compounds':
-        print("In setSelectedItemName eci_1_type == 'compounds':")
         try:
             if not eci_1_name == c_db[eci_1]['name']:
                 cb_eci_1_N.set(c_db[eci_1]['name'])
         except KeyError:
             cb_eci_1_N.set("not a valid key")
     elif cb_1_type == 'ions':
-        print("In setSelectedItemName eci_1_type == 'ions':")
         try:
             if not eci_1_name == i_db[eci_1]['name']:
                 cb_eci_1_N.set(i_db[eci_1]['name'])
         except KeyError:
             cb_eci_1_N.set("not a valid key")
-    ''' copy, paste, and edit the code for each name combo box  '''
-
+    if cb_2_type == 'elements':
+        try:
+            if not eci_2_name == db[eci_2]['name']:
+                cb_eci_2_N.set(db[eci_2]['name'])
+        except KeyError:
+            cb_eci_2_N.set("not a valid key")
+    elif cb_2_type == 'compounds':
+        try:
+            if not eci_2_name == c_db[eci_2]['name']:
+                cb_eci_2_N.set(c_db[eci_2]['name'])
+        except KeyError:
+            cb_eci_2_N.set("not a valid key")
+    elif cb_2_type == 'ions':
+        try:
+            if not eci_2_name == i_db[eci_2]['name']:
+                cb_eci_2_N.set(i_db[eci_2]['name'])
+        except KeyError:
+            cb_eci_2_N.set("not a valid key")
+    if cb_3_type == 'elements':
+        try:
+            if not eci_3_name == db[eci_3]['name']:
+                cb_eci_3_N.set(db[eci_3]['name'])
+        except KeyError:
+            cb_eci_3_N.set("not a valid key")
+    elif cb_3_type == 'compounds':
+        try:
+            if not eci_3_name == c_db[eci_3]['name']:
+                cb_eci_3_N.set(c_db[eci_3]['name'])
+        except KeyError:
+            cb_eci_3_N.set("not a valid key")
+    elif cb_3_type == 'ions':
+        try:
+            if not eci_3_name == i_db[eci_3]['name']:
+                cb_eci_3_N.set(i_db[eci_3]['name'])
+        except KeyError:
+            cb_eci_3_N.set("not a valid key")
+    if cb_4_type == 'elements':
+        try:
+            if not eci_4_name == db[eci_4]['name']:
+                cb_eci_4_N.set(db[eci_4]['name'])
+        except KeyError:
+            cb_eci_4_N.set("not a valid key")
+    elif cb_4_type == 'compounds':
+        try:
+            if not eci_4_name == c_db[eci_4]['name']:
+                cb_eci_4_N.set(c_db[eci_4]['name'])
+        except KeyError:
+            cb_eci_4_N.set("not a valid key")
+    elif cb_4_type == 'ions':
+        try:
+            if not eci_4_name == i_db[eci_4]['name']:
+                cb_eci_4_N.set(i_db[eci_4]['name'])
+        except KeyError:
+            cb_eci_4_N.set("not a valid key")
+    if cb_5_type == 'elements':
+        try:
+            if not eci_5_name == db[eci_5]['name']:
+                cb_eci_5_N.set(db[eci_5]['name'])
+        except KeyError:
+            cb_eci_5_N.set("not a valid key")
+    elif cb_5_type == 'compounds':
+        try:
+            if not eci_5_name == c_db[eci_5]['name']:
+                cb_eci_5_N.set(c_db[eci_5]['name'])
+        except KeyError:
+            cb_eci_5_N.set("not a valid key")
+    elif cb_5_type == 'ions':
+        try:
+            if not eci_5_name == i_db[eci_5]['name']:
+                cb_eci_5_N.set(i_db[eci_5]['name'])
+        except KeyError:
+            cb_eci_5_N.set("not a valid key")
+    if cb_6_type == 'elements':
+        try:
+            if not eci_6_name == db[eci_6]['name']:
+                cb_eci_6_N.set(db[eci_6]['name'])
+        except KeyError:
+            cb_eci_6_N.set("not a valid key")
+    elif cb_6_type == 'compounds':
+        try:
+            if not eci_6_name == c_db[eci_6]['name']:
+                cb_eci_6_N.set(c_db[eci_6]['name'])
+        except KeyError:
+            cb_eci_6_N.set("not a valid key")
+    elif cb_6_type == 'ions':
+        try:
+            if not eci_6_name == i_db[eci_6]['name']:
+                cb_eci_6_N.set(i_db[eci_6]['name'])
+        except KeyError:
+            cb_eci_6_N.set("not a valid key")
+    else: print('In else clause of setSelectedItemName.')
 
 def setSelectedItemFormula(ComboboxSelected):
     print("In setSelectedItemFormula")
@@ -1259,7 +1360,7 @@ cb_eci_4 = Combobox(root, textvariable=eci_4, width=12)   # , values=compound_va
 cb_eci_4.grid(row=12, column=6)   #, padx=4)
 cb_eci_4.config(font=entryfont)
 cb_eci_4['values'] = compound_symbols_list
-#cb_eci_4.bind("<<ComboboxSelected>>", callback_eci_4)
+cb_eci_4.bind("<<ComboboxSelected>>", setSelectedItemName)
 cb_eci_4_valence = Combobox(root, textvariable=eci_4_valence, width=5)
 cb_eci_4_valence.grid(row=12, column=7)   #, padx=4)
 cb_eci_4_valence.config(font=entryfont)
@@ -1399,7 +1500,7 @@ cb_eci_2 = Combobox(root,  textvariable=eci_2, width=12)    #, values=elements, 
 cb_eci_2.grid(row=20, column=2)   #, padx=4)
 cb_eci_2.config(font=entryfont)
 cb_eci_2['values'] = elements_symbols_list
-#cb_eci_2.bind("<<ComboboxSelected>>", callback_eci_2)
+cb_eci_2.bind("<<ComboboxSelected>>", setSelectedItemName)
 cb_eci_2_valence = Combobox(root, textvariable=eci_2_valence, width=8)
 cb_eci_2_valence.grid(row=20, column=3)   #, padx=4)
 cb_eci_2_valence.config(font=entryfont)
@@ -1413,6 +1514,7 @@ cb_eci_5_units.config(font=entryfont)
 cb_eci_5 = Combobox(root, values=compound_symbols_list, textvariable=eci_5, width=12)   #, width=30)
 cb_eci_5.grid(row=20, column=6)   #, padx=4)
 cb_eci_5.config(font=entryfont)
+cb_eci_5.bind("<<ComboboxSelected>>", setSelectedItemName)
 cb_eci_5_valence = Combobox(root, textvariable=eci_5_valence, width=5)
 cb_eci_5_valence.grid(row=20, column=7)   #, padx=4)
 cb_eci_5_valence.config(font=entryfont)
@@ -1549,7 +1651,7 @@ cb_eci_3 = Combobox(root,  textvariable=eci_3, width=12)   #, width=30)
 cb_eci_3.grid(row=28, column=2, sticky=W)   #, padx=4)
 cb_eci_3.config(font=entryfont)
 cb_eci_3['values'] = elements_symbols_list
-#cb_eci_3.bind("<<ComboboxSelected>>", callback_eci_3)
+cb_eci_3.bind("<<ComboboxSelected>>", setSelectedItemName)
 cb_eci_3_valence = Combobox(root, textvariable=eci_3_valence, width=8)
 cb_eci_3_valence.grid(row=28, column=3)   #, padx=4)
 cb_eci_3_valence.config(font=entryfont)
@@ -1563,6 +1665,7 @@ cb_eci_6_units.config(font=entryfont)
 cb_eci_6 = Combobox(root, values=compound_symbols_list, textvariable=eci_6, width=12)   #, width=30)
 cb_eci_6.grid(row=28, column=6)   #, padx=4)
 cb_eci_6.config(font=entryfont)
+cb_eci_6.bind("<<ComboboxSelected>>", setSelectedItemName)
 cb_eci_6_valence = Combobox(root, textvariable=eci_6_valence, width=5)
 cb_eci_6_valence.grid(row=28, column=7)   #, padx=4)
 cb_eci_6_valence.config(font=entryfont)
