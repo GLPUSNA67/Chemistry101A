@@ -70,12 +70,14 @@ element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Ameri
                       'Terbium': 'Tb', 'Technetium': 'Tc', 'Tellurium': 'Te', 'Thorium': 'Th', 'Titanium': 'Ti',
                       'Thallium': 'Tl', 'Thulium': 'Tm', 'Uranium': 'U', 'Vanadium': 'V', 'Tungsten': 'W',
                       'Xenon': 'Xe', 'Yttrium': 'Y', 'Ytterbium': 'Yb', 'Zinc': 'Zn', 'Zirconium': 'Zr'}
-
+''' Tried to change symbols to use subscripts, but the Compound Dictionary would not accept a subscripted formula
+as a valid key'''
 compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M, C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
                         "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
                         "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
                         "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3 "
+
 compound_names_list = "aluminum_carbide aluminum_chloride air boron_trichloride methane ethane propane butane 2-methylpropane" \
                       " pentane hexane heptane octane nonane decane tetradecane octadecane calcium_dihydrogen_phosphate" \
                       " calcium_iodide calcium_hydroxide calcium_phosphide cadmium_sulfide cesium_fluoride citric_acid" \
@@ -109,7 +111,7 @@ compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3
                         'nitorgen_dioxide': 'NO2', 'dinitrogen_tetroxide': 'N2O4', 'nitrous_oxide': 'N2O',
                         'dinitrogen_pentoxide': 'N2O5', 'phosphorus_pentafluoride': 'PF5', 'sulfur_dioxide': 'SO2',
                         'sulfur_trioxide': 'SO3'}
-ion__names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 'perchlorate': 'ClO4',
+ion_names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 'perchlorate': 'ClO4',
                    'cyanide': 'CN', 'carbonate': 'CO32', 'copper_(II)_sulfide': 'CuS', 'iron_(II)_chloride': 'FeCl2',
                    'iron_(III)_chloride': 'FeCl3','dihydrogen_phosphate': 'H2PO4','hydrogen_carbonate': 'HCO3',
                    'mercury_(I)_oxide': 'Hg2O','mercury_(II)_oxide': 'HgO', 'hydronium': 'H3O',
@@ -131,19 +133,19 @@ ion__names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 
  '''
 
 ''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
-#ion_symbols_list = "OH- SO3-"
+
 #ion_names_list = "hydroxide sulfate"
 
-ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper_(II)_sulfide" \
-                 "iron_(II)_chloride iron_(III)_chloride dihydrogen_phosphate hydrogen_carbonate" \
+ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper_(II)_sulfide " \
+                 "iron_(II)_chloride iron_(III)_chloride dihydrogen_phosphate hydrogen_carbonate " \
                  "mercury_(I)_oxide mercury_(II)_oxide hydronium hydrogen_phosphate hydrogen_sulfate " \
-                 "hydroxide ammonium nitrate nitrite permanganate peroxide sulfate sulfite phosphate"
+                 "hydroxide ammonium nitrate nitrite permanganate peroxide sulfate sulfite phosphate "
 unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
 eci_cb_values = "elements compounds ions"
 environment = "Laboratory Industry Nature"
 temp_umits = "K F C"
 press_umits = "ATM torr psi hg"
-ion_symbols_list = "OH- SO3- C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
+ion_symbols_list = "C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
 
 c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
@@ -197,7 +199,7 @@ eci_3 = StringVar()
 eci_4 = StringVar()
 eci_5 = StringVar()
 eci_6 = StringVar()
-eci_1_name = StringVar()
+#eci_1_name = StringVar()
 eci_1_col = IntVar()
 eci_2_col = IntVar()
 eci_3_col = IntVar()
@@ -228,12 +230,12 @@ eci_3_mass = DoubleVar()
 eci_4_mass = DoubleVar()
 eci_5_mass = DoubleVar()
 eci_6_mass = DoubleVar()
-eci_1_N = StringVar()
-eci_2_N = StringVar()
-eci_3_N = StringVar()
-eci_4_N = StringVar()
-eci_5_N = StringVar()
-eci_6_N = StringVar()
+eci_1_name = StringVar()
+eci_2_name = StringVar()
+eci_3_name = StringVar()
+eci_4_name = StringVar()
+eci_5_name = StringVar()
+eci_6_name = StringVar()
 eci_1_Oxidation_State = StringVar()
 eci_2_Oxidation_State = StringVar()
 eci_3_Oxidation_State = StringVar()
@@ -568,7 +570,7 @@ def Oxidation_Rate():
         Oxidation_Rate_Elements()
     elif cb_1_type == 'compounds' or cb_2_type == 'compounds' and cb_3_type == 'compounds':
         Oxidation_Rate_Compounds()
-    elif cb_1_type == ions or cb_2_type == ions and cb_3_type == ions:
+    elif cb_1_type == 'ions' or cb_2_type == 'ions' and cb_3_type == 'ions':
         Oxidation_Rate_Ions()
     else: e_Explanation.insert(tk.END, "Oxidation_Rate process fell through to else clause\n")
 ''' Oxidation_Rate_Compounds and Oxidation_Rate_Ions are placeholders for future use as needed. '''
@@ -917,34 +919,35 @@ def setSelectedItemName(ComboboxSelected):
     print("In setSelectedItemName")
     cb_1_type = cb_Select_CB1.get()
     eci_1 = cb_eci_1.get()
-    eci_1_name = c_db[eci_1]['name']
-    if not eci_1_N == eci_1_name:
-        if cb_1_type == 'elements':
-            #index_N_1 = cb_eci_2_N.index()
-            print("In setItemFormula if eci_1_type == elements")
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-        elif cb_1_type == 'compounds':
-            print("In eci_1_type == 'compounds':")
-            ''' Going from formula to names, use the regular compound dictionary'''
-            if not eci_1_N == eci_1_name:
-                cb_eci_1_N.set(eci_1_name)
-            #if not eci_1_N == compounds_names_dict[cb_eci_1.get()]:
-            #    cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
-            #else: print('eci_1 is already correct and doesn\'t need to be reset')
-            #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-        elif cb_1_type == 'ions':
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-    ''' after the above code works, do the same for each name combo box '''
+    eci_1_name = cb_eci_1_N.get()
+    print("eci_1_name is ", eci_1_name)
+    if cb_1_type == 'elements':
+        try:
+            if not eci_1_name == db[eci_1]['name']:
+                cb_eci_1_N.set(db[eci_1]['name'])
+                print("In setItemFormula if eci_1_type == elements")
+        except KeyError:
+            cb_eci_1_N.set("not a valid key")
+    elif cb_1_type == 'compounds':
+        print("In setSelectedItemName eci_1_type == 'compounds':")
+        try:
+            if not eci_1_name == c_db[eci_1]['name']:
+                cb_eci_1_N.set(c_db[eci_1]['name'])
+        except KeyError:
+            cb_eci_1_N.set("not a valid key")
+    elif cb_1_type == 'ions':
+        print("In setSelectedItemName eci_1_type == 'ions':")
+        try:
+            if not eci_1_name == i_db[eci_1]['name']:
+                cb_eci_1_N.set(i_db[eci_1]['name'])
+        except KeyError:
+            cb_eci_1_N.set("not a valid key")
+    ''' copy, paste, and edit the code for each name combo box  '''
 
 
 def setSelectedItemFormula(ComboboxSelected):
-    print("In setItemFormula")
+    print("In setSelectedItemFormula")
     eci_1_N = cb_eci_1_N.get()
-
     cb_1_type = cb_Select_CB1.get()
     #cb_eci_1_units.set('grams')
     #cb_eci_1.set('AlCl3')
@@ -952,32 +955,20 @@ def setSelectedItemFormula(ComboboxSelected):
     print('cb_1_type is ', cb_1_type)
     #print('eci_1_N is ', eci_1_N)
     #print('eci_1 is ', eci_1)
-    if not eci_1_N == "": # and eci_1 == "":  #cb_1_type == 'compounds'
-        #cb_eci_1_units.set('grams')
-        #cb_eci_1.select_clear()
-        #cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
-        #print('cb_eci_1 is ', compounds_names_dict[cb_eci_1_N.get()])
-        #print("In setItemFormula if not eci_1_N == ")
-        #print('cb_1_type is ', cb_1_type)
-        #index_N_1 = cb_eci_2_N.selection_get()
-        #print('index_N_1 is ', index_N_1)
-        if cb_1_type == 'elements':
-            #index_N_1 = cb_eci_2_N.index()
-            print("In setItemFormula if eci_1_type == elements")
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-        elif cb_1_type == 'compounds':
-            print("In eci_1_type == 'compounds':")
-            if not eci_1 ==compounds_names_dict[cb_eci_1_N.get()]:
-                cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
-            else: print('eci_1 is already correct and doesn\'t need to be reset')
-            #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-        elif cb_1_type == 'ions':
-            ''' Look up the name and get the symbol or formula '''
-            #cb_eci_1.set(eci_1)
-    ''' after the above code works, do the same for each name combo box '''
+    if cb_1_type == 'elements':
+        print("In setSelectedItemFormula if eci_1_type == elements")
+        if not eci_1 ==element_names_Dict[cb_eci_1_N.get()]:
+            cb_eci_1.set(element_names_Dict[cb_eci_1_N.get()])
+    elif cb_1_type == 'compounds':
+        print("In setSelectedItemFormula elif eci_1_type == 'compounds':")
+        if not eci_1 ==compounds_names_dict[cb_eci_1_N.get()]:
+            cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
+        else: print('eci_1 is already correct and doesn\'t need to be reset')
+    elif cb_1_type == 'ions':
+        print("In setSelectedItemFormula if eci_1_type == ions")
+        if not eci_1 ==ion_names_dict[cb_eci_1_N.get()]:
+            cb_eci_1.set(ion_names_dict[cb_eci_1_N.get()])
+    ''' copy, paste, and edit the code for each name combo box '''
 
 def Parse_Compounds(compound):
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
@@ -1249,7 +1240,7 @@ cb_eci_1_units.config(font=entryfont)
 #cb_eci_1_units.bind("<<ComboboxSelected>>", callback_eci_1_units)
 cb_eci_1 = Combobox(root, textvariable=eci_1, width=12) #, command=setClassItem
 cb_eci_1.grid(row=12, column=2)   #, padx=4)
-cb_eci_1.config(font=entryfont)
+cb_eci_1.config(font=labelfont)
 cb_eci_1['values'] = elements_symbols_list
 cb_eci_1.bind("<<ComboboxSelected>>", setSelectedItemName)
 
@@ -1281,7 +1272,7 @@ lbl_eci_1_units_M = Label(root, text="Moles", width=12)
 lbl_eci_1_units_M.grid(row=13, column=1)   #, padx=4)
 lbl_eci_1_units_M.config(font=labelfont)
 # cb_Elements1 = Combobox(root, values=elements, width=30)
-cb_eci_1_N = Combobox(root,  textvariable=eci_1_N, width=12)
+cb_eci_1_N = Combobox(root,  textvariable=eci_1_name, width=12)
 cb_eci_1_N.grid(row=13, column=2)   #, padx=4)
 cb_eci_1_N.config(font=entryfont)
 cb_eci_1_N['values'] = compound_names_list
@@ -1293,7 +1284,7 @@ e_eci_4_M_qty.config(font=entryfont)
 lbl_eci_4_units_M = Label(root, text="Moles", width=10)
 lbl_eci_4_units_M.grid(row=13, column=5)   #, padx=4)
 lbl_eci_4_units_M.config(font=labelfont)
-cb_eci_4_N = Combobox(root, values=compound_symbols_list, textvariable=eci_4_N, width=12)
+cb_eci_4_N = Combobox(root, values=compound_symbols_list, textvariable=eci_4_name, width=12)
 cb_eci_4_N.grid(row=13, column=6)   #, padx=4)
 cb_eci_4_N.config(font=entryfont)
 
@@ -1439,7 +1430,7 @@ e_eci_2_M_qty.config(font=entryfont)
 lbl_eci_2_units_M = Label(root, text="Moles", width=10)
 lbl_eci_2_units_M.grid(row=21, column=1)   #, padx=4)
 lbl_eci_2_units_M.config(font=labelfont)
-cb_eci_2_N = Combobox(root, values=elements_name_list,  textvariable=eci_2_N, width=12)   #, width=30)
+cb_eci_2_N = Combobox(root, values=elements_name_list,  textvariable=eci_2_name, width=12)   #, width=30)
 cb_eci_2_N.grid(row=21, column=2)   #, padx=4)
 cb_eci_2_N.config(font=entryfont)
 e_eci_5_M_qty = Entry(root, text="CompoundQty 5", textvariable=eci_5_M_qty, width=8)   #, width=8)
@@ -1448,7 +1439,7 @@ e_eci_5_M_qty.config(font=entryfont)
 lbl_eci_5_units_M = Label(root, text="Moles", width=10)
 lbl_eci_5_units_M.grid(row=21, column=5)   #, padx=4)
 lbl_eci_5_units_M.config(font=labelfont)
-cb_eci_5_N = Combobox(root, values=compound_names_list, textvariable=eci_5_N, width=12)   #, width=30)
+cb_eci_5_N = Combobox(root, values=compound_names_list, textvariable=eci_5_name, width=12)   #, width=30)
 cb_eci_5_N.grid(row=21, column=6)   #, padx=4)
 cb_eci_5_N.config(font=entryfont)
 
@@ -1583,7 +1574,7 @@ e_eci_3_M_qty.config(font=entryfont, textvariable=eci_3_M_qty)
 lbl_eci_3_units_M = Label(root, text="Moles", width=8)
 lbl_eci_3_units_M.grid(row=29, column=1)   #, padx=4)
 lbl_eci_3_units_M.config(font=labelfont)
-cb_eci_3_N = Combobox(root, values=elements_name_list,  textvariable=eci_3_N, width=12)   #, width=30)
+cb_eci_3_N = Combobox(root, values=elements_name_list,  textvariable=eci_3_name, width=12)   #, width=30)
 cb_eci_3_N.grid(row=29, column=2)   #, padx=4)
 cb_eci_3_N.config(font=entryfont)
 e_eci_6_M_qty = Entry(root, text="CompoundQty 6", textvariable=eci_6_M_qty, width=8)
@@ -1592,7 +1583,7 @@ e_eci_6_M_qty.config(font=entryfont)
 lbl_eci_6_units_M = Label(root, text="Moles", width=8)
 lbl_eci_6_units_M.grid(row=29, column=5)   #, padx=4)
 lbl_eci_6_units_M.config(font=labelfont)
-cb_eci_6_N = Combobox(root, values=compound_names_list, textvariable=eci_6_N, width=12)   #, width=30)
+cb_eci_6_N = Combobox(root, values=compound_names_list, textvariable=eci_6_name, width=12)   #, width=30)
 cb_eci_6_N.grid(row=29, column=6)   #, padx=4)
 cb_eci_6_N.config(font=entryfont)
 
@@ -1767,6 +1758,22 @@ sys.path is:
 'C:\\projects\\Chemistry101A', 
 'C:/projects/Chemistry101A']
 
+try:
+    f = open(arg, 'r')
+except OSError:
+    print('cannot open', arg)
+else:
+    print(arg, 'has', len(f.readlines()), 'lines')
+    f.close()
+        
+#cb_eci_1_units.set('grams')
+#cb_eci_1.select_clear()
+#cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
+#print('cb_eci_1 is ', compounds_names_dict[cb_eci_1_N.get()])
+#print("In setItemFormula if not eci_1_N == ")
+#print('cb_1_type is ', cb_1_type)
+#index_N_1 = cb_eci_2_N.selection_get()
+#print('index_N_1 is ', index_N_1)
 #lbl_LU_Process = Label(text='H\u2082O')
 #lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
 #lbl_LU_Process.config(font=labelfont)
