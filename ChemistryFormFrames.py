@@ -176,20 +176,10 @@ Kv = DoubleVar()
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
 '''
-The following is a guess at what an eci dictionary will contain. 
-It includes all the items needed for each frame of elements, compounds or ions.
-It will hold variables essential to a process. 
-*** Everytime a new eci is selected, the dictionary for that frame will need to be reset
-so incorrect values are not retained. ***
-Also, when creating a database record of each step of the process, all of these items and
-all the other process related items will be added to a process dictionary, and that dictionary
-will be used to create a database record of each step of the process.
-
 *** The following line describes the structure of the eci dictionary. ***
 d_eci_1 = dict(eci='', eci_type= '', name= '', column= '', electronegativity = "", _group = "", 
             qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
             temp_units= "", temp_qty="", press_units= "", press_qty= "")
-
 '''
 ''' Many of the variables below are needed because they record selection of items in combo boxes. 
 The extraneous ones will be deleted as they are identified. '''
@@ -199,7 +189,6 @@ eci_3 = StringVar()
 eci_4 = StringVar()
 eci_5 = StringVar()
 eci_6 = StringVar()
-#eci_1_name = StringVar()
 eci_1_col = IntVar()
 eci_2_col = IntVar()
 eci_3_col = IntVar()
@@ -266,7 +255,7 @@ eci_3_valence = StringVar()
 eci_4_valence = StringVar()
 eci_5_valence = StringVar()
 eci_6_valence = StringVar()
-eci_1_temp_units = StringVar()  #eci_temp_1_units
+eci_1_temp_units = StringVar()
 eci_2_temp_units = StringVar()
 eci_3_temp_units = StringVar()
 eci_4_temp_units = StringVar()
@@ -397,17 +386,22 @@ def select_eci_6_type(eventObject):
 
 ''' Start defining process and chemistry related functions '''
 def create_record():
+    pass
     print("Pressed create_record button")
 def get_record():
+    pass
     print("Pressed Get Record button")
 def retrieve_record():
+    pass
     print("Pressed Retrieve Record button")
 def previous_record():
+    pass
     print("Pressed Previous Record button")
 def next_record():
+    pass
     print("Pressed Next Record button")
-
 def update_record():
+    pass
     print("Pressed Update Record button")
 
 def check_entry_changes():
@@ -478,7 +472,7 @@ def Calculate():
 def Oxidation_Reduction():
     ''' This function has been entered after elements have been selected and the COntinue button pressed'''
     e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
-    #print("Oxidation_Reduction process entered")
+    Oxidation_Rate()
     cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
     print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
@@ -596,12 +590,13 @@ def Oxidation_Rate_Ions():
     e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions process\n")
 
 def Oxidation_Rate_Elements():
+    ''' This function has been entered after elements have been selected and the Continue button pressed'''
     cb_eci_1_units.set('grams')
     cb_eci_2_units.set('grams')
     cb_eci_4_units.set('grams')
-    ''' This function has been entered after elements have been selected and the Continue button pressed'''
+
     e_Explanation.insert(tk.END, "Oxidation_Rate_Elements process entered\n")
-    #print("Oxidation_Rate process entered")
+
     '''  Each item is an element. Compounds and ions use a different function.
     It is necessary to get the valence and electronegativity values because the valence of some
     elements is determined by the relative electronegativity of the other elements. '''
@@ -613,10 +608,10 @@ def Oxidation_Rate_Elements():
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
     eci_3 = cb_eci_3.get()
-    ''' Set the values in the frame dictionary. '''
-    eci_db['eci_3']['eci'] = cb_eci_3.get()
+    ''' Set the values in the eci frame dictionary. '''
     eci_db['eci_1']['eci'] = cb_eci_1.get()
     eci_db['eci_2']['eci'] = cb_eci_2.get()
+    eci_db['eci_3']['eci'] = cb_eci_3.get()
     ''' The following demonstrate the direct assignments of frame values 
     from the element dictionary. '''
     eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
@@ -628,6 +623,7 @@ def Oxidation_Rate_Elements():
 
     ''' if eci_db['eci_1']['eci_type'] == 'elements': is no longer needed
     because all non-elements have been moved to another function. '''
+    ''' These lines get values of the element from the element dictionary. '''
     eci_1_name = db[eci_1]['name']
     eci_1_mass = db[eci_1]['mass']
     eci_1_group = db[eci_1]['_group']
@@ -660,14 +656,17 @@ def Oxidation_Rate_Elements():
         print("In Oxidation_Rate_Elements. Function does not yet work for 3 elements.")
     if eci_1_valence.isnumeric():
         ''' This process only works for metals that have single valence values. '''
+        ''' Set the dictionary values. Valence may have multiple values. In these cases, it has only one value.
+        Oxidation_State only has one value that is set for this case. '''
         eci_1_Oxidation_State = eci_1_valence
         db[eci_1]['valence'] = eci_1_valence
         db[eci_1]['Oxidation_State'] = eci_1_valence
         print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
         print("db[eci_1]['valence'] is numeric ", eci_1_valence)
-        ''' if eci_db['eci_2']['eci_type'] == 'elements': '''
+        ''' eci_db['eci_2']['eci_type'] == 'elements': '''
         if eci_2_valence.isnumeric():
             eci_2_Oxidation_State = eci_2_valence
+            db[eci_2]['valence'] = eci_2_valence
             db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
             print("db[eci_2]['valence'] is numeric ", eci_2_valence)
             print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
@@ -681,6 +680,7 @@ def Oxidation_Rate_Elements():
                     eci_2_Oxidation_State = eci_2_valence
                     db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
                     print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
+                    ''' The following can be moved to synthesis. '''
                     eci_1_M_qty = 1
                     e_eci_1_M_qty.delete(0)
                     e_eci_1_M_qty.insert(0, eci_1_M_qty)
@@ -789,29 +789,28 @@ def Reduction():
     e_Explanation.insert(tk.END, "Reduction process entered\n")
 
 def Synthesis():
+    '''
+    Option 1. The user will select a product and the progrtam will determine the reactants
+    and the by-products.
+    Option 2. The user will start by entering compounds and or elements in the left side of the
+    GUI. Since there are so many possibilities, the user will need to specify the reactants and
+    the primary product. Any other products will be considered by-products.
+    Start by counting the number if reactants, alphabetize them, look up all the products
+    that have any combination of those reactant elements, and fill the product combo box
+    with that list. Since the program will not know which items will be products and which
+    will be by-products, the list must contain all the compounds that have any of the reactants.
+    All products that do not have those elements can be eliminated from the products box --
+    even catalysts can be eliminated because they will be specified in a separate combo box.
+    When a pirmary product has been selected, start the synthesis process by calculating the
+    ozidation status, then
+
+    '''
     e_Explanation.insert(tk.END, "Synthesis process entered\n")
     print("Synthesis process entered")
     CountElements()
     AlphabetizeElements()
-    ''' Consider starting with a compound formula or name.'''
-
-    '''
-    Option 1. The user will select a product and the progrtam will determine the reactants 
-    and the by-products.
-    Option 2. The user will start by entering compounds and or elements in the left side of the
-    GUI. Since there are so many possibilities, the user will need to specify the reactants and
-    the primary product. Any other products will be considered by-products. 
-    Start by counting the number if reactants, alphabetize them, look up all the products 
-    that have any combination of those reactant elements, and fill the product combo box
-    with that list. Since the program will not know which items will be products and which 
-    will be by-products, the list must contain all the compounds that have any of the reactants.
-    All products that do not have those elements can be eliminated from the products box -- 
-    even catalysts can be eliminated because they will be specified in a separate combo box.
-    When a pirmary product has been selected, start the synthesis process by calculating the 
-    ozidation status, then 
-    
-    '''
     Oxidation_Rate()
+    ''' Consider starting with a compound formula or name.'''
 
     cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
     cb_2_type = cb_Select_CB2.get()
@@ -833,70 +832,10 @@ def Synthesis():
      # and eci_1 != ''
     #eci_1_valence = db[eci_1]['valence']
     #eci_3_group = db[eci_3]['_group']
-    if cb_1_type == 'elements':
-        eci_1_valence = db[eci_1]['valence']
-        eci_2_valence = db[eci_2]['valence']
-        eci_1_group = db[eci_1]['_group']
-        print("eci_1_group is", eci_1_group)
-        eci_1_electronegativity = db[eci_1]['electronegativity']
-        print('eci_1_electronegativity is:', eci_1_electronegativity)
-        if eci_1_group == '1A':
-            eci_1_valence= 1
-            print('eci_1_valence is:', eci_1_valence)
-        elif eci_1_group == '2A':
-            eci_1_valence= 2
-            print('eci_1_valence is:', eci_1_valence[0])
-
-        elif eci_1_group == '7A':
-            if cb_2_type == 'elements':
-                eci_2 = cb_eci_2.get()
-                eci_2_electronegativity = db[eci_2]['electronegativity']
-                if eci_2_electronegativity > eci_1_electronegativity:
-                    eci_2_valence= -1
-                    print('eci_2_valence is:', eci_2_valence[0])
-                elif eci_2_electronegativity < eci_1_electronegativity:
-                    print('eci_2_valence is not yet determined.')
-                elif cb_2_type == 'compounds':
-                    e_Explanation.insert(tk.END, "In Synthesis. Can't yet process compounds.\n")
-                elif cb_2_type == 'ions':
-                    e_Explanation.insert(tk.END, "In Synthesis. Can't yet process ions.\n")
-        if cb_2_type == 'elements':
-            eci_2_group = db[eci_2]['_group']
-            eci_2_electronegativity = db[eci_2]['electronegativity']
-            print('eci_2_electronegativity is:', eci_2_electronegativity)
-            if eci_2_group == '1A':
-                eci_2_valence= 1
-                print('eci_2_valence is:', eci_2_valence)
-            elif eci_2_group == '2A':
-                eci_2_valence= 2
-                print('eci_2_valence is:', eci_2_valence)
-            elif eci_2_group == '7A':
-                print('In elif eci_2_group == 7A')
-                if eci_1_electronegativity > eci_2_electronegativity:
-                    print('if eci_1_electronegativity > eci_2_electronegativity:')
-                    eci_2_valence= -2
-                    print('eci_2_valence is:', eci_2_valence[0])
-                    print('eci_2_electronegativity > eci_1_electronegativity.')
-                elif eci_2_electronegativity > eci_1_electronegativity:
-                    print('elif eci_2_electronegativity > eci_1_electronegativity:')
-                    if str(eci_2_valence):
-                        print('eci_2_valence is a string')
-                        if int(eci_1_valence) > 0:
-                            print('eci_1_valence is a positive number')
-                            if '-1' in eci_2_valence:
-                                print('-1 is in the string eci_2_valence')
-                                eci_2_valence = 1
-                                print('eci_2_valence is ', eci_2_valence)
-                        else: eci_2_valence = 6
-                        #print('eci_2_valence is a string')
-                    #eci_2_valence= -1
-                    #print('eci_2_valence is:', eci_2_valence)
-                    #print('eci_2_electronegativity < eci_1_electronegativity.')
-        elif cb_2_type == 'compounds':
-            e_Explanation.insert(tk.END, "In Synthesis. Can't yet process compounds.\n")
-        elif cb_2_type == 'ions':
-            e_Explanation.insert(tk.END, "In Synthesis. Can't yet process ions.\n")
-    elif cb_1_type == 'compounds':
+    '''
+    Cut out code that determines oxidation rate for elements.
+    '''
+    if cb_1_type == 'compounds':
         eci_1 = cb_eci_1.get()
         print('eci_1 is ', eci_1)
         eci_1_name = c_db[eci_1]['name']
@@ -1132,6 +1071,7 @@ def setSelectedItemFormula(ComboboxSelected):
 
 def eci_units_selected(*arg):
     print("In process eci_units_selected")
+    print("cb_eci_1_units.get() is ", cb_eci_1_units.get())
     eci_1_units = cb_eci_1_units.get()
     eci_2_units = cb_eci_2_units.get()
     eci_3_units = cb_eci_3_units.get()
@@ -1145,19 +1085,62 @@ def eci_units_selected(*arg):
     eci_db['eci_5']['display_units'] = cb_eci_5_units.get()
     eci_db['eci_6']['display_units'] = cb_eci_6_units.get()
     if eci_1_units == 'liters(g)' or eci_1_units == 'ml(g)':
-        eci_1_temp_units = cb_1_Temp_Units.set('C')
-        e_Temp_Qty_1.delete(0)
-        e_Temp_Qty_1.insert(0, '25')
-        eci_1_press_units = cb_1_Press_Units.set('torr')
-        e_Press_Qty_1.delete(0)
-        e_Press_Qty_1.insert(0, '760')
-    print('cb_eci_1_units are ', eci_1_units)
-    print('cb_eci_2_units are ', eci_2_units)
-    print('cb_eci_3_units are ', eci_3_units)
-    print('cb_eci_4_units are ', eci_4_units)
-    print('cb_eci_5_units are ', eci_5_units)
-    print('cb_eci_6_units are ', eci_6_units)
-
+        if cb_1_Temp_Units.get() == "":
+            eci_1_temp_units = cb_1_Temp_Units.set('C')
+            e_Temp_Qty_1.delete(0, 'end')
+            e_Temp_Qty_1.insert(0, '25')
+        if cb_1_Press_Units.get() == "":
+            eci_1_press_units = cb_1_Press_Units.set('torr')
+            e_Press_Qty_1.delete(0, 'end')
+            e_Press_Qty_1.insert(0, '760')
+        #print('cb_eci_1_units are ', eci_1_units)
+    #elif not eci_1_units == 'liters(g)' and not eci_1_units == 'ml(g)':
+    #     print('cb_eci_1_units are ', eci_1_units)
+    if eci_2_units == 'liters(g)' or eci_2_units == 'ml(g)':
+        if cb_2_Temp_Units.get() == "":
+            eci_2_temp_units = cb_2_Temp_Units.set('C')
+            e_Temp_Qty_2.delete(0, 'end')
+            e_Temp_Qty_2.insert(0, '25')
+        if cb_2_Press_Units.get() == "":
+            eci_2_press_units = cb_2_Press_Units.set('torr')
+            e_Press_Qty_2.delete(0, 'end')
+            e_Press_Qty_2.insert(0, '760')
+    if eci_3_units == 'liters(g)' or eci_3_units == 'ml(g)':
+        if cb_3_Temp_Units.get() == "":
+            eci_3_temp_units = cb_3_Temp_Units.set('C')
+            e_Temp_Qty_3.delete(0, 'end')
+            e_Temp_Qty_3.insert(0, '25')
+        if cb_3_Press_Units.get() == "":
+            eci_3_press_units = cb_3_Press_Units.set('torr')
+            e_Press_Qty_3.delete(0, 'end')
+            e_Press_Qty_3.insert(0, '760')
+    if eci_4_units == 'liters(g)' or eci_4_units == 'ml(g)':
+        if cb_4_Temp_Units.get() == "":
+            eci_4_temp_units = cb_4_Temp_Units.set('C')
+            e_Temp_Qty_4.delete(0, 'end')
+            e_Temp_Qty_4.insert(0, '25')
+        if cb_4_Press_Units.get() == "":
+            eci_4_press_units = cb_4_Press_Units.set('torr')
+            e_Press_Qty_4.delete(0, 'end')
+            e_Press_Qty_4.insert(0, '760')
+    if eci_5_units == 'liters(g)' or eci_5_units == 'ml(g)':
+        if cb_5_Temp_Units.get() == "":
+            eci_5_temp_units = cb_5_Temp_Units.set('C')
+            e_Temp_Qty_5.delete(0, 'end')
+            e_Temp_Qty_5.insert(0, '25')
+        if cb_4_Press_Units.get() == "":
+            eci_5_press_units = cb_5_Press_Units.set('torr')
+            e_Press_Qty_5.delete(0, 'end')
+            e_Press_Qty_5.insert(0, '760')
+    if eci_6_units == 'liters(g)' or eci_6_units == 'ml(g)':
+        if cb_6_Temp_Units.get() == "":
+            eci_6_temp_units = cb_6_Temp_Units.set('C')
+            e_Temp_Qty_6.delete(0, 'end')
+            e_Temp_Qty_6.insert(0, '25')
+        if cb_6_Press_Units.get() == "":
+            eci_6_press_units = cb_6_Press_Units.set('torr')
+            e_Press_Qty_6.delete(0, 'end')
+            e_Press_Qty_6.insert(0, '760')
         #print("eci_db['eci_1']['display_units'] are ", eci_db['eci_1']['display_units'])
 
 def eci_1_qty_changed(eventObject):    #callback
