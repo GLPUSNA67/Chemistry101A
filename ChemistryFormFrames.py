@@ -151,7 +151,7 @@ c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI,
 
 record_name = ""    # This is a placeholder for a record name to store the process in the database.
 ''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
-process_list = "Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
+process_list = "Parse_Compounds Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
 energy_type = "heat electricity"
 catalyst = "blah1 blah2 blah3 blah4"
@@ -420,7 +420,7 @@ def check_entry_changes():
 def Continue():
     process_selected = cb_Select_Process.get()
     print("Process selected is " , process_selected)
-    check_entry_changes()
+    #check_entry_changes()
 
     if process_selected == "Acid_Base":
         #print("Synthesis process entered")
@@ -439,6 +439,8 @@ def Continue():
         #print("Decompose process entered")
     elif process_selected == "Oxidation_Rate": #
         Oxidation_Rate()
+    elif process_selected == "Parse_Compounds":
+       Parse_Compounds('H2SO4')
     elif process_selected == "Precipitation":
         Precipitation()
     elif process_selected == "Reduction":
@@ -1210,15 +1212,15 @@ def set_temp_and_press_settings():
     eci_db['eci_5']['display_press_units'] = cb_5_Press_Units.get()
     eci_db['eci_6']['display_press_units'] = cb_6_Press_Units.get()
 
-def Parse_Compounds(compound):
+def Parse_Compounds(compound): #'He2SO4'
+    ''' I need to parse for number, uppercase, and lowercase. Leading number always applies to an element or formula,
+    later numbers are assumed to apply to the preceeding element.
+    '''
+    compound = 'H2O'
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
     if compound == "":
         pass
     else: print("Parse_Compounds process entered", compound)
-
-    ''' I need to parse for number, upper, lower. First number always applies to element or formula,
-    later numbers may apply to preceeding or following element.
-    '''
     compound_formula_qty = 1
     element_1 = ''
     current_element = ""
@@ -1226,42 +1228,80 @@ def Parse_Compounds(compound):
     #e_Explanation.
     print('Parse_Compounds compound is ', compound)
     ''' Start with a normal compound which does not start with an integer.'''
-     #compound = 'Na2SO4'
+     # For example: compound = 'Na2SO4'
     if compound == "":
         pass
     elif compound[0].isdigit():
+        ''' If the leading character is a number, apply it to the whole formuls. '''
         compound_formula_qty =  compound[0]
+        ''' Reset the compound to the string after the intial digit. '''
         compound = compound[1:]
         print('Parse_Compounds compound first character is integer ', compound[0] )
-        if len(compound) != 0:
-            Parse_Compounds(compound)
-    elif (compound[0].isupper()):
-        if (compound[1].isupper()):
-            current_element = compound[0]
-            compound = compound[1:]
-            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            if len(compound) != 0:
-                Parse_Compounds(compound)
-        elif (compound[1].islower()):
-            current_element = compound[0:2]
-            #print(current_element)
-            if compound[2].isdigit():
-                current_element_multiplier =  compound[2]
-                compound = compound[3:]
-                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                Parse_Compounds(compound)
-            else: compound = compound[2:]
-            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            if len(compound) != 0:
-                Parse_Compounds(compound)
-        elif compound[1].isdigit():
-            current_element = compound[0]
-            current_element_multiplier =  compound[1]
-            compound = compound[2:]
-            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            if len(compound) != 0:
-                Parse_Compounds(compound)
-        # print('Get the valence number for the element')
+        ''' The first character is not a number. '''
+    else: Parse_Compounds_Element(compound)
+    print(' If the leading character is a number, '
+          'need to add it to the result of Parse_Compounds_1(compound).')
+
+def Parse_Compounds_Element(compound):
+    ''' Parse a compound without a leading number. '''
+    element_1 = ''
+    current_element = ""
+    current_element_multiplier = 1
+    current_compound = []
+    while len(compound) > 0:
+        try:
+            if (compound[0].isupper()):
+                ''' If the second character is an uppercase letter, 
+                the first character is a one character element.'''
+                if len(compound) == 1:
+                    current_element_multiplier = 1
+                    current_element = compound[0]
+                    current_compound.append(current_element)
+                    current_compound.append(":")
+                    current_compound.append(current_element_multiplier)
+                    compound = ""
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                elif (compound[1].isupper()):
+                    current_element_multiplier = 1
+                    current_element = compound[0]
+                    current_compound.append(current_element)
+                    current_compound.append(":")
+                    current_compound.append(current_element_multiplier)
+                    current_element_multiplier = 1
+                    compound = compound[1:]
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                elif (compound[1].islower()):
+                    ''' If the second character is an lowercase letter, 
+                    the first two characters are an element.'''
+                    current_element = compound[0:2]
+                    #print(current_element)
+                    if compound[2].isdigit():
+                        ''' If the third character is a number, 
+                        it is a subscript for the 2 character element. '''
+                        current_element_multiplier =  compound[2]
+                        current_compound.append(current_element)
+                        current_compound.append(":")
+                        current_compound.append(current_element_multiplier)
+                        current_element_multiplier = 1
+                        compound = compound[3:]
+                        print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                        print('current_compound is ', current_compound)
+                    else: compound = compound[2:]
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                elif compound[1].isdigit():
+                    current_element = compound[0]
+                    current_element_multiplier =  compound[1]
+                    current_compound.append(current_element)
+                    current_compound.append(":")
+                    current_compound.append(current_element_multiplier)
+                    compound = compound[2:]
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+        except:
+            break
 
 def CountElements():    # The following does not work. Need valid test for value
     e_Explanation.insert(tk.END, "CountElements process entered\n")
