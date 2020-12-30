@@ -1143,9 +1143,10 @@ def eci_units_selected(*arg):
             e_Press_Qty_6.insert(0, '760')
         #print("eci_db['eci_1']['display_units'] are ", eci_db['eci_1']['display_units'])
 
+''' function may not be needed
 def eci_1_qty_changed(eventObject):    #callback
     eci_1_qty = e_eci_1_qty.get()   #e_eci_1_qty
-    print('eci_1_qty is ', eci_1_qty)
+    print('eci_1_qty is ', eci_1_qty)'''
 
 def callback_set_temp_units(eventObject):
     ''' Whenever a temperature units combo box is selected, update the eci_db variable. '''
