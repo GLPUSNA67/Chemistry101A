@@ -298,10 +298,10 @@ combo boxes and their names in the names combo boxes. '''
 def select_eci_1_type(eventObject):
     cb_1_type = cb_Select_CB1.get() # use cb_1_type as a local variable to improve readability
     eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
-    print("cb_1_type is ", cb_1_type)
+    #print("cb_1_type is ", cb_1_type)
     ''' Both of the assignments below work. '''
-    print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
-    print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
+    #print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
+    #print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
     eci_db['eci_1']['eci_type'] = cb_1_type
     if cb_1_type == 'elements':
         cb_eci_1['values'] = elements_symbols_list
@@ -386,22 +386,21 @@ def select_eci_6_type(eventObject):
 
 ''' Start defining process and chemistry related functions '''
 def create_record():
-    pass
     print("Pressed create_record button")
 def get_record():
     pass
-    print("Pressed Get Record button")
+    #print("Pressed Get Record button")
 def retrieve_record():
     pass
-    print("Pressed Retrieve Record button")
+    #print("Pressed Retrieve Record button")
 def previous_record():
     pass
-    print("Pressed Previous Record button")
+    #print("Pressed Previous Record button")
 def next_record():
     pass
-    print("Pressed Next Record button")
+    #print("Pressed Next Record button")
 def update_record():
-    pass
+    #pass
     print("Pressed Update Record button")
 
 def check_entry_changes():
@@ -1002,7 +1001,7 @@ def setSelectedItemName(ComboboxSelected):
                 cb_eci_6_N.set(i_db[eci_6]['name'])
         except KeyError:
             cb_eci_6_N.set("not a valid key")
-    else: print('In else clause of setSelectedItemName.')
+    else: pass #print('In else clause of setSelectedItemName.')
 
 def setSelectedItemFormula(ComboboxSelected):
     eci_1_N = cb_eci_1_N.get()
@@ -1251,8 +1250,8 @@ def Parse_Compounds(): #'He2SO4'
         Parse_Get_Compound()
         #Parse_Compound_ECI_1()
     else:  Parse_Compound_Method()
-    print(' If the leading character is a number, '
-          'need to add it to the result of Parse_Compounds_1(compound).')
+    #print(' If the leading character is a number, '
+    #      'need to add it to the result of Parse_Compounds_1(compound).')
 
 def Parse_Get_Compound():
     ''' Get a compound from eci_1. Call a function to parse.. '''
@@ -1260,6 +1259,63 @@ def Parse_Get_Compound():
     compound = ""
     compound = eci_1.get()
     print('Finish Parse_Get_Compound(): compound = ', compound)
+    Parse_Compound(compound)
+
+def Parse_Compound(compound):
+    ''' Got a compound from eci_1. Parse it. '''
+    print('In Parse_Compound(compound): compound = ', compound)
+    len_compound = len(compound)
+    current_compound =[]
+    #print('len_compound is ', len_compound)
+    if len(compound) >= 3:
+        print('len(compound) is ', len_compound)
+        if compound[0].isupper() and compound[1].isupper():
+            print('In compound[0].isupper() and compound[1].isupper()')
+            current_element_multiplier = 1
+            current_element = compound[0]
+            current_compound.append(current_element)
+            current_compound.append(current_element_multiplier)
+            compound = compound[1:]
+            print('In elif compound[1].isupper() and len(compound) > 1: compound = ', compound)
+            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+            print('current_compound is ', current_compound)
+        elif compound[0].isupper() and compound[1].islower() and compound[2].isupper():
+            print('In compound[0].isupper() and compound[1].islower() and compound[2].isupper()')
+            current_element_multiplier = 1
+            current_element = compound[:2]
+            current_element_multiplier = 1
+            current_compound.append(current_element)
+            current_compound.append(current_element_multiplier)
+            compound = compound[2:]
+            print('elif compound[0].isupper() and compound[1].islower() and compound[2].isupper(): compound = ', compound)
+            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+            print('current_compound is ', current_compound)
+        elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper():
+            print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isupper()')
+            current_element_multiplier = 1
+            current_element = compound[:1]
+            current_element_multiplier = compound[1:2]
+            current_compound.append(current_element)
+            current_compound.append(current_element_multiplier)
+            compound = compound[2:]
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+            print('current_compound is ', current_compound)
+        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit() and compound[3].isupper():
+            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit() and compound[3].isupper()')
+            current_element_multiplier = 1
+            current_element = compound[:2]
+            current_element_multiplier = compound[2:3]
+            current_compound.append(current_element)
+            current_compound.append(current_element_multiplier)
+            compound = compound[3:]
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+            print('current_compound is ', current_compound)
+        elif compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit():
+            print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit()')
+        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit():
+            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit()')
 
 def Display_Parsed_Compound(parsed_compound):
     print('Entering Display_Parsed_Compound')
@@ -1308,7 +1364,8 @@ def Parse_Compound_Logic():
     ''' Upper, upper -- compound[0].isupper() and compound[1].isupper()'''
     ''' Upper, lower, upper -- compound[0].isupper() and compound[1].islower() and compound[2].isupper() '''
     ''' Upper, digit, upper -- compound[0].isupper() and compound[1].isdigit() and compound[2].isupper() '''
-    ''' Upper, lower, digit -- compound[0].isupper() and compound[1].islower() and compound[2].isdigit() '''
+
+    ''' *** Not valid *** Upper, lower, digit -- compound[0].isupper() and compound[1].islower() and compound[2].isdigit() '''
     ''' new patterns'''
     ''' Upper, digit, digit -- compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit() '''
     ''' Upper, lower, digit, digit -- compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit()'''
