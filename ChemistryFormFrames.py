@@ -72,16 +72,16 @@ element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Ameri
                       'Xenon': 'Xe', 'Yttrium': 'Y', 'Ytterbium': 'Yb', 'Zinc': 'Zn', 'Zirconium': 'Zr'}
 ''' Tried to change symbols to use subscripts, but the Compound Dictionary would not accept 
 a subscripted formula as a valid key'''
-compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10_M, C5H12 C6H14 C7H16 C8H18 " \
+compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10, C5H12 C6H14 C7H16 C8H18 " \
                         "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
-                        "CO CO2 HBr_g HBr_aq HC2H3O2 HCl HCl_g HCl_aq HClO4 HCN H2CO3 HF_g HF_aq HI_g HI_aq " \
+                        "CO CO2 HBr HC2H3O2 HCl HCl_aq HClO4 HCN H2CO3 HF HI HI_aq " \
                         "HNO2 HNO3 H3PO4 H2S_g H2S_aq H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
                         "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3 "
 
 compound_names_list = "aluminum_carbide aluminum_chloride air boron_trichloride methane ethane propane butane 2-methylpropane" \
                       " pentane hexane heptane octane nonane decane tetradecane octadecane calcium_dihydrogen_phosphate" \
                       " calcium_iodide calcium_hydroxide calcium_phosphide cadmium_sulfide cesium_fluoride citric_acid" \
-                      " acetic_acid acetic_acid carbon_monoxide carbon_dioxide hydrogen_bromide hydrobromic_acid" \
+                      " acetic_acid acetic_acid carbon_monoxide carbon_dioxide hydrogen_bromide " \
                       " acetic_acid hydrogen_chloride hydrogen_chloride hydrochloric_acid perchloric_acid hydrogen_cyanide" \
                       " carbonic_acid hydrogen_fluoride hydrofluoric_acid hydrogen_iodide hydroiodic_acid nitrous_acid" \
                       " nitric_acid phosphoric_acid hydrogen_suflide hydrosulfuric_acid sulfurous_acid sulfuric_acid" \
@@ -98,12 +98,12 @@ compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3
                         'calcium_iodide': 'CaI', 'calcium_hydroxide': 'CaOH2', 'calcium_phosphide': 'Ca3P2',
                         'cadmium_sulfide': 'CdS', 'cesium_fluoride': 'CsF', 'citric_acid': 'C6H8O7',
                         'acetic_acid': 'HC2H3O2', 'carbon_monoxide': 'CO', 'carbon_dioxide': 'CO2',
-                        'hydrogen_bromide': 'HBr_g', 'hydrobromic_acid': 'HBr_aq', 'hydrogen_chloride': 'HCl_g',
-                        'hydrochloric_acid': 'HCl_aq', 'perchloric_acid': 'HClO4', 'hydrogen_cyanide': 'HCN',
-                        'carbonic_acid': 'H2CO3', 'hydrogen_fluoride': 'HF_g', 'hydrofluoric_acid': 'HF_aq',
-                        'hydrogen_iodide': 'HI_g', 'hydroiodic_acid': 'HI_aq', 'nitrous_acid': 'HNO2',
-                        'nitric_acid': 'HNO3', 'phosphoric_acid': 'H3PO4', 'hydrogen_suflide': 'H2S_g',
-                        'hydrosulfuric_acid': 'H2S_aq', 'sulfurous_acid': 'H2SO3', 'sulfuric_acid': 'H2SO4',
+                        'hydrogen_bromide': 'HBr',
+                        'hydrochloric_acid': 'HCl', 'perchloric_acid': 'HClO4', 'hydrogen_cyanide': 'HCN',
+                        'carbonic_acid': 'H2CO3', 'hydrofluoric_acid': 'HF',
+                        'hydroiodic_acid': 'HI', 'nitrous_acid': 'HNO2',
+                        'nitric_acid': 'HNO3', 'phosphoric_acid': 'H3PO4',
+                        'hydrosulfuric_acid': 'H2S', 'sulfurous_acid': 'H2SO3', 'sulfuric_acid': 'H2SO4',
                         'iodine_heptafluoride': 'IF7', 'potassium_bromide': 'KBr', 'potassium_hydroxide': 'KOH',
                         'lithium_chloride': 'LiCl', 'magnesium_nitride': 'Mg3N2', 'sodium_chloride': 'NaCl',
                         'bicarbonate_of_soda': 'NaHCO3', 'sodium_oxide': 'Na2O', 'sodium_hydroxide': 'NaOH',
@@ -1267,9 +1267,23 @@ def Parse_Compound(compound):
     len_compound = len(compound)
     current_compound =[]
     #print('len_compound is ', len_compound)
-    while len(compound) >= 4:
-        print('len(compound) is ', len_compound)
-        if compound[0].isupper() and compound[1].isupper():
+    while len(compound) >= 3:
+        #print('len(compound) is ', len_compound)
+        if compound[0].isupper() and compound[1].islower() and compound[2].isdigit(): # and compound[3].isupper():
+            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()') # Re,removed  and compound[3].isupper()
+            current_element_multiplier = 1
+            current_element = compound[:2]
+            current_element_multiplier = compound[2:3]
+            current_compound.append(current_element)
+            current_compound.append(current_element_multiplier)
+            compound = compound[3:]
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+            print('current_compound is ', current_compound)
+        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit(): #   and compound[3].isdigit()
+            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()')
+            print("Don't know if there are any of these.")
+        elif compound[0].isupper() and compound[1].isupper():
             print('In compound[0].isupper() and compound[1].isupper()')
             current_element_multiplier = 1
             current_element = compound[0]
@@ -1302,23 +1316,72 @@ def Parse_Compound(compound):
             print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound is ', current_compound)
-        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit() and compound[3].isupper():
-            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit() and compound[3].isupper()')
+        elif compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit():
+            print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit()')
             current_element_multiplier = 1
-            current_element = compound[:2]
-            current_element_multiplier = compound[2:3]
+            current_element = compound[:1]
+            current_element_multiplier = compound[1:3]
             current_compound.append(current_element)
             current_compound.append(current_element_multiplier)
-            compound = compound[3:]
+            if len(compound) > 2:
+                compound = compound[3:]
+            else: compound = ""
             print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound is ', current_compound)
-        elif compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit():
-            print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit()')
-        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit():
-            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit()')
-    if len(compound) < 4:
+
+    if len(compound) < 3:
         print('if len(compound) < 3:')
+        while len(compound) > 0:
+            if compound[0] == '_':
+                compound = ""
+                print("In if compound[0] == '_':")
+            elif len(compound) == 1:
+                if compound[0].isupper():
+                    print('In compound[0].isupper()')
+                    current_element_multiplier = 1
+                    current_element = compound[0]
+                    current_compound.append(current_element)
+                    current_compound.append(current_element_multiplier)
+                    print('In if compound[0].isupper():: compound = ', compound)
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                    compound = ""
+            elif len(compound) == 2:
+                if compound[0].isupper() and compound[1].isupper():
+                    print('In compound[0].isupper() and compound[1].isupper()')
+                    current_element_multiplier = 1
+                    current_element = compound[0]
+                    current_compound.append(current_element)
+                    current_compound.append(current_element_multiplier)
+                    compound = compound[1:]
+                    print('In elif compound[1].isupper() and len(compound) > 1: compound = ', compound)
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                elif compound[0].isupper() and compound[1].islower():
+                    print('In compound[0].isupper() and compound[1].islower()')
+                    current_element_multiplier = 1
+                    current_element = compound[0:1]
+                    current_compound.append(current_element)
+                    current_compound.append(current_element_multiplier)
+                    compound = ""
+                    print('In if compound[0].isupper() and compound[1].islower():: compound = ', compound)
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+                elif compound[0].isupper() and compound[1].isdigit():
+                    print('In compound[0].isupper() and compound[1].isdigit()')
+                    current_element_multiplier = 1
+                    current_element = compound[0]
+                    current_element_multiplier = compound[1]
+                    current_compound.append(current_element)
+                    current_compound.append(current_element_multiplier)
+                    compound = ""
+                    print('In if compound[0].isupper() and compound[1].islower():: compound = ', compound)
+                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_compound is ', current_compound)
+        print('compound =  ', compound)
+        compound = ""
+        Display_Parsed_Compound(current_compound)
 
 def Display_Parsed_Compound(parsed_compound):
     print('Entering Display_Parsed_Compound')
