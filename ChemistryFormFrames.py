@@ -1385,10 +1385,10 @@ def Parse_Compound(compound):
 
 def Display_Parsed_Compound(parsed_compound):
     print('Entering Display_Parsed_Compound')
-
     print(parsed_compound)
     e_eci_1_M_qty.delete(0, END)
     e_eci_1_M_qty.insert(0,1)
+
     cb_Select_CB4.set('elements')
     element_1 = parsed_compound[0]
     print('element_1 is ', element_1)
@@ -1399,6 +1399,7 @@ def Display_Parsed_Compound(parsed_compound):
     print('moles_1 is ', moles_1)
     e_eci_4_M_qty.delete(0, END)
     e_eci_4_M_qty.insert(0, moles_1)
+
     cb_Select_CB5.set('elements')
     element_2 = parsed_compound[2]
     print('element_2 is ', element_2)
@@ -1406,13 +1407,29 @@ def Display_Parsed_Compound(parsed_compound):
     cb_eci_5_N.set("")
     cb_eci_5.set(element_2)
     moles_2 = parsed_compound[3]
-    print('item_2 is ', moles_2)
     e_eci_5_M_qty.delete(0, END)
     e_eci_5_M_qty.insert(0, moles_2)
-    #cb_Select_CB1.set('elements')
-    #cb_eci_4.set(element_1)
-    #e_eci_5_M_qty.delete(0, END)
-    #e_eci_5_M_qty.insert(0, moles_2)
+
+    if parsed_compound[3]:
+        cb_Select_CB6.set('elements')
+        element_3 = parsed_compound[4]
+        print('element_3 is ', element_3)
+        cb_eci_6.set("")
+        cb_eci_6_N.set("")
+        cb_eci_6.set(element_3)
+        moles_3 = parsed_compound[5]
+        e_eci_6_M_qty.delete(0, END)
+        e_eci_6_M_qty.insert(0, moles_3)
+    if parsed_compound[4]:
+        cb_Select_CB3.set('elements')
+        element_4 = parsed_compound[6]
+        print('element_4 is ', element_4)
+        cb_eci_3.set("")
+        cb_eci_3_N.set("")
+        cb_eci_3.set(element_4)
+        moles_4 = parsed_compound[7]
+        e_eci_3_M_qty.delete(0, END)
+        e_eci_3_M_qty.insert(0, moles_4)
 
 def Parse_Compound_Logic():
     ''' Identify the logical steps in parsing compounds'''
@@ -1438,286 +1455,9 @@ def Parse_Compound_Logic():
     ''' digit, upper -- compound[0].isdigit() and compound[1].isupper() '''
     ''' digit, digit, upper -- compound[0].isdigit() and compound[1].isdigit() and compound[2].isupper() '''
     ''' final patterns'''
-    ''' If len(compound = 3'''
-    ''' All the above where length is 3'''
-    ''' If len(compound = 2'''
-    ''' All the above where length is 2'''
+    ''' If len(compound < 3'''
+    ''' All the above where length is 2, 1, or 0. '''
 
-def Parse_Compound_Method():
-    ''' Parse a compound without a leading number. '''
-    print('In Parse_Compound_Method(compound):')
-    compound = ""
-    print('In Parse_Compound_Method(compound): compound = ', compound)
-    compound = eci_1.get()
-    print('In Parse_Compound_Method(compound): compound = ', compound)
-    element_1 = ''
-    current_element = ""
-    current_element_multiplier = 1
-    current_compound = []
-    print('In Parse_Compound_Method(compound): current_compound = ', current_compound)
-    while len(compound) > 0:
-        try:
-            if compound[0].isupper() and len(compound) == 1:
-                ''' This is the last character and it is an uppercase letter. '''
-                print('In if compound[0].isupper() and len(compound) == 1: compound = ', compound)
-                current_element_multiplier = 1
-                current_element = compound[0]
-                current_compound.append(current_element)
-                current_compound.append(current_element_multiplier)
-                compound = ""
-                print('In if compound[0].isupper() and len(compound) == 1: compound = ', compound)
-                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                print('current_compound is ', current_compound)
-            elif compound[1].isupper() and len(compound) > 1:
-                ''' There is at least one character to process. '''
-                print('In elif compound[1].isupper() and len(compound) > 1: compound = ', compound)
-                ''' If the second character is an uppercase letter, 
-                the first character is a one character element.'''
-                current_element_multiplier = 1
-                current_element = compound[0]
-                current_compound.append(current_element)
-                current_compound.append(current_element_multiplier)
-                compound = compound[1:]
-                print('In elif compound[1].isupper() and len(compound) > 1: compound = ', compound)
-                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                print('current_compound is ', current_compound)
-            elif compound[1].islower() and len(compound) > 1:
-                ''' There is at least one character to process. '''
-                current_element = compound[:2]
-                print('In elif compound[1].islower() and len(compound) > 1: current_element = ', current_element)
-                if (compound[2].isupper()) and len(compound) > 1:
-                    ''' If the third character is an uppercase letter, 
-                    the first elenemet is a 2 character element. '''
-                    print('In if (compound[2].isupper()) and len(compound) > 1: compound = ', compound)
-                    current_element_multiplier = 1
-                    current_compound.append(current_element)
-                    current_compound.append(current_element_multiplier)
-                    current_element_multiplier = 1
-                    compound = compound[2:]
-                    print('In if (compound[2].isupper()) and len(compound) > 1: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                    print('current_compound is ', current_compound)
-                elif compound[2].isdigit() and len(compound) > 1:
-                    ''' If the third character is a number, 
-                    it is a subscript for the 2 character element. '''
-                    print('In elif compound[2].isdigit() and len(compound) > 1: compound = ', compound)
-                    current_element_multiplier =  compound[2]
-                    current_compound.append(current_element)
-                    current_compound.append(current_element_multiplier)
-                    current_element_multiplier = 1
-                    compound = compound[3:]
-                    print('In elif compound[2].isdigit() and len(compound) > 1: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                    print('current_compound is ', current_compound)
-            elif compound[1].isdigit() and len(compound) == 1:
-                    ''' If the last character is a number, 
-                    it is a subscript -- possibly for a total subscript greater than 9. '''
-                    print('In elif compound[1].isdigit() and len(compound) > 0: compound = ', compound)
-                    current_element =  compound[0]
-                    current_element_multiplier = compound[1]
-                    current_compound.append(current_element)
-                    current_compound.append(current_element_multiplier)
-                    current_element_multiplier = '1'
-                    compound = ""
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                    print('current_compound is ', current_compound)
-            elif compound[1].isdigit() and compound[2].isdigit() and len(compound) > 1:
-                    ''' If the second character is a number, 
-                    it is a subscript for a one character element. '''
-                    print('In elif compound[1].isdigit() and len(compound) > 0: compound = ', compound)
-                    current_element = compound[0]
-                    current_element_multiplier =  compound[1:2]
-                    current_compound.append(current_element)
-                    current_compound.append(current_element_multiplier)
-                    current_element_multiplier = 1
-                    compound = compound[2:]
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                    print('current_compound is ', current_compound)
-                    print('compound is ', compound)
-                    if compound[1].isdigit() and len(compound) == 1:
-                        ''' If the last character is a number, 
-                        it is a subscript -- possibly for a total subscript greater than 9. '''
-                        print('In elif compound[1].isdigit() and len(compound) > 0: compound = ', compound)
-                        #current_element = ""
-                        current_element =  compound[0]
-                        current_element_multiplier = compound[1]
-                        current_compound.append(current_element)
-                        current_compound.append(current_element_multiplier)
-                        current_element_multiplier = 1
-                        compound = ""
-                        #current_compound.append(current_element)
-                        ''' Need to retrieve prior current_element_multiplier and append this to it.'''
-                        #last_element_multiplier = current_compound[-1]
-                        #current_element_multiplier = last_element_multiplier + compound[0]
-                        print('current_element_multiplier is ', current_element_multiplier)
-                        ''' The following is an incorrect solution. '''
-                        #current_compound[-1].replace(current_compound[-1], current_element_multiplier)
-                        #current_element_multiplier = 1
-                        compound = ""
-                        print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                        print('current_compound is ', current_compound)
-
-            elif len(compound) == 1:
-                print('In elif len(compound) == 1')
-            elif len(compound) == 0:
-                compound = ""
-                print('In elif len(compound) == 0')
-            else: print('In Parse_Compound_Method else clause')
-        except:
-            break
-
-    Display_Parsed_Compound(current_compound)
-
-def Parse_Compound_ECI_1():
-    ''' Parse a compound without a leading number. '''
-    print('Entering Parse_Compound_ECI_1')
-    cb_1_type = cb_Select_CB1.get()
-    eci_1 = cb_eci_1.get()
-    compound = cb_eci_1.get()
-    counter = 1
-    if cb_1_type == 'compounds' and not eci_1 == "":
-        print('Entering Parse_Compound_ECI_1 and if cb_1_type == compounds and not eci_1')
-        compound = eci_1
-        element_1 = ''
-        current_element = ""
-        current_element_multiplier = 1
-        current_compound = []
-        print('Values so far are :', compound )
-        for counter in range (1,3): #while len(compound) > 0:
-            try:
-                if (compound[0].isupper()):
-                    print('In if (compound[0].isupper())')
-                    #break
-                    ''' If the second character is an uppercase letter, 
-                    the first character is a one character element.'''
-                    if len(compound) == 1:
-                        print('In if len(compound) == 1:')
-                        break
-                        current_element_multiplier = 1
-                        current_element = compound[0]
-                        current_compound.append(current_element)
-                        #current_compound.append(":")
-                        current_compound.append(current_element_multiplier)
-                        compound = ""
-                        print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                        print('current_compound is ', current_compound)
-                        if counter == 1:
-                            cb_4_type.set('elements')
-                            cb_eci_4.set(current_element)
-                            e_eci_4_M_qty.delete(0, END)
-                            e_eci_4_M_qty.insert(0, current_element_multiplier)
-                            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                            print('current_compound is ', current_compound)
-                            counter += 1
-                        elif counter == 2:
-                            print('In elif counter == 2')
-                            cb_5_type.set('elements')
-                            cb_eci_5.set(current_element)
-                            e_eci_5_M_qty.delete(0, END)
-                            e_eci_5_M_qty.insert(0, current_element_multiplier)
-                            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                            print('current_compound is ', current_compound)
-                            counter += 1
-                        elif counter > 2:
-                            print('in elif counter > 2', counter)
-                    elif not len(compound) == 1:
-                        print('In elif not len(compound) == 1')
-                        if (compound[1].isupper()):
-                            print('In if (compound[1].isupper())')
-                            #break
-                            current_element_multiplier = 1
-                            current_element = compound[0]
-                            current_compound.append(current_element)
-                            current_compound.append(current_element_multiplier)
-                            current_element_multiplier = 1
-                            compound = compound[1:]
-                            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                            print('current_compound is ', current_compound)
-                            print('counter is ', counter)
-                            #break
-                            if counter == 1:
-                                print('In if counter == 1:')
-                                cb_Select_CB4.set('elements')
-                                cb_eci_4.set(current_element)
-                                e_eci_4_M_qty.delete(0, END)
-                                e_eci_4_M_qty.insert(0, current_element_multiplier)
-                                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                print('current_compound is ', current_compound)
-                                counter += 1
-                                compound = compound[1:]
-                                print('counter is ', counter)
-                            elif counter == 2:
-                                print('In if counter == 2:')
-                                cb_Select_CB5.set('elements')
-                                cb_eci_5.set(current_element)
-                                e_eci_5_M_qty.delete(0, END)
-                                e_eci_5_M_qty.insert(0, current_element_multiplier)
-                                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                print('current_compound is ', current_compound)
-                                counter += 1
-                                compound = compound[1:]
-                                print('counter is ', counter)
-                            elif counter > 2:
-                                print('counter is greater than 2', counter)
-                        elif (compound[1].islower()):
-                            print('In if (compound[1].islower())')
-                            current_element = compound[0:2]
-                            if compound[2].isdigit():
-                                print('In if compound[2].isdigit()')
-                                ''' If the third character is a number, 
-                                it is a subscript for the 2 character element. '''
-                                current_element_multiplier =  compound[2]
-                                current_compound.append(current_element)
-                                #current_compound.append(":")
-                                current_compound.append(current_element_multiplier)
-                                current_element_multiplier = 1
-                                compound = compound[3:]
-                                if counter == 1:
-                                    cb_4_type.set('elements')
-                                    cb_eci_4.set(current_element)
-                                    e_eci_4_M_qty.delete(0, END)
-                                    e_eci_4_M_qty.insert(0, current_element_multiplier)
-                                    counter += 1
-                                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                    print('current_compound is ', current_compound)
-                                elif counter == 2:
-                                    print('In elif counter == 2:')
-                                    cb_5_type.set('elements')
-                                    cb_eci_5.set(current_element)
-                                    e_eci_5_M_qty.delete(0, END)
-                                    e_eci_5_M_qty.insert(0, current_element_multiplier)
-                                    counter += 1
-                                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                    print('current_compound is ', current_compound)
-                        elif compound[1].isdigit():
-                            print('In elif compound[1].isdigit()')
-                            #current_element_multiplier =  compound[0:2]
-                            current_compound.append(current_element)
-                            current_compound.append(current_element_multiplier)
-                            current_element_multiplier = 1
-                            if counter == 1:
-                                print('In if counter == 1:')
-                                cb_eci_4.set(current_element)
-                                e_eci_4_M_qty.delete(0, END)
-                                e_eci_4_M_qty.insert(0, current_element_multiplier)
-                                counter += 1
-                                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                print('current_compound is ', current_compound)
-                            elif counter == 2:
-                                print('In elif counter == 2:')
-                                cb_5_type.set('elements')
-                                cb_eci_5.set(current_element)
-                                e_eci_5_M_qty.delete(0, END)
-                                e_eci_5_M_qty.insert(0, current_element_multiplier)
-                                counter += 1
-                                print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-                                print('current_compound is ', current_compound)
-                            elif counter > 2:
-                                print('counter is greater than 2', counter)
-                        else: print('In else clause of if len(compound) == 1:')
-
-            except:
-                pass
 
 def CountElements():    # The following does not work. Need valid test for value
     e_Explanation.insert(tk.END, "CountElements process entered\n")
