@@ -2,6 +2,7 @@
 from tkinter import *  # get widget classes
 from tkinter.ttk import Combobox #,Textbox
 from tkinter.ttk import Entry
+from MessageBoxes import *
 from tkinter.messagebox import *  # get standard dialogs
 import tkinter as tk
 import sqlite3
@@ -464,7 +465,7 @@ def Calculate():
     """ A step toward performing general chemistry related calculations.
     There will be many calculations done by the program.
     They will be separated into separate functions as they are developed."""
-
+    #showinfo(title=None, message="To calculate eci variable, senter an element type and symbol and a mole quantity.")
     Calculate_eci_variables()
 
 
@@ -475,7 +476,7 @@ def Calculate_eci_variables():
     and the mole quantity, calculates the quantity in grams, and
     inserts that quantity into the eci quantity entry box.
     """
-    '''msg_Calculate_eci_variables = Label(text="To calulate element variables, enter an element type and symbol and a mole quantity.")
+    '''msg_Calculate_eci_variables = Label(text=showinfo(title=None, message=None, **options), enter an element type and symbol and a mole quantity.")
     msg_Calculate_eci_variables.config(font=labelfont)
     msg_Calculate_eci_variables.grid(row=8, column=0)
     '''
