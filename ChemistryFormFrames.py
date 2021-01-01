@@ -386,24 +386,20 @@ def select_eci_6_type(eventObject):
 
 ''' Start defining process and chemistry related functions '''
 def create_record():
-    print("Pressed create_record button")
+    """ print("Pressed create_record button") """
 def get_record():
-    pass
-    #print("Pressed Get Record button")
+    """ print("Pressed get_record button") """
 def retrieve_record():
-    pass
-    #print("Pressed Retrieve Record button")
+    """ print("Pressed retrieve_record button") """
 def previous_record():
-    pass
-    #print("Pressed Previous Record button")
+    """ print("Pressed previous_record button") """
 def next_record():
-    pass
-    #print("Pressed Next Record button")
+    """ print("Pressed next_record button") """
 def update_record():
-    #pass
-    print("Pressed Update Record button")
+    """ print("Pressed update_record button") """
 
 def check_entry_changes():
+    """ print("Pressed update_record button") """
     eci_1 = cb_eci_1.get()
     eci_1_qty = e_eci_1_qty.get()
     eci_1_mass = float(db[eci_1]['mass']) #float( temp_entry.get() )
@@ -417,38 +413,44 @@ def check_entry_changes():
     print("total_mass is ", total_mass)
 
 def Continue():
+    """ A button/function to continue whatever process was selected. """
     process_selected = cb_Select_Process.get()
     print("Process selected is " , process_selected)
     #check_entry_changes()
 
     if process_selected == "Acid_Base":
-        #print("Synthesis process entered")
+        """ Continue the Acid_Base process """
         Acid_Base()
     elif process_selected == "Calculate":
-        #print("Decompose process entered")
-       Calculate()
+        """ Continue the Acid_Base process """
+        Calculate()
     elif process_selected == "Decompose":   #Calculate()
-        #print("Decompose process entered")
+        """ Continue the Acid_Base process """
         Decompose()
     elif process_selected == "Oxidation_Reduction":
-        #print("Decompose process entered")
+        """ Continue the Acid_Base process """
         Oxidation_Reduction()
     elif process_selected == "Metathesis":  #Oxidation_Rate
+        """ Continue the Acid_Base process """
         Metathesis()
-        #print("Decompose process entered")
-    elif process_selected == "Oxidation_Rate": #
+    elif process_selected == "Oxidation_Rate":
+        """ Continue the Acid_Base process """
         Oxidation_Rate()
     elif process_selected == "Parse_Compounds":
         ''' There is a general procedure used to prove parse works,
         and a procedure tied to the eci_1 combobox. '''
         Parse_Compounds()
     elif process_selected == "Precipitation":
+        """ Continue the Precipitation process """
         Precipitation()
     elif process_selected == "Reduction":
+        """ Continue the Reduction process """
         Reduction()
     elif process_selected == "Refine":
+        """ Continue the Refine process """
         Refine()
     elif process_selected == "Synthesis":
+        """ Continue the Synthesis process """
         Synthesis()
     else: print("No process has been selected in Continue selection of process")
     #CountElements()
@@ -457,24 +459,44 @@ def Continue():
     #print("Process selected is " , process_selected)
     #print('eci_1 = ', eci_1)
     #print("Pressed Continue button")
+
 def Calculate():
-    ''' a step toward calculating variables associated with an eci. '''
+    """ A step toward performing general chemistry related calculations.
+    There will be many calculations done by the program.
+    They will be separated into separate functions as they are developed."""
+
+    Calculate_eci_variables()
+
+
+def Calculate_eci_variables():
+    """
+    A step toward calculating variables associated with an eci.
+    This one simply gets an element symbol, retrieves the atomic mass,
+    and the mole quantity, calculates the quantity in grams, and
+    inserts that quantity into the eci quantity entry box.
+    """
+    '''msg_Calculate_eci_variables = Label(text="To calulate element variables, enter an element type and symbol and a mole quantity.")
+    msg_Calculate_eci_variables.config(font=labelfont)
+    msg_Calculate_eci_variables.grid(row=8, column=0)
+    '''
     eci_1 = cb_eci_1.get()
-    #print('eci_1 is ', eci_1)
+    print('eci_1 is ', eci_1)
     eci_1_M_qty = e_eci_1_M_qty.get()
     ''' e_eci_1_qty.insert(0, eci_1_M_qty) WORKS!!! '''
-    #print('eci_1_M_qty is ', eci_1_M_qty)
+    print('eci_1_M_qty is ', eci_1_M_qty)
     if not eci_1_M_qty == "":
         eci_1_mass = (db[eci_1]['mass'])
         #print('eci_1_mass = ', eci_1_mass)
         m_mass =  float(eci_1_M_qty) * float(eci_1_mass)
+        e_eci_1_qty.delete(0, END)
         e_eci_1_qty.insert(0, m_mass)
         e_Explanation.insert(END, m_mass)
         print('m_mass is ', m_mass)
 
 def Oxidation_Reduction():
-    ''' This function has been entered after elements have been selected and the COntinue button pressed'''
+    """This function has been entered after elements have been selected and the Continue button pressed."""
     e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+
     Oxidation_Rate()
     cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
     print('eci_1_type = ', cb_1_type)
@@ -508,12 +530,12 @@ def Oxidation_Reduction():
         #eci_1 = cb_eci_1.get()
         #print('eci_1 = ', eci_1)
         e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
-        print("Error in Oxidation_Reduction eci_1 can't process compounds yet")
+        print("Oxidation_Reduction eci_1 can't process compounds yet")
     elif cb_1_type == 'ions':
         #eci_1 = cb_eci_1.get()
         #print('eci_1 = ', eci_1)
         e_Explanation.insert(tk.END, "Error in Oxidation_Reduction eci_1 can't process compounds yet")
-    else: print("Error in Oxidation_Reduction process eci_1 else clause")
+    else: print("Oxidation_Reduction process eci_1 else clause")
     cb_2_type = cb_Select_CB2.get()   # Get the selected type of: element, compound, or ion
     print('eci_2_type = ', cb_2_type)
     if cb_2_type == 'elements':
@@ -572,6 +594,7 @@ def Oxidation_Reduction():
     #    print('eci_1 = ', eci_1)
     #    print('eci_1_type = ', cb_eci_1.get())
 def Precipitation():
+    """ print("Pressed update_record button") """
     e_Explanation.insert(tk.END, "Precipitation process entered\n")
     #print("Precipitation process entered")
 
@@ -1618,7 +1641,7 @@ cb_Select_Environment.grid(row=7, column=5)
 cb_Select_Environment.config(font=entryfont)
 
 lbl_blank = Label(root, text="")
-lbl_blank.grid(row=8, column=0) #, columnspan=2)
+lbl_blank.grid(row=8, column=0)
 
 lbl_eci_1 = Label(root, text="   Select Element, Compound or Ion for ComboBox 1")
 lbl_eci_1.grid(row=9, column=0, columnspan=3, sticky=W)
