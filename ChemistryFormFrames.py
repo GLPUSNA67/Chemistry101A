@@ -1267,7 +1267,7 @@ def Parse_Compound(compound):
     len_compound = len(compound)
     current_compound =[]
     #print('len_compound is ', len_compound)
-    if len(compound) >= 3:
+    while len(compound) >= 4:
         print('len(compound) is ', len_compound)
         if compound[0].isupper() and compound[1].isupper():
             print('In compound[0].isupper() and compound[1].isupper()')
@@ -1287,9 +1287,10 @@ def Parse_Compound(compound):
             current_compound.append(current_element)
             current_compound.append(current_element_multiplier)
             compound = compound[2:]
+            len_compound = len(compound)
             print('elif compound[0].isupper() and compound[1].islower() and compound[2].isupper(): compound = ', compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            print('current_compound is ', current_compound)
+            print('current_compound, and length are ', current_compound, len_compound)
         elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper():
             print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isupper()')
             current_element_multiplier = 1
@@ -1316,6 +1317,8 @@ def Parse_Compound(compound):
             print('In compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit()')
         elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit():
             print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()  and compound[3].isdigit()')
+    if len(compound) < 4:
+        print('if len(compound) < 3:')
 
 def Display_Parsed_Compound(parsed_compound):
     print('Entering Display_Parsed_Compound')
