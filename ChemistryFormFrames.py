@@ -398,6 +398,11 @@ def next_record():
     """ print("Pressed next_record button") """
 def update_record():
     """ print("Pressed update_record button") """
+def process_selected(eventObject):
+    """ print("process_selected") """
+    #if process_selected == Calculate:
+    #    showinfo(title=None, message="To calculate eci variable, senter an element type and symbol and a mole quantity.")
+
 
 def check_entry_changes():
     """ print("Pressed update_record button") """
@@ -423,19 +428,19 @@ def Continue():
         """ Continue the Acid_Base process """
         Acid_Base()
     elif process_selected == "Calculate":
-        """ Continue the Acid_Base process """
+        """ Continue the Calculate process """
         Calculate()
     elif process_selected == "Decompose":   #Calculate()
-        """ Continue the Acid_Base process """
+        """ Continue the Decompose process """
         Decompose()
     elif process_selected == "Oxidation_Reduction":
-        """ Continue the Acid_Base process """
+        """ Continue the Oxidation_Reduction process """
         Oxidation_Reduction()
     elif process_selected == "Metathesis":  #Oxidation_Rate
-        """ Continue the Acid_Base process """
+        """ Continue the Metathesis process """
         Metathesis()
     elif process_selected == "Oxidation_Rate":
-        """ Continue the Acid_Base process """
+        """ Continue the Oxidation_Rate process """
         Oxidation_Rate()
     elif process_selected == "Parse_Compounds":
         ''' There is a general procedure used to prove parse works,
@@ -465,7 +470,6 @@ def Calculate():
     """ A step toward performing general chemistry related calculations.
     There will be many calculations done by the program.
     They will be separated into separate functions as they are developed."""
-    #showinfo(title=None, message="To calculate eci variable, senter an element type and symbol and a mole quantity.")
     Calculate_eci_variables()
 
 
@@ -1481,7 +1485,6 @@ def Parse_Compound_Logic():
     ''' If len(compound < 3'''
     ''' All the above where length is 2, 1, or 0. '''
 
-
 def CountElements():    # The following does not work. Need valid test for value
     e_Explanation.insert(tk.END, "CountElements process entered\n")
     intElementCount = 0
@@ -1534,7 +1537,8 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
 # that have the same list of elements. After a set of elements have been chosen and alphabetized, these lists will be used
 #  to determine which compounds have these elements, and that list will be used to fill the appropriate combo box
 def make_element_dictionary():
-    print("In make_element_dictionary")
+    pass
+    #print("In make_element_dictionary")
 def make_compound_dictionary():
     pass    
 def make_ion_dictionary():
