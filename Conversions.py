@@ -89,15 +89,54 @@ def cal_to_joule(cal):
     global joule
     joule = cal/4.184
     print("joules are", joule)
+''' Functional program example of recursion factorial. '''
+def f_factorial(n): # Excessive recursion calls can crash the program.
+    return 1 if n == 0 else n*f_factorial(n-1)
+''' Procedural program example of factorial. '''
+def p_factorial(n):
+    f = 1
+    for i in range(1, n+1):
+        f *= 1
+    return f
+def vol_from_prt():
+    ''' Calculate volume given pressure, R constant, and temperature. pv = nRt'''
+    n= 0.54
+    R = 0.08206 # R value for these units
+    T = 288   # Temp in K
+    P = .967    # P in atm
+    vol = n*R*T/P
+    print(vol)
+
+def p_from_vrt():
+    ''' Calculate pressure given volume, R constant, and temperature. pv = nRt'''
+    n= 10.5
+    R = 0.08206 # R value for these units
+    T = 273.15 + 452   # Temp in K
+    V = 565    # P in atm
+    P = n*R*T/V
+    print(P)
+
+#print(f_factorial(0))
+#print(f_factorial(2))
+#print(f_factorial(4))
+#print(f_factorial(0))
+#print(f_factorial(2))
+#print(f_factorial(4))
+''' lambda expressions do not with if statements.'''
+''' example of lambda expression with if expressions.'''
+# (lambda gp: 'good' if gp > 7 else 'satisfactory' if gp > 7 else 'insufficient')(6)
 
 if __name__ == '__main__':
     #print("C is", C)
     #print("F is", F)
     F = 325
-    F_to_C(F)
+    #F_to_C(F)
     C = 25
-    C_to_F(C)
+    #C_to_F(C)
     K = 100
-    K_to_C(K)
+    #K_to_C(K)
     C = 25
-    C_to_K(C)
+    #C_to_K(C)
+    #f_factorial(3)
+    #vol_from_prt()
+    vol_from_prt()
