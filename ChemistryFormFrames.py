@@ -1,6 +1,17 @@
-# Time to refactor
+''' The program is designed to solve non-graphic problems in a first year general chemistry book.
+There are three environments. In the laboratory environment, anything can be created or 'deconstructed'
+and each step of the process should be recorded and displayed to verify the process and to aid a student
+learning general chemistry.
+The industrial and nature environments only describes industrial and natural processes.
+There is no experimentation in these environments and the level of detail in explanations varies.
+The main part of the program is the laboratory process in which a process is selected, all the appropriate field
+values are entered, calculations are made, results are presented, and a record of the process is stored. Later,
+that record can be retrieved and used to recreate the process for verification and learning.
+The ideal is that every important aspect of each process should be described and explained.
+Especially, each step in the process, the equipment and energy used, the side effects and by-products.
+'''
 from tkinter import *  # get widget classes
-from tkinter.ttk import Combobox #,Textbox
+from tkinter.ttk import Combobox  # ,Textbox
 from tkinter.ttk import Entry
 from MessageBoxes import *
 from tkinter.messagebox import *  # get standard dialogs
@@ -12,12 +23,22 @@ from CompoundsDict import *
 from ionDict import *
 from eciDict import *
 from Conversions import *
+import pdb
+# This file sets up basic configuration of the logging module.
+# Change settings here to adjust logging output as needed.
+import logging
+logging.basicConfig(
+    filename = 'app.log',            # Name of the log file (omit to use stderr)
+    filemode = 'w',                  # File mode (use 'a' to append)
+    level    = logging.WARNING,      # Logging level (DEBUG, INFO, WARNING, ERROR, or CRITICAL)
+)
+
 root = tk.Tk()
 root.title('Chemistry')
-titlefont= ('Ariel', 14, 'bold')
-labelfont= ('Ariel', 14) #, 'bold')
-buttonfont= ('Ariel', 12) #, 'bold')
-entryfont= ('Ariel', 12) #, 'bold')
+titlefont = ('Ariel', 14, 'bold')
+labelfont = ('Ariel', 14)  # , 'bold')
+buttonfont = ('Ariel', 12)  # , 'bold')
+entryfont = ('Ariel', 12)  # , 'bold')
 
 ''' *** e_eci_1_qty.insert(0, eci_1_M_qty) WORKS to insert a value into an entry box !!! *** '''
 
@@ -25,9 +46,9 @@ entryfont= ('Ariel', 12) #, 'bold')
 ''' The element list below has been superceded and will be deleted when it has been confirmed to be
 unnecessary. '''
 elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
- "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
- "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
- "U V W Xe Y Yb Zn Zr "
+           "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
+           "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
+           "U V W Xe Y Yb Zn Zr "
 ''' The following is a list of all elements that are likely to be used, and a few more. 
 
 Text with unicode can be included in combo boxes. Such use requires setting up a dictionary
@@ -35,22 +56,22 @@ to associate the text with elements that have quantities different from the stan
 
 Not all the elements and their attributes have been added to the database. H\u2082 works for H2 subscript'''
 elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
- "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
- "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
- "U V W Xe Y Yb Zn Zr "
+                        "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
+                        "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
+                        "U V W Xe Y Yb Zn Zr "
 ''' An element name list is used to fill the element name combo box to help the user who knows 
 the name of an element, but not the symbols. '''
 elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine Gold Boron Barium Beryllium " \
-    "Bismuth Berkelium Bromine Carbon Calcium Cadmium Cerium Californium Chlorine Curium Cobalt Chromium " \
-    "Cesium Copper Dysprosium Erbium Einsteinium Europium Fluorine Iron Fermium Francium Gallium Gadolinium "\
-    "Germanium Hydrogen Helium Hafnium Mercury Holmium Iodine Indium Iridium Potassium Krypton " \
-    "Lanthanum Lithium Lutetium Mendelevium Manganese Molybdenum Nitrogen Na Niobium Neodymium Neon Nickel " \
-    "Neptunium Oxygen Osmium Phosphorus Protactinium Lead Palladium Promethium Polonium Praseodymium " \
-    "Platnum Plutonium Radium Rubidium Rhenium Rhodium Radon Rutherfordium Sulfur Antimony Scandium Selenium Silicon " \
-    "Samarium Tin Strontium Tantalum Terbium Technetium Tellurium Thorium Titanium " \
-    "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
+                     "Bismuth Berkelium Bromine Carbon Calcium Cadmium Cerium Californium Chlorine Curium Cobalt Chromium " \
+                     "Cesium Copper Dysprosium Erbium Einsteinium Europium Fluorine Iron Fermium Francium Gallium Gadolinium " \
+                     "Germanium Hydrogen Helium Hafnium Mercury Holmium Iodine Indium Iridium Potassium Krypton " \
+                     "Lanthanum Lithium Lutetium Mendelevium Manganese Molybdenum Nitrogen Na Niobium Neodymium Neon Nickel " \
+                     "Neptunium Oxygen Osmium Phosphorus Protactinium Lead Palladium Promethium Polonium Praseodymium " \
+                     "Platnum Plutonium Radium Rubidium Rhenium Rhodium Radon Rutherfordium Sulfur Antimony Scandium Selenium Silicon " \
+                     "Samarium Tin Strontium Tantalum Terbium Technetium Tellurium Thorium Titanium " \
+                     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
 ''' This list of elements and names will help retrieve names from symbols. '''
-#element = zip(elements_symbols_list, elements_name_list)
+# element = zip(elements_symbols_list, elements_name_list)
 element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Americium': 'Am', 'Argon': 'Ar',
                       'Arsenic': 'As', 'Astatine': 'At', 'Gold': 'Au', 'Boron': 'B', 'Barium': 'Ba',
                       'Beryllium': 'Be', 'Bismuth': 'Bi', 'Berkelium': 'Bk', 'Bromine': 'Br', 'Carbon': 'C',
@@ -113,13 +134,13 @@ compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3
                         'dinitrogen_pentoxide': 'N2O5', 'phosphorus_pentafluoride': 'PF5', 'sulfur_dioxide': 'SO2',
                         'sulfur_trioxide': 'SO3'}
 ion_names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 'perchlorate': 'ClO4',
-                   'cyanide': 'CN', 'carbonate': 'CO32', 'copper_(II)_sulfide': 'CuS', 'iron_(II)_chloride': 'FeCl2',
-                   'iron_(III)_chloride': 'FeCl3','dihydrogen_phosphate': 'H2PO4','hydrogen_carbonate': 'HCO3',
-                   'mercury_(I)_oxide': 'Hg2O','mercury_(II)_oxide': 'HgO', 'hydronium': 'H3O',
-                   'hydrogen_phosphate': 'HPO42','hydrogen_sulfate': 'HSO4','hydroxide': 'OH',
-                   'ammonium': 'NH4', 'nitrate': 'NO3','nitrite': 'NO2',
-                   'permanganate': 'MnO4','peroxide': 'H2O22','sulfate': 'SO42',
-                   'sulfite': 'SO32', 'phosphate': 'PO43'}
+                  'cyanide': 'CN', 'carbonate': 'CO32', 'copper_(II)_sulfide': 'CuS', 'iron_(II)_chloride': 'FeCl2',
+                  'iron_(III)_chloride': 'FeCl3', 'dihydrogen_phosphate': 'H2PO4', 'hydrogen_carbonate': 'HCO3',
+                  'mercury_(I)_oxide': 'Hg2O', 'mercury_(II)_oxide': 'HgO', 'hydronium': 'H3O',
+                  'hydrogen_phosphate': 'HPO42', 'hydrogen_sulfate': 'HSO4', 'hydroxide': 'OH',
+                  'ammonium': 'NH4', 'nitrate': 'NO3', 'nitrite': 'NO2',
+                  'permanganate': 'MnO4', 'peroxide': 'H2O22', 'sulfate': 'SO42',
+                  'sulfite': 'SO32', 'phosphate': 'PO43'}
 
 ''' Process documentation 
  A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
@@ -135,7 +156,7 @@ ion_names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', '
 
 ''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
 
-#ion_names_list = "hydroxide sulfate"
+# ion_names_list = "hydroxide sulfate"
 
 ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper_(II)_sulfide " \
                  "iron_(II)_chloride iron_(III)_chloride dihydrogen_phosphate hydrogen_carbonate " \
@@ -150,7 +171,7 @@ ion_symbols_list = "C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2
 
 c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
-record_name = ""    # This is a placeholder for a record name to store the process in the database.
+record_name = ""  # This is a placeholder for a record name to store the process in the database.
 ''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
 process_list = "Parse_Compounds Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
@@ -158,9 +179,9 @@ energy_type = "heat electricity"
 catalyst = "blah1 blah2 blah3 blah4"
 side_effects = "air_polution water_polution land_polution"
 by_products = "CO CO2 NO NO2"
-variables ="Av Bv Cv Kv"     # Variable names cannot conflict with element symbols like B C H K etc
+variables = "Av Bv Cv Kv"  # Variable names cannot conflict with element symbols like B C H K etc
 ''' Variables to hold the selected items of combo boxes. '''
-process_selected = ""
+#process_selected = ""
 equipment_selected = ""
 energy_type_selected = ""
 catalyst_selected = ""
@@ -176,11 +197,26 @@ Kv = DoubleVar()
 ''' Miscellaneous variables to use until proper variables are created. '''
 valences = "7 6 5 4 3 2 1 0 -1 -2 -3 -4"
 element1 = StringVar()
-'''
-*** The following line describes the structure of the eci dictionary. ***
-d_eci_1 = dict(eci='', eci_type= '', name= '', column= '', electronegativity = "", _group = "", 
-            qty = "", M_qty = "" , mass = "", Oxidation_State ="", units = "", valence = "",
-            temp_units= "", temp_qty="", press_units= "", press_qty= "")
+
+''' *** Program and data structure notes follow. ***
+*** The following lines describes the structure of the eci frame dictionaries. ***
+The eci frame is where all frame related process variables are stored and used for process calculations.
+eci_1_d['eci'] is a reference to an eci in the frame dictionary for the first eci frame
+The fields of the eci frame are shown below.
+eci_1_d = dict(eci = 'eci_1', eci_type = "", name ="", column = "", electronegativity = "", _group = "",
+             display_qty = "", qty = "", M_qty = "" , mass = "", Oxidation_State ="", display_units = "", units = "", valence = "",
+             display_temp_units= "", display_temp_qty="", display_press_units= "", display_press_qty= "",
+             temp_units= "", temp_qty="", press_units= "", press_qty= "")
+Usage: db[eci_1]['name'] is a reference to a dictionary or dictionaries. 
+       It uses eci_1 to find the right dictionary and 'name' as the key to look up an element field value.
+       eci_1_d['eci'] is a reference to a eci in the frame dictionary for the first eci frame
+       The db dictionary of dictionaries holds the field values of elements. 
+       The other dictionaries hold the field values of compounds and ions.
+       These dictionaries are created from the SQL database and may be used to update the database. 
+       db[eci_1]['name'] is used to look up field values in the elements dictionary
+       c_db[eci_1]['name'] is used to look up field values in the compound dictionary -- note the c_ prefix
+       i_db[eci_1]['name'] is used to look up field values in the ion dictionary -- the note i_ prefix
+       eci_d['eci_1']['name']
 '''
 ''' Many of the variables below are needed because they record selection of items in combo boxes. 
 The extraneous ones will be deleted as they are identified. '''
@@ -290,20 +326,54 @@ cb_4_type = ""
 cb_5_type = ""
 cb_6_type = ""
 
- # *** End constants and variables
+# *** End constants and variables
 
 # *** Start function descriptions
-''' All the select_eci_type functions work. User selects the type eci 
-and the function loads the appropriate elements,compounds or ions in the symbol/formula
+def describe_eci_frame():
+    """ An eci refers to an item that is either an element, a compound, or an ion.
+    A frame refers to a group of eci related widgets and the variables associated with an eci.
+    There are six eci frames in the program that are used to gather, store, and display information
+    about each eci. Each eci also has a related dictionary that stores variables that are displayed,
+    used for calculations, and used to create a record of a selected process.
+    Some dictionary variables will have display units and quantities that differ from the units and quantities
+    actually used in equations to calculate other values which will be displayed in other widgets.
+    For example, user may enter Temperature units as F, but the program uses C to calculate values. """
+
+def describe_record_structure():
+    """ A record is used to store and retrieve informamtion about a step in a process.
+    A whole process will consist of a series of steps.
+    Each record will include information about a compound, a process, an environment,
+    all the non-null information in each of the six eci_frames, information about
+    equipment, energy, catalysts, side effects, a description of information used to perform
+    the step of the process (a history of intermediate steps),
+    and other information relevant to the process.
+    """
+
+def describe_environments():
+    """ There are three environments.
+    In the laboratory environment, almost anything is possible, and everything needs to be explained.
+    In the industry environment, only existing industrial processes are described.
+    In the nature environment, only existing natural processes are described.
+    """
+def describe_other_variables():
+    """ Every process uses ecergy and has side effects.
+    Almost all processes use equipment and tools, have products and by-products.
+    Many chemical processes use catalysts.
+    All the information about these variables needs to be included in each process record.
+    """
+
+''' All the select_eci_type functions work. User selects the type eci and 
+the function loads the appropriate elements,compounds or ions in the symbol/formula
 combo boxes and their names in the names combo boxes. '''
+
 def select_eci_1_type(eventObject):
-    cb_1_type = cb_Select_CB1.get() # use cb_1_type as a local variable to improve readability
-    eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
-    #print("cb_1_type is ", cb_1_type)
+    cb_1_type = cb_Select_CB1.get()  # use cb_1_type as a local variable to improve readability
+    eci_d['eci_1']['eci_type'] = cb_Select_CB1.get()
+    # print("cb_1_type is ", cb_1_type)
     ''' Both of the assignments below work. '''
-    #print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
-    #print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
-    eci_db['eci_1']['eci_type'] = cb_1_type
+    # print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
+    # print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
+    eci_d['eci_1']['eci_type'] = cb_1_type
     if cb_1_type == 'elements':
         cb_eci_1['values'] = elements_symbols_list
         cb_eci_1_N['values'] = elements_name_list
@@ -313,11 +383,14 @@ def select_eci_1_type(eventObject):
     elif cb_1_type == 'ions':
         cb_eci_1['values'] = ion_symbols_list
         cb_eci_1_N['values'] = ion_names_list
-    else: print("Error is select_eci_1_type")
+    else:
+        print("Error is select_eci_1_type")
+
+
 def select_eci_2_type(eventObject):
     cb_2_type = cb_Select_CB2.get()
     print("cb_2_type is ", cb_2_type)
-    eci_db['eci_2']['eci_type'] = cb_Select_CB2.get()
+    eci_d['eci_2']['eci_type'] = cb_Select_CB2.get()
     if cb_2_type == 'elements':
         cb_eci_2['values'] = elements_symbols_list
         cb_eci_2_N['values'] = elements_name_list
@@ -327,11 +400,14 @@ def select_eci_2_type(eventObject):
     elif cb_2_type == 'ions':
         cb_eci_2['values'] = ion_symbols_list
         cb_eci_2_N['values'] = ion_names_list
-    else: print("Error is select_eci_2_type")
+    else:
+        print("Error is select_eci_2_type")
+
+
 def select_eci_3_type(eventObject):
     cb_3_type = cb_Select_CB3.get()
     print("cb_3_type is ", cb_3_type)
-    eci_db['eci_3']['eci_type'] = cb_Select_CB3.get()
+    eci_d['eci_3']['eci_type'] = cb_Select_CB3.get()
     if cb_3_type == 'elements':
         cb_eci_3['values'] = elements_symbols_list
         cb_eci_3_N['values'] = elements_name_list
@@ -341,11 +417,14 @@ def select_eci_3_type(eventObject):
     elif cb_3_type == 'ions':
         cb_eci_3['values'] = ion_symbols_list
         cb_eci_3_N['values'] = ion_names_list
-    else: print("Error is select_eci_3_type")
+    else:
+        print("Error is select_eci_3_type")
+
+
 def select_eci_4_type(eventObject):
     cb_4_type = cb_Select_CB4.get()
     print("cb_4_type is ", cb_4_type)
-    eci_db['eci_4']['eci_type'] = cb_Select_CB4.get()
+    eci_d['eci_4']['eci_type'] = cb_Select_CB4.get()
     if cb_4_type == 'elements':
         cb_eci_4['values'] = elements_symbols_list
         cb_eci_4_N['values'] = elements_name_list
@@ -355,11 +434,14 @@ def select_eci_4_type(eventObject):
     elif cb_4_type == 'ions':
         cb_eci_4['values'] = ion_symbols_list
         cb_eci_4_N['values'] = ion_names_list
-    else: print("Error is select_eci_4_type")
+    else:
+        print("Error is select_eci_4_type")
+
+
 def select_eci_5_type(eventObject):
     cb_5_type = cb_Select_CB5.get()
     print("cb_5_type is ", cb_5_type)
-    eci_db['eci_5']['eci_type'] = cb_Select_CB5.get()
+    eci_d['eci_5']['eci_type'] = cb_Select_CB5.get()
     if cb_5_type == 'elements':
         cb_eci_5['values'] = elements_symbols_list
         cb_eci_5_N['values'] = elements_name_list
@@ -369,11 +451,14 @@ def select_eci_5_type(eventObject):
     elif cb_5_type == 'ions':
         cb_eci_5['values'] = ion_symbols_list
         cb_eci_5_N['values'] = ion_names_list
-    else: print("Error is select_eci_5_type")
+    else:
+        print("Error is select_eci_5_type")
+
+
 def select_eci_6_type(eventObject):
     cb_6_type = cb_Select_CB6.get()
     print("cb_6_type is ", cb_6_type)
-    eci_db['eci_6']['eci_type'] = cb_Select_CB6.get()
+    eci_d['eci_6']['eci_type'] = cb_Select_CB6.get()
     if cb_6_type == 'elements':
         cb_eci_6['values'] = elements_symbols_list
         cb_eci_6_N['values'] = elements_name_list
@@ -383,46 +468,67 @@ def select_eci_6_type(eventObject):
     elif cb_6_type == 'ions':
         cb_eci_6['values'] = ion_symbols_list
         cb_eci_6_N['values'] = ion_names_list
-    else: print("Error is select_eci_6_type")
+    else:
+        print("Error is select_eci_6_type")
+
 
 ''' Start defining process and chemistry related functions '''
+
+
 def create_record():
     """ print("Pressed create_record button") """
+
+
 def get_record():
     """ print("Pressed get_record button") """
+
+
 def retrieve_record():
     """ print("Pressed retrieve_record button") """
+
+
 def previous_record():
     """ print("Pressed previous_record button") """
+
+
 def next_record():
     """ print("Pressed next_record button") """
+
+
 def update_record():
     """ print("Pressed update_record button") """
+
+
 def process_selected(eventObject):
     """ print("process_selected") """
-    #if process_selected == Calculate:
-    #    showinfo(title=None, message="To calculate eci variable, senter an element type and symbol and a mole quantity.")
+    # if process_selected == Calculate:
+    showinfo(title=None, message="To calculate eci variable, senter an element type and symbol and a mole quantity.")
 
 
 def check_entry_changes():
-    """ print("Pressed update_record button") """
+    print("In check_entry_changes")
     eci_1 = cb_eci_1.get()
     eci_1_qty = e_eci_1_qty.get()
-    eci_1_mass = float(db[eci_1]['mass']) #float( temp_entry.get() )
-    eci_db['eci_1']['qty'] = eci_1_qty
+    eci_1_M_qty = e_eci_1_M_qty.get()
+    eci_1_mass = getdouble(db[eci_1]['mass'])  # don't use float due to precision errors
+    eci_d['eci_1']['qty'] = eci_1_qty
     print("e_eci_1_qty.get() is ", e_eci_1_qty.get())
-    print("eci_1_qty is ", e_eci_1_qty.get())   #eci_1_qty is  PY_VAR54
+    print("eci_db['eci_1']['qty'] is ", eci_d['eci_1']['qty'])
+    print("e_eci_1_M_qty.get() is ", e_eci_1_M_qty.get())
+    #print("eci_1_qty is ", e_eci_1_qty.get())  # eci_1_qty is  PY_VAR54
     print("eci_db['eci_1']['qty'] is ", eci_1_qty)
     print("eci_1_mass is ", eci_1_mass)
     ''' The following works. '''
-    total_mass = float(e_eci_1_qty.get()) * eci_1_mass  #float(db[eci_1]['mass'])
+    total_mass = getdouble(e_eci_1_qty.get()) * eci_1_mass  # float(db[eci_1]['mass'])
     print("total_mass is ", total_mass)
+    eci_d['eci_1']['qty'] = total_mass
+    print("eci_db['eci_1']['qty'] ", eci_d['eci_1']['qty'])
 
 def Continue():
     """ A button/function to continue whatever process was selected. """
     process_selected = cb_Select_Process.get()
-    print("Process selected is " , process_selected)
-    #check_entry_changes()
+    print("Process selected is ", process_selected)
+    # check_entry_changes()
 
     if process_selected == "Acid_Base":
         """ Continue the Acid_Base process """
@@ -430,13 +536,13 @@ def Continue():
     elif process_selected == "Calculate":
         """ Continue the Calculate process """
         Calculate()
-    elif process_selected == "Decompose":   #Calculate()
+    elif process_selected == "Decompose":
         """ Continue the Decompose process """
         Decompose()
     elif process_selected == "Oxidation_Reduction":
         """ Continue the Oxidation_Reduction process """
         Oxidation_Reduction()
-    elif process_selected == "Metathesis":  #Oxidation_Rate
+    elif process_selected == "Metathesis":
         """ Continue the Metathesis process """
         Metathesis()
     elif process_selected == "Oxidation_Rate":
@@ -458,13 +564,15 @@ def Continue():
     elif process_selected == "Synthesis":
         """ Continue the Synthesis process """
         Synthesis()
-    else: print("No process has been selected in Continue selection of process")
-    #CountElements()
-    #AlphabetizeElements()
-    #eci_1 = cb_eci_1.get()
-    #print("Process selected is " , process_selected)
-    #print('eci_1 = ', eci_1)
-    #print("Pressed Continue button")
+    else:
+        print("No process has been selected in Continue selection of process")
+    # CountElements()
+    # AlphabetizeElements()
+    # eci_1 = cb_eci_1.get()
+    # print("Process selected is " , process_selected)
+    # print('eci_1 = ', eci_1)
+    # print("Pressed Continue button")
+
 
 def Calculate():
     """ A step toward performing general chemistry related calculations.
@@ -484,6 +592,18 @@ def Calculate_eci_variables():
     msg_Calculate_eci_variables.config(font=labelfont)
     msg_Calculate_eci_variables.grid(row=8, column=0)
     '''
+    ''' What will standard calculation units be? Set them in the eci frame dictionary.
+     If a temp or press units or quantity changes, change the value in the eci frame dictionary.
+     If there is a mole quantity, assume it is correct and change the regular quantity.
+     Implement controlled changes in mole and regular quantities. For example,if a mole quantity 
+     changes, calculate the regular quantity. If that quantity already exists in the quantity box,
+     do not change it. Otherwise change it. Likewise, if the mole quantity is the same, do not change it.
+     After each change, the values in the dicionary need to be set. Check the logic, it may be better
+     to verify changes in the dictionary values and then change the mole and regular quantities
+     rather than delegating the change control to the widgets. Widgets changes update the directory 
+     and the directory updates the widgets.
+     '''
+    #pdb.set_trace()
     eci_1 = cb_eci_1.get()
     print('eci_1 is ', eci_1)
     eci_1_M_qty = e_eci_1_M_qty.get()
@@ -491,57 +611,70 @@ def Calculate_eci_variables():
     print('eci_1_M_qty is ', eci_1_M_qty)
     if not eci_1_M_qty == "":
         eci_1_mass = (db[eci_1]['mass'])
-        #print('eci_1_mass = ', eci_1_mass)
-        m_mass =  float(eci_1_M_qty) * float(eci_1_mass)
+        # print('eci_1_mass = ', eci_1_mass)
+        m_mass = float(eci_1_M_qty) * float(eci_1_mass)
         e_eci_1_qty.delete(0, END)
         e_eci_1_qty.insert(0, m_mass)
         e_Explanation.insert(END, m_mass)
         print('m_mass is ', m_mass)
+    #if not eci_1_M_qty == "":  ''' Have not yet incorporated temp and press into calculate
+    #    eci_1_temp_units = cb_1_Temp_Units.get()
+    #    print('eci_1_temp_units are ', eci_1_temp_units)
+    #    eci_1_press_units_units = cb_1_Press_Units.get()
+    #    print('eci_1_press_units_units are ', eci_1_press_units_units)
+        #eci_1_temp_units = cb_1_Temp_Units.get()
+        #e_Temp_Qty_1.delete(0, END)
+        #e_Temp_Qty_1.insert(0, 288)
+        #eci_1_press_units = "ATM"
+        #e_Press_Qty_1.delete(0, END)
+        #e_Press_Qty_1.insert(0, 0.967)
+        # vol_from_prt()    ''' Not yet ready to incorporate gas calculations into calculate process
 
 def Oxidation_Reduction():
     """This function has been entered after elements have been selected and the Continue button pressed."""
     e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
 
     Oxidation_Rate()
-    cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
+    cb_1_type = cb_Select_CB1.get()  # Get the selected type of: element, compound, or ion
     print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
     print('eci_1 = ', eci_1)
     if cb_1_type == 'elements':
         '''  *** The following works! '''
 
-        #eci_db['eci_1']['name']
-        eci_db['eci_1']['name'] = db[eci_1]['name']
-        #eci_db[eci_1]['name'] = db[eci_1]['name']
-        print("eci_db['eci_1']['name'] is ", eci_db['eci_1']['name'])
+        # eci_db['eci_1']['name']
+        eci_d['eci_1']['name'] = db[eci_1]['name']
+        # eci_db[eci_1]['name'] = db[eci_1]['name']
+        print("eci_db['eci_1']['name'] is ", eci_d['eci_1']['name'])
         eci_1_name = db[eci_1]['name']
         print("db[eci_1]['name'] is ", eci_1_name)
 
         eci_1_col = db[eci_1]['column']
         eci_1_mass = db[eci_1]['mass']
         eci_1_valence = db[eci_1]['valence']
-        eci_db['eci_1']['column'] = db[eci_1]['column']
-        eci_db['eci_1']['mass'] = db[eci_1]['mass']
-        eci_db['eci_1']['valence'] = db[eci_1]['valence']
-        print("eci_db['eci_1']['column'] is ", eci_db['eci_1']['column'])
-        print("eci_db['eci_1']['mass'] is ", eci_db['eci_1']['mass'])
-        print("eci_db['eci_1']['valence'] is ", eci_db['eci_1']['valence'])
-        #print("db[eci_1]['name'] is ", eci_1_name)
-        #print("db[eci_1]['column'] is ", eci_1_col)
-        #print("db[eci_1]['mass'] is ", eci_1_mass)
-        #print("db[eci_1]['valence'] is ", eci_1_valence)
-        #print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
+        eci_d['eci_1']['column'] = db[eci_1]['column']
+        eci_d['eci_1']['mass'] = db[eci_1]['mass']
+        eci_d['eci_1']['valence'] = db[eci_1]['valence']
+        print("eci_db['eci_1']['column'] is ", eci_d['eci_1']['column'])
+        print("eci_db['eci_1']['mass'] is ", eci_d['eci_1']['mass'])
+        print("eci_db['eci_1']['valence'] is ", eci_d['eci_1']['valence'])
+        # print("db[eci_1]['name'] is ", eci_1_name)
+        # print("db[eci_1]['column'] is ", eci_1_col)
+        # print("db[eci_1]['mass'] is ", eci_1_mass)
+        # print("db[eci_1]['valence'] is ", eci_1_valence)
+        # print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
     elif cb_1_type == 'compounds':
-        #eci_1 = cb_eci_1.get()
-        #print('eci_1 = ', eci_1)
+        # eci_1 = cb_eci_1.get()
+        # print('eci_1 = ', eci_1)
         e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
         print("Oxidation_Reduction eci_1 can't process compounds yet")
     elif cb_1_type == 'ions':
-        #eci_1 = cb_eci_1.get()
-        #print('eci_1 = ', eci_1)
+        # eci_1 = cb_eci_1.get()
+        # print('eci_1 = ', eci_1)
         e_Explanation.insert(tk.END, "Error in Oxidation_Reduction eci_1 can't process compounds yet")
-    else: print("Oxidation_Reduction process eci_1 else clause")
-    cb_2_type = cb_Select_CB2.get()   # Get the selected type of: element, compound, or ion
+    else:
+        print("Oxidation_Reduction process eci_1 else clause")
+    cb_2_type = cb_Select_CB2.get()  # Get the selected type of: element, compound, or ion
     print('eci_2_type = ', cb_2_type)
     if cb_2_type == 'elements':
         eci_2 = cb_eci_2.get()
@@ -555,23 +688,24 @@ def Oxidation_Reduction():
         print("db[eci_2]['column'] is ", eci_2_col)
         print("db[eci_2]['mass'] is ", eci_2_mass)
         print("db[eci_2]['valence'] is ", eci_2_valence)
-        #print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
+        # print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
     elif cb_2_type == 'compounds':
-        #eci_2 = cb_eci_2.get()
-        #print('eci_2 = ', eci_2)
+        # eci_2 = cb_eci_2.get()
+        # print('eci_2 = ', eci_2)
         print("Error in Oxidation_Reduction eci_2 can't process compounds yet")
     elif cb_2_type == 'ions':
-        #eci_2 = cb_eci_2.get()
-        #print('eci_2 = ', eci_2)
+        # eci_2 = cb_eci_2.get()
+        # print('eci_2 = ', eci_2)
         print("Error in Oxidation_Reduction eci_2 can't process ions yet")
-    else: print("Error in Oxidation_Reduction process eci_2 else clause")
-    cb_3_type = cb_Select_CB3.get()   # Get the selected type of: element, compound, or ion
+    else:
+        print("Error in Oxidation_Reduction process eci_2 else clause")
+    cb_3_type = cb_Select_CB3.get()  # Get the selected type of: element, compound, or ion
     print('eci_3_type = ', cb_3_type)
     eci_3 = cb_eci_3.get()
     print('eci_3 = ', eci_3)
     if cb_3_type == 'elements':
-        #eci_3 = cb_eci_3.get()
-        #print('eci_3 = ', eci_3)
+        # eci_3 = cb_eci_3.get()
+        # print('eci_3 = ', eci_3)
         '''  *** The following works! '''
         eci_3_name = db[eci_3]['name']
         eci_3_col = db[eci_3]['column']
@@ -581,27 +715,31 @@ def Oxidation_Reduction():
         print("db[eci_3]['column'] is ", eci_3_col)
         print("db[eci_3]['mass'] is ", eci_3_mass)
         print("db[eci_3]['valence'] is ", eci_3_valence)
-        #print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
+        # print(eci_1_valence)   # Prints out the variable #str(eci_1).affinity
     elif cb_3_type == 'compounds':
-        #eci_3 = cb_eci_3.get()
-        #print('eci_3 = ', eci_3)
+        # eci_3 = cb_eci_3.get()
+        # print('eci_3 = ', eci_3)
         print("Error in Oxidation_Reduction eci_3 can't process compounds yet")
     elif cb_3_type == 'ions':
-        #eci_3 = cb_eci_3.get()
-        #print('eci_3 = ', eci_3)
+        # eci_3 = cb_eci_3.get()
+        # print('eci_3 = ', eci_3)
         print("Error in Oxidation_Reduction eci_3 can't process ions yet")
     elif cb_3_type == "":
         pass
-    else: e_Explanation.insert(tk.END, "Error in Oxidation_Reduction process eci_3 else clause\n")
+    else:
+        e_Explanation.insert(tk.END, "Error in Oxidation_Reduction process eci_3 else clause\n")
 
-    #if cb_eci_1.get() == 'elements':
+    # if cb_eci_1.get() == 'elements':
     #    eci_1 = cb_eci_1.get()
     #    print('eci_1 = ', eci_1)
     #    print('eci_1_type = ', cb_eci_1.get())
+
+
 def Precipitation():
     """ print("Pressed update_record button") """
     e_Explanation.insert(tk.END, "Precipitation process entered\n")
-    #print("Precipitation process entered")
+    # print("Precipitation process entered")
+
 
 def Oxidation_Rate():
     cb_1_type = cb_Select_CB1.get()
@@ -613,12 +751,20 @@ def Oxidation_Rate():
         Oxidation_Rate_Compounds()
     elif cb_1_type == 'ions' or cb_2_type == 'ions' and cb_3_type == 'ions':
         Oxidation_Rate_Ions()
-    else: e_Explanation.insert(tk.END, "Oxidation_Rate process fell through to else clause\n")
+    else:
+        e_Explanation.insert(tk.END, "Oxidation_Rate process fell through to else clause\n")
+
+
 ''' Oxidation_Rate_Compounds and Oxidation_Rate_Ions are placeholders for future use as needed. '''
+
+
 def Oxidation_Rate_Compounds():
     e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Compounds process\n")
+
+
 def Oxidation_Rate_Ions():
     e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions process\n")
+
 
 def Oxidation_Rate_Elements():
     ''' This function has been entered after elements have been selected and the Continue button pressed. Each item is an element. Compounds and ions use a different function.
@@ -639,17 +785,17 @@ def Oxidation_Rate_Elements():
     eci_2 = cb_eci_2.get()
     eci_3 = cb_eci_3.get()
     ''' Set the values in the eci frame dictionary. '''
-    eci_db['eci_1']['eci'] = cb_eci_1.get()
-    eci_db['eci_2']['eci'] = cb_eci_2.get()
-    eci_db['eci_3']['eci'] = cb_eci_3.get()
+    eci_1_temp_units = cb_1_Temp_Units.get()
+    eci_d['eci_2']['eci'] = cb_eci_2.get()
+    eci_d['eci_3']['eci'] = cb_eci_3.get()
     ''' The following demonstrate the direct assignments of frame values 
     from the element dictionary. '''
-    eci_db['eci_1']['eci_type'] = cb_Select_CB1.get()
-    eci_db['eci_2']['eci_type'] = cb_Select_CB2.get()
-    eci_db['eci_3']['eci_type'] = cb_Select_CB3.get()
-    print("eci_db['eci_1']['eci'] is ", eci_db['eci_1']['eci'])
-    print("eci_db['eci_2']['eci'] is ", eci_db['eci_2']['eci'])
-    print("eci_db['eci_3']['eci'] is ", eci_db['eci_3']['eci'])
+    eci_d['eci_1']['eci_type'] = cb_Select_CB1.get()
+    eci_d['eci_2']['eci_type'] = cb_Select_CB2.get()
+    eci_d['eci_3']['eci_type'] = cb_Select_CB3.get()
+    print("eci_db['eci_1']['eci'] is ", eci_d['eci_1']['eci'])
+    print("eci_db['eci_2']['eci'] is ", eci_d['eci_2']['eci'])
+    print("eci_db['eci_3']['eci'] is ", eci_d['eci_3']['eci'])
 
     ''' if eci_db['eci_1']['eci_type'] == 'elements': is no longer needed
     because all non-elements have been moved to another function. '''
@@ -674,7 +820,7 @@ def Oxidation_Rate_Elements():
     print("db[eci_2]['_group'] is ", eci_2_group)
     print("db[eci_2]['valence'] is ", eci_2_valence)
     print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
-    if eci_db['eci_3']['eci_type'] == 'elements':
+    if eci_d['eci_3']['eci_type'] == 'elements':
         eci_3_name = db[eci_3]['name']
         eci_3_group = db[eci_3]['_group']
         eci_3_valence = db[eci_3]['valence']
@@ -714,7 +860,7 @@ def Oxidation_Rate_Elements():
                     eci_1_M_qty = 1
                     e_eci_1_M_qty.delete(0)
                     e_eci_1_M_qty.insert(0, eci_1_M_qty)
-                    eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
+                    eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
                     e_eci_2_M_qty.delete(0, END)
                     e_eci_2_M_qty.insert(0, eci_2_M_qty)
                     ''' Set the type and value of the compound.'''
@@ -744,8 +890,9 @@ def Oxidation_Rate_Elements():
                     print("e_eci_1_M_qty is ", e_eci_1_M_qty.get())
                     print("e_eci_2_M_qty is ", e_eci_2_M_qty.get())
                 elif eci_1_electronegativity > eci_2_electronegativity:
-                    print("In Oxidation_Rate_Elements eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
-            elif eci_2_group == "6A":   # Will need to exclude Oxygen for some compounds
+                    print(
+                        "In Oxidation_Rate_Elements eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
+            elif eci_2_group == "6A":  # Will need to exclude Oxygen for some compounds
                 print("In Oxidation_Rate_Elements eci_2_group == 6A.")
                 db[eci_2]['_group'] = eci_2_group
                 print("db[eci_2]['_group'] is ", eci_2_group)
@@ -757,11 +904,11 @@ def Oxidation_Rate_Elements():
                     print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
                     if eci_2_valence == -2 and eci_1_valence == "1":
                         print("if eci_2_valence == -2 and eci_1_valence == 1:")
-                        print("eci_1 is", eci_1, "eci_2_valence is", eci_2_valence, "eci_2 is", eci_2 )
+                        print("eci_1 is", eci_1, "eci_2_valence is", eci_2_valence, "eci_2 is", eci_2)
                         eci_4 = eci_1 + str(abs(eci_2_valence)) + eci_2
                         e_eci_1_M_qty.delete(0)
                         e_eci_1_M_qty.insert(0, eci_1_M_qty)
-                        eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
+                        eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
                         e_eci_2_M_qty.delete(0, END)
                         e_eci_2_M_qty.insert(0, eci_2_M_qty)
                     elif -int(eci_2_valence) == int(eci_1_valence):
@@ -775,10 +922,10 @@ def Oxidation_Rate_Elements():
                         eci_4 = eci_1 + str(-eci_2_valence) + eci_2 + str(eci_1_valence)
                         print("-int(eci_2_valence) is", -int(eci_2_valence))
                         print("int(eci_1_valence) is", int(eci_1_valence))
-                        #eci_4 = eci_1 + eci_2 + eci_1_valence
+                        # eci_4 = eci_1 + eci_2 + eci_1_valence
                         e_eci_1_M_qty.delete(0)
                         e_eci_1_M_qty.insert(0, eci_1_M_qty)
-                        eci_2_M_qty = eci_1_valence #This is correct. Cross assign valences to quantities
+                        eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
                         e_eci_2_M_qty.delete(0, END)
                         e_eci_2_M_qty.insert(0, eci_2_M_qty)
                     cb_eci_4.set(eci_4)
@@ -791,36 +938,45 @@ def Oxidation_Rate_Elements():
                     e_eci_1_qty.insert(0, eci_1_massa)
                     e_eci_2_qty.delete(0)
                     e_eci_2_qty.insert(0, float(eci_2_M_qty) * float(eci_2_mass))
-                    #eci_1_M_qty = 1
+                    # eci_1_M_qty = 1
 
-            elif not eci_2_group == "6A"and not eci_2_group == "7A":
+            elif not eci_2_group == "6A" and not eci_2_group == "7A":
                 print("In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.")
             elif eci_1_electronegativity > eci_1_electronegativity:
                 pass
-    elif not eci_1_valence.isnumeric():   # if eci_1_valence is a string of valence values
+    elif not eci_1_valence.isnumeric():  # if eci_1_valence is a string of valence values
         print("In Oxidation_Rate_Elements not eci_1_valence.isnumeri.")
-    else: e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
+    else:
+        e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
+
 
 def Acid_Base():
     e_Explanation.insert(tk.END, "Acid_Base process entered\n")
+
+
 def Decompose():
     e_Explanation.insert(tk.END, "Decompose process entered\n")
+
 
 def Refine():
     e_Explanation.insert(tk.END, "Refine process entered\n")
 
+
 def Metathesis():
     e_Explanation.insert(tk.END, "Metathesis process entered\n")
+
 
 def Oxidization():
     e_Explanation.insert(tk.END, "Oxidization process entered\n")
 
+
 def Reduction():
     e_Explanation.insert(tk.END, "Reduction process entered\n")
 
+
 def Synthesis():
     '''
-    Option 1. The user will select a product and the progrtam will determine the reactants
+    Option 1. The user will select a product and the program will determine the reactants
     and the by-products.
     Option 2. The user will start by entering compounds and or elements in the left side of the
     GUI. Since there are so many possibilities, the user will need to specify the reactants and
@@ -831,8 +987,8 @@ def Synthesis():
     will be by-products, the list must contain all the compounds that have any of the reactants.
     All products that do not have those elements can be eliminated from the products box --
     even catalysts can be eliminated because they will be specified in a separate combo box.
-    When a pirmary product has been selected, start the synthesis process by calculating the
-    ozidation status, then
+    When a primary product has been selected, start the synthesis process by calculating the
+    oxidation status, then
 
     '''
     e_Explanation.insert(tk.END, "Synthesis process entered\n")
@@ -842,24 +998,24 @@ def Synthesis():
     Oxidation_Rate()
     ''' Consider starting with a compound formula or name.'''
 
-    cb_1_type = cb_Select_CB1.get()   # Get the selected type of: element, compound, or ion
+    cb_1_type = cb_Select_CB1.get()  # Get the selected type of: element, compound, or ion
     cb_2_type = cb_Select_CB2.get()
     cb_3_type = cb_Select_CB3.get()
 
     print("cb_1_type is", cb_1_type, "cb_2_type is", cb_2_type)
 
-    #e_Explanation.insert(tk.END, "cb_1_type = cb_Select_CB1.get() step\n")
+    # e_Explanation.insert(tk.END, "cb_1_type = cb_Select_CB1.get() step\n")
 
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
-    #if cb_1_type == 'elements':
+    # if cb_1_type == 'elements':
     #    eci_1_valence = db[eci_1]['valence']
     #    eci_2_valence = db[eci_2]['valence']
     #    print("eci_1 is", eci_1, "eci_2 is", eci_2)
-    #eci_3 = cb_eci_3.get()
-     # and eci_1 != ''
-    #eci_1_valence = db[eci_1]['valence']
-    #eci_3_group = db[eci_3]['_group']
+    # eci_3 = cb_eci_3.get()
+    # and eci_1 != ''
+    # eci_1_valence = db[eci_1]['valence']
+    # eci_3_group = db[eci_3]['_group']
     '''
     Cut out code that determines oxidation rate for elements.
     '''
@@ -867,9 +1023,10 @@ def Synthesis():
         eci_1 = cb_eci_1.get()
         print('eci_1 is ', eci_1)
         eci_1_name = c_db[eci_1]['name']
-        #eci_1_name = c_db[eci_1]['name']
+        # eci_1_name = c_db[eci_1]['name']
         print('eci_1_name is ', eci_1_name)
-        #e_Explanation.insert(tk.END, "In Synthesis, compounds.\n")
+        # e_Explanation.insert(tk.END, "In Synthesis, compounds.\n")
+
 
 '''
         if eci_1_valence < eci_2_valence:
@@ -881,13 +1038,15 @@ def Synthesis():
             balance = 1
             print('Synthesis balance is:' ,balance)
 '''
+
+
 def setClassItem(eventObject):
     ''' If eci_1 or eci_2 are elements, set their quantity and name variables. '''
     e_Explanation.insert(tk.END, "setClassItem process entered\n")
-    #print("setClassItem process entered")
+    # print("setClassItem process entered")
     eci_1 = cb_eci_1.get()
-    #print('eci_1 is', eci_1)
-    #*** The following works!
+    # print('eci_1 is', eci_1)
+    # *** The following works!
     if cb_1_type == 'elements':
         eci_temp_1_qty = db[eci_1]['mass']
         eci_1_name = db[eci_1]['name']
@@ -899,6 +1058,7 @@ def setClassItem(eventObject):
         eci_1_name = c_db[eci_1]['name']
         print('eci_1 = ', eci_1)
         print("In setClassItem at elif compounds")
+
 
 def setSelectedItemName(ComboboxSelected):
     cb_1_type = cb_Select_CB1.get()
@@ -919,116 +1079,160 @@ def setSelectedItemName(ComboboxSelected):
     eci_4_name = cb_eci_4_N.get()
     eci_5_name = cb_eci_5_N.get()
     eci_6_name = cb_eci_6_N.get()
-    #print("eci_1_name is ", eci_1_name)
+    # print("eci_1_name is ", eci_1_name)
     if cb_1_type == 'elements':
         try:
             if not eci_1_name == db[eci_1]['name']:
-                cb_eci_1_N.set(db[eci_1]['name'])
+                cb_eci_1_N.set(db[eci_1]['name'])   # This works
+                eci_1_d['eci'] = cb_eci_1.get()
+                eci_1_d['name'] = db[eci_1]['name'] #cb_eci_1_N.get()
+                eci_d['eci_1']['eci'] = eci_1
+                eci_d['eci_1']['name'] = db[eci_1]['name'] #eci_1_name
+                #print("eci_db['eci_1']['eci'] is ", eci_db['eci_1']['eci'])
+                #print("eci_db['eci_1']['name'] is ", eci_db['eci_1']['name'])
+                #print("eci_1_d['eci'] is ", eci_1_d['eci'])
+                #print("eci_1_d['name'] is ", eci_1_d['name'])
         except KeyError:
             cb_eci_1_N.set("not a valid key")
     elif cb_1_type == 'compounds':
         try:
             if not eci_1_name == c_db[eci_1]['name']:
                 cb_eci_1_N.set(c_db[eci_1]['name'])
+                eci_1_d['eci'] = cb_eci_1.get()
+                eci_1_d['name'] = eci_1_name
         except KeyError:
             cb_eci_1_N.set("not a valid key")
     elif cb_1_type == 'ions':
         try:
             if not eci_1_name == i_db[eci_1]['name']:
                 cb_eci_1_N.set(i_db[eci_1]['name'])
+                eci_1_d['eci'] = cb_eci_1.get()
+                eci_1_d['name'] = eci_1_name
         except KeyError:
             cb_eci_1_N.set("not a valid key")
     if cb_2_type == 'elements':
         try:
             if not eci_2_name == db[eci_2]['name']:
                 cb_eci_2_N.set(db[eci_2]['name'])
+                eci_2_d['eci'] = cb_eci_2.get()
+                eci_2_d['name'] = eci_2_name
         except KeyError:
             cb_eci_2_N.set("not a valid key")
     elif cb_2_type == 'compounds':
         try:
             if not eci_2_name == c_db[eci_2]['name']:
                 cb_eci_2_N.set(c_db[eci_2]['name'])
+                eci_2_d['eci'] = cb_eci_2.get()
+                eci_2_d['name'] = eci_2_name
         except KeyError:
             cb_eci_2_N.set("not a valid key")
     elif cb_2_type == 'ions':
         try:
             if not eci_2_name == i_db[eci_2]['name']:
                 cb_eci_2_N.set(i_db[eci_2]['name'])
+                eci_2_d['eci'] = cb_eci_2.get()
+                eci_2_d['name'] = eci_2_name
         except KeyError:
             cb_eci_2_N.set("not a valid key")
     if cb_3_type == 'elements':
         try:
             if not eci_3_name == db[eci_3]['name']:
                 cb_eci_3_N.set(db[eci_3]['name'])
+                eci_3_d['eci'] = cb_eci_3.get()
+                eci_3_d['name'] = eci_3_name
         except KeyError:
             cb_eci_3_N.set("not a valid key")
     elif cb_3_type == 'compounds':
         try:
             if not eci_3_name == c_db[eci_3]['name']:
                 cb_eci_3_N.set(c_db[eci_3]['name'])
+                eci_3_d['eci'] = cb_eci_3.get()
+                eci_3_d['name'] = eci_3_name
         except KeyError:
             cb_eci_3_N.set("not a valid key")
     elif cb_3_type == 'ions':
         try:
             if not eci_3_name == i_db[eci_3]['name']:
                 cb_eci_3_N.set(i_db[eci_3]['name'])
+                eci_3_d['eci'] = cb_eci_3.get()
+                eci_3_d['name'] = eci_3_name
         except KeyError:
             cb_eci_3_N.set("not a valid key")
     if cb_4_type == 'elements':
         try:
             if not eci_4_name == db[eci_4]['name']:
                 cb_eci_4_N.set(db[eci_4]['name'])
+                eci_4_d['eci'] = cb_eci_4.get()
+                eci_4_d['name'] = eci_4_name
         except KeyError:
             cb_eci_4_N.set("not a valid key")
     elif cb_4_type == 'compounds':
         try:
             if not eci_4_name == c_db[eci_4]['name']:
                 cb_eci_4_N.set(c_db[eci_4]['name'])
+                eci_4_d['eci'] = cb_eci_4.get()
+                eci_4_d['name'] = eci_4_name
         except KeyError:
             cb_eci_4_N.set("not a valid key")
     elif cb_4_type == 'ions':
         try:
             if not eci_4_name == i_db[eci_4]['name']:
                 cb_eci_4_N.set(i_db[eci_4]['name'])
+                eci_4_d['eci'] = cb_eci_4.get()
+                eci_4_d['name'] = eci_4_name
         except KeyError:
             cb_eci_4_N.set("not a valid key")
     if cb_5_type == 'elements':
         try:
             if not eci_5_name == db[eci_5]['name']:
                 cb_eci_5_N.set(db[eci_5]['name'])
+                eci_5_d['eci'] = cb_eci_5.get()
+                eci_5_d['name'] = eci_5_name
         except KeyError:
             cb_eci_5_N.set("not a valid key")
     elif cb_5_type == 'compounds':
         try:
             if not eci_5_name == c_db[eci_5]['name']:
                 cb_eci_5_N.set(c_db[eci_5]['name'])
+                eci_5_d['eci'] = cb_eci_5.get()
+                eci_5_d['name'] = eci_5_name
         except KeyError:
             cb_eci_5_N.set("not a valid key")
     elif cb_5_type == 'ions':
         try:
             if not eci_5_name == i_db[eci_5]['name']:
                 cb_eci_5_N.set(i_db[eci_5]['name'])
+                eci_5_d['eci'] = cb_eci_5.get()
+                eci_5_d['name'] = eci_5_name
         except KeyError:
             cb_eci_5_N.set("not a valid key")
     if cb_6_type == 'elements':
         try:
             if not eci_6_name == db[eci_6]['name']:
                 cb_eci_6_N.set(db[eci_6]['name'])
+                eci_6_d['eci'] = cb_eci_6.get()
+                eci_6_d['name'] = eci_6_name
         except KeyError:
             cb_eci_6_N.set("not a valid key")
     elif cb_6_type == 'compounds':
         try:
             if not eci_6_name == c_db[eci_6]['name']:
                 cb_eci_6_N.set(c_db[eci_6]['name'])
+                eci_6_d['eci'] = cb_eci_6.get()
+                eci_6_d['name'] = eci_6_name
         except KeyError:
             cb_eci_6_N.set("not a valid key")
     elif cb_6_type == 'ions':
         try:
             if not eci_6_name == i_db[eci_6]['name']:
                 cb_eci_6_N.set(i_db[eci_6]['name'])
+                eci_6_d['eci'] = cb_eci_6.get()
+                eci_6_d['name'] = eci_6_name
         except KeyError:
             cb_eci_6_N.set("not a valid key")
-    else: pass #print('In else clause of setSelectedItemName.')
+    else:
+        pass  # print('In else clause of setSelectedItemName.')
+
 
 def setSelectedItemFormula(ComboboxSelected):
     eci_1_N = cb_eci_1_N.get()
@@ -1044,60 +1248,62 @@ def setSelectedItemFormula(ComboboxSelected):
     cb_5_type = cb_Select_CB5.get()
     cb_6_type = cb_Select_CB6.get()
     if cb_1_type == 'elements':
-         if not eci_1 ==element_names_Dict[cb_eci_1_N.get()]:
+        if not eci_1 == element_names_Dict[cb_eci_1_N.get()]:
             cb_eci_1.set(element_names_Dict[cb_eci_1_N.get()])
     elif cb_1_type == 'compounds':
-        if not eci_1 ==compounds_names_dict[cb_eci_1_N.get()]:
+        if not eci_1 == compounds_names_dict[cb_eci_1_N.get()]:
             cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
-        else: print('eci_1 is already correct and doesn\'t need to be reset')
+        else:
+            print('eci_1 is already correct and doesn\'t need to be reset')
     elif cb_1_type == 'ions':
-        if not eci_1 ==ion_names_dict[cb_eci_1_N.get()]:
+        if not eci_1 == ion_names_dict[cb_eci_1_N.get()]:
             cb_eci_1.set(ion_names_dict[cb_eci_1_N.get()])
     if cb_2_type == 'elements':
-         if not eci_2 ==element_names_Dict[cb_eci_2_N.get()]:
+        if not eci_2 == element_names_Dict[cb_eci_2_N.get()]:
             cb_eci_2.set(element_names_Dict[cb_eci_2_N.get()])
     elif cb_2_type == 'compounds':
-        if not eci_2 ==compounds_names_dict[cb_eci_2_N.get()]:
+        if not eci_2 == compounds_names_dict[cb_eci_2_N.get()]:
             cb_eci_2.set(compounds_names_dict[cb_eci_2_N.get()])
     elif cb_2_type == 'ions':
-        if not eci_2 ==ion_names_dict[cb_eci_2_N.get()]:
+        if not eci_2 == ion_names_dict[cb_eci_2_N.get()]:
             cb_eci_2.set(ion_names_dict[cb_eci_2_N.get()])
     if cb_3_type == 'elements':
-         if not eci_3 ==element_names_Dict[cb_eci_3_N.get()]:
+        if not eci_3 == element_names_Dict[cb_eci_3_N.get()]:
             cb_eci_3.set(element_names_Dict[cb_eci_3_N.get()])
     elif cb_3_type == 'compounds':
-        if not eci_3 ==compounds_names_dict[cb_eci_3_N.get()]:
+        if not eci_3 == compounds_names_dict[cb_eci_3_N.get()]:
             cb_eci_3.set(compounds_names_dict[cb_eci_3_N.get()])
     elif cb_3_type == 'ions':
-        if not eci_3 ==ion_names_dict[cb_eci_3_N.get()]:
+        if not eci_3 == ion_names_dict[cb_eci_3_N.get()]:
             cb_eci_3.set(ion_names_dict[cb_eci_3_N.get()])
     if cb_4_type == 'elements':
-         if not eci_4 ==element_names_Dict[cb_eci_4_N.get()]:
+        if not eci_4 == element_names_Dict[cb_eci_4_N.get()]:
             cb_eci_4.set(element_names_Dict[cb_eci_4_N.get()])
     elif cb_4_type == 'compounds':
-        if not eci_4 ==compounds_names_dict[cb_eci_4_N.get()]:
+        if not eci_4 == compounds_names_dict[cb_eci_4_N.get()]:
             cb_eci_4.set(compounds_names_dict[cb_eci_4_N.get()])
     elif cb_4_type == 'ions':
-        if not eci_4 ==ion_names_dict[cb_eci_4_N.get()]:
+        if not eci_4 == ion_names_dict[cb_eci_4_N.get()]:
             cb_eci_4.set(ion_names_dict[cb_eci_4_N.get()])
     if cb_5_type == 'elements':
-         if not eci_5 ==element_names_Dict[cb_eci_5_N.get()]:
+        if not eci_5 == element_names_Dict[cb_eci_5_N.get()]:
             cb_eci_5.set(element_names_Dict[cb_eci_5_N.get()])
     elif cb_5_type == 'compounds':
-        if not eci_5 ==compounds_names_dict[cb_eci_5_N.get()]:
+        if not eci_5 == compounds_names_dict[cb_eci_5_N.get()]:
             cb_eci_5.set(compounds_names_dict[cb_eci_5_N.get()])
     elif cb_5_type == 'ions':
-        if not eci_5 ==ion_names_dict[cb_eci_5_N.get()]:
+        if not eci_5 == ion_names_dict[cb_eci_5_N.get()]:
             cb_eci_5.set(ion_names_dict[cb_eci_5_N.get()])
     if cb_6_type == 'elements':
-         if not eci_6 ==element_names_Dict[cb_eci_6_N.get()]:
+        if not eci_6 == element_names_Dict[cb_eci_6_N.get()]:
             cb_eci_6.set(element_names_Dict[cb_eci_6_N.get()])
     elif cb_6_type == 'compounds':
-        if not eci_6 ==compounds_names_dict[cb_eci_6_N.get()]:
+        if not eci_6 == compounds_names_dict[cb_eci_6_N.get()]:
             cb_eci_6.set(compounds_names_dict[cb_eci_6_N.get()])
     elif cb_6_type == 'ions':
-        if not eci_6 ==ion_names_dict[cb_eci_6_N.get()]:
+        if not eci_6 == ion_names_dict[cb_eci_6_N.get()]:
             cb_eci_6.set(ion_names_dict[cb_eci_6_N.get()])
+
 
 def eci_units_selected(*arg):
     ''' If gas units are selected, the user needs to fill in temperature and pressure
@@ -1105,82 +1311,101 @@ def eci_units_selected(*arg):
     The user can reset the displayed units and quantities, but they will be converted into
     the units and quantities actually used to calculate quantities used by the program.  '''
     print("In process eci_units_selected")
-    print("cb_eci_1_units.get() is ", cb_eci_1_units.get())
+    #print("cb_eci_1_units.get() is ", cb_eci_1_units.get())
     eci_1_units = cb_eci_1_units.get()
     eci_2_units = cb_eci_2_units.get()
     eci_3_units = cb_eci_3_units.get()
     eci_4_units = cb_eci_4_units.get()
     eci_5_units = cb_eci_5_units.get()
     eci_6_units = cb_eci_6_units.get()
-    eci_db['eci_1']['display_units'] = cb_eci_1_units.get()
-    eci_db['eci_2']['display_units'] = cb_eci_2_units.get()
-    eci_db['eci_3']['display_units'] = cb_eci_3_units.get()
-    eci_db['eci_4']['display_units'] = cb_eci_4_units.get()
-    eci_db['eci_5']['display_units'] = cb_eci_5_units.get()
-    eci_db['eci_6']['display_units'] = cb_eci_6_units.get()
-    if eci_1_units == 'liters(g)' or eci_1_units == 'ml(g)':
+    eci_d['eci_1']['display_units'] = cb_eci_1_units.get()
+    eci_d['eci_2']['display_units'] = cb_eci_2_units.get()
+    eci_d['eci_3']['display_units'] = cb_eci_3_units.get()
+    eci_d['eci_4']['display_units'] = cb_eci_4_units.get()
+    eci_d['eci_5']['display_units'] = cb_eci_5_units.get()
+    eci_d['eci_6']['display_units'] = cb_eci_6_units.get()
+    if eci_1_units == 'liters(l)' or eci_1_units == 'ml(l)' or eci_1_units == 'liters(g)' or eci_1_units == 'ml(g)':    #liters(l) liters(g) ml(l) ml(g
         if cb_1_Temp_Units.get() == "":
-            eci_1_temp_units = cb_1_Temp_Units.set('C')
-            e_Temp_Qty_1.delete(0, 'end')
-            e_Temp_Qty_1.insert(0, '25')
+            eci_1_temp_units = cb_1_Temp_Units.set('K')
         if cb_1_Press_Units.get() == "":
-            eci_1_press_units = cb_1_Press_Units.set('torr')
-            e_Press_Qty_1.delete(0, 'end')
-            e_Press_Qty_1.insert(0, '760')
-        #print('cb_eci_1_units are ', eci_1_units)
-    #elif not eci_1_units == 'liters(g)' and not eci_1_units == 'ml(g)':
+            eci_1_press_units = cb_1_Press_Units.set('ATM')
+    # elif not eci_1_units == 'liters(g)' and not eci_1_units == 'ml(g)':
     #     print('cb_eci_1_units are ', eci_1_units)
-    if eci_2_units == 'liters(g)' or eci_2_units == 'ml(g)':
+    if eci_2_units == 'liters(l)' or eci_2_units == 'ml(l)' or eci_2_units == 'liters(g)' or eci_2_units == 'ml(g)':
         if cb_2_Temp_Units.get() == "":
-            eci_2_temp_units = cb_2_Temp_Units.set('C')
-            e_Temp_Qty_2.delete(0, 'end')
-            e_Temp_Qty_2.insert(0, '25')
+            eci_2_temp_units = cb_2_Temp_Units.set('K')
         if cb_2_Press_Units.get() == "":
-            eci_2_press_units = cb_2_Press_Units.set('torr')
-            e_Press_Qty_2.delete(0, 'end')
-            e_Press_Qty_2.insert(0, '760')
-    if eci_3_units == 'liters(g)' or eci_3_units == 'ml(g)':
+            eci_2_press_units = cb_2_Press_Units.set('ATM')
+    if eci_3_units == 'liters(l)' or eci_3_units == 'ml(l)' or eci_3_units == 'liters(g)' or eci_3_units == 'ml(g)':
         if cb_3_Temp_Units.get() == "":
-            eci_3_temp_units = cb_3_Temp_Units.set('C')
-            e_Temp_Qty_3.delete(0, 'end')
-            e_Temp_Qty_3.insert(0, '25')
+            eci_3_temp_units = cb_3_Temp_Units.set('K')
         if cb_3_Press_Units.get() == "":
-            eci_3_press_units = cb_3_Press_Units.set('torr')
-            e_Press_Qty_3.delete(0, 'end')
-            e_Press_Qty_3.insert(0, '760')
-    if eci_4_units == 'liters(g)' or eci_4_units == 'ml(g)':
+            eci_3_press_units = cb_3_Press_Units.set('ATM')
+    if eci_4_units == 'liters(l)' or eci_4_units == 'ml(l)' or eci_4_units == 'liters(g)' or eci_4_units == 'ml(g)':
         if cb_4_Temp_Units.get() == "":
-            eci_4_temp_units = cb_4_Temp_Units.set('C')
-            e_Temp_Qty_4.delete(0, 'end')
-            e_Temp_Qty_4.insert(0, '25')
+            eci_4_temp_units = cb_4_Temp_Units.set('K')
         if cb_4_Press_Units.get() == "":
-            eci_4_press_units = cb_4_Press_Units.set('torr')
-            e_Press_Qty_4.delete(0, 'end')
-            e_Press_Qty_4.insert(0, '760')
-    if eci_5_units == 'liters(g)' or eci_5_units == 'ml(g)':
+            eci_4_press_units = cb_4_Press_Units.set('ATM')
+    if eci_5_units == 'liters(l)' or eci_5_units == 'ml(l)' or eci_5_units == 'liters(g)' or eci_5_units == 'ml(g)':
         if cb_5_Temp_Units.get() == "":
-            eci_5_temp_units = cb_5_Temp_Units.set('C')
-            e_Temp_Qty_5.delete(0, 'end')
-            e_Temp_Qty_5.insert(0, '25')
+            eci_5_temp_units = cb_5_Temp_Units.set('K')
         if cb_4_Press_Units.get() == "":
-            eci_5_press_units = cb_5_Press_Units.set('torr')
-            e_Press_Qty_5.delete(0, 'end')
-            e_Press_Qty_5.insert(0, '760')
-    if eci_6_units == 'liters(g)' or eci_6_units == 'ml(g)':
+            eci_5_press_units = cb_5_Press_Units.set('ATM')
+    if eci_6_units == 'liters(l)' or eci_6_units == 'ml(l)' or eci_6_units == 'liters(g)' or eci_6_units == 'ml(g)':
         if cb_6_Temp_Units.get() == "":
-            eci_6_temp_units = cb_6_Temp_Units.set('C')
-            e_Temp_Qty_6.delete(0, 'end')
-            e_Temp_Qty_6.insert(0, '25')
+            eci_6_temp_units = cb_6_Temp_Units.set('K')
         if cb_6_Press_Units.get() == "":
-            eci_6_press_units = cb_6_Press_Units.set('torr')
-            e_Press_Qty_6.delete(0, 'end')
-            e_Press_Qty_6.insert(0, '760')
-        #print("eci_db['eci_1']['display_units'] are ", eci_db['eci_1']['display_units'])
+            eci_6_press_units = cb_6_Press_Units.set('ATM')
+    eci_d['eci_1']['display_temp_units'] = cb_1_Temp_Units.get()
+    eci_d['eci_2']['display_temp_units'] = cb_2_Temp_Units.get()
+    eci_d['eci_3']['display_temp_units'] = cb_3_Temp_Units.get()
+    eci_d['eci_4']['display_temp_units'] = cb_4_Temp_Units.get()
+    eci_d['eci_5']['display_temp_units'] = cb_5_Temp_Units.get()
+    eci_d['eci_6']['display_temp_units'] = cb_6_Temp_Units.get()
+    eci_d['eci_1']['display_press_units'] = cb_1_Press_Units.get()
+    eci_d['eci_2']['display_press_units'] = cb_2_Press_Units.get()
+    eci_d['eci_3']['display_press_units'] = cb_3_Press_Units.get()
+    eci_d['eci_4']['display_press_units'] = cb_4_Press_Units.get()
+    eci_d['eci_5']['display_press_units'] = cb_5_Press_Units.get()
+    eci_d['eci_6']['display_press_units'] = cb_6_Press_Units.get()
+    #print("eci_db['eci_1']['display_temp_units'] are ", eci_db['eci_1']['display_temp_units'])
+    #print("eci_db['eci_1']['display_press_units'] are ", eci_db['eci_1']['display_press_units'])
+
+''' I want to write separate lambda expressions for each entry and combobox
+    that will update the associated dictionary field.
+    Can I rewrite set_eci_db_eci_1_qty(qty) as a lambda expression such as:
+    set_eci_db_eci_1_qty = e_eci_1_qty.get() for each entry and combobox
+    so I don't have to write separate functions for each.
+    Or, is it better to use eci_units_selected to check and set every dictionary variable
+    everytime one of them is changed.
+'''
+
+def set_eci_db_eci_1_qty(qty):
+    set_eci_db_eci_1_qty = qty
+    print('set_eci_db_eci_1_qty is ', set_eci_db_eci_1_qty)
+
+def vol_from_prt():
+    ''' Calculate volume given pressure, R constant, and temperature. pv = nRt'''
+    n = float(eci_1_M_qty.get())    # getdouble
+    R = 0.08206 # R value for these units
+    if eci_1_temp_units.get() == 'C':
+        T = 273.15 + float(e_Temp_Qty_1.get())  #C_to_K(float(e_Temp_Qty_1.get())) got TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
+    elif eci_1_temp_units.get() == 'K':
+        T = float(e_Temp_Qty_1.get())
+    if eci_1_press_units.get() == 'ATM':
+        P = float(e_Press_Qty_1.get())
+    elif eci_1_press_units.get() == 'torr':
+        P = float(e_Temp_Qty_1.get()) * 760
+    vol = n*R*T/P
+    e_eci_1_qty.delete(0, 'end')
+    e_eci_1_qty.insert(0, vol)
+    #print(n, T, P, vol)
 
 ''' function may not be needed
 def eci_1_qty_changed(eventObject):    #callback
     eci_1_qty = e_eci_1_qty.get()   #e_eci_1_qty
     print('eci_1_qty is ', eci_1_qty)'''
+
 
 def callback_set_temp_units(eventObject):
     ''' Whenever a temperature units combo box is selected, update the eci_db variable. '''
@@ -1190,12 +1415,13 @@ def callback_set_temp_units(eventObject):
     eci_4_temp_units = cb_4_Temp_Units.get()
     eci_5_temp_units = cb_5_Temp_Units.get()
     eci_6_temp_units = cb_6_Temp_Units.get()
-    eci_db['eci_1']['display_temp_units'] = cb_1_Temp_Units.get()
-    eci_db['eci_2']['display_temp_units'] = cb_2_Temp_Units.get()
-    eci_db['eci_3']['display_temp_units'] = cb_3_Temp_Units.get()
-    eci_db['eci_4']['display_temp_units'] = cb_4_Temp_Units.get()
-    eci_db['eci_5']['display_temp_units'] = cb_5_Temp_Units.get()
-    eci_db['eci_6']['display_temp_units'] = cb_6_Temp_Units.get()
+    eci_d['eci_1']['display_temp_units'] = cb_1_Temp_Units.get()
+    eci_d['eci_2']['display_temp_units'] = cb_2_Temp_Units.get()
+    eci_d['eci_3']['display_temp_units'] = cb_3_Temp_Units.get()
+    eci_d['eci_4']['display_temp_units'] = cb_4_Temp_Units.get()
+    eci_d['eci_5']['display_temp_units'] = cb_5_Temp_Units.get()
+    eci_d['eci_6']['display_temp_units'] = cb_6_Temp_Units.get()
+
 
 def callback_set_press_units(eventObject):
     ''' Whenever a temperature units combo box is selected, update the eci_db variable. '''
@@ -1205,18 +1431,21 @@ def callback_set_press_units(eventObject):
     eci_4_press_units = cb_4_Press_Units.get()
     eci_5_press_units = cb_5_Press_Units.get()
     eci_6_press_units = cb_6_Press_Units.get()
-    eci_db['eci_1']['display_press_units'] = cb_1_Press_Units.get()
-    eci_db['eci_2']['display_press_units'] = cb_2_Press_Units.get()
-    eci_db['eci_3']['display_press_units'] = cb_3_Press_Units.get()
-    eci_db['eci_4']['display_press_units'] = cb_4_Press_Units.get()
-    eci_db['eci_5']['display_press_units'] = cb_5_Press_Units.get()
-    eci_db['eci_6']['display_press_units'] = cb_6_Press_Units.get()
+    eci_d['eci_1']['display_press_units'] = cb_1_Press_Units.get()
+    eci_d['eci_2']['display_press_units'] = cb_2_Press_Units.get()
+    eci_d['eci_3']['display_press_units'] = cb_3_Press_Units.get()
+    eci_d['eci_4']['display_press_units'] = cb_4_Press_Units.get()
+    eci_d['eci_5']['display_press_units'] = cb_5_Press_Units.get()
+    eci_d['eci_6']['display_press_units'] = cb_6_Press_Units.get()
+
 
 '''
 def callback_eci_1(eventObject):
     eci_1 = cb_eci_1.get()
     print(eci_1)
 '''
+'''
+set_temp_and_press_settings() has been superceded by callback_set_temp_units and callback_set_press_units.
 def set_temp_and_press_settings():
     eci_1_temp_units = cb_1_Temp_Units.set('C')
     eci_2_temp_units = cb_2_Temp_Units.set('C')
@@ -1243,42 +1472,47 @@ def set_temp_and_press_settings():
     eci_db['eci_4']['display_press_units'] = cb_4_Press_Units.get()
     eci_db['eci_5']['display_press_units'] = cb_5_Press_Units.get()
     eci_db['eci_6']['display_press_units'] = cb_6_Press_Units.get()
+'''
 
-def Parse_Compounds(): #'He2SO4'
+
+def Parse_Compounds():  # 'He2SO4'
     ''' I need to parse for number, uppercase, and lowercase. Leading number always applies to an element or formula,
     later numbers are assumed to apply to the preceeding element.
     '''
     eci_1 = cb_eci_1.get()
     compound = cb_eci_1.get()
-    #compound = 'H2O'    #'He2SO4'
+    # compound = 'H2O'    #'He2SO4'
     e_Explanation.insert(tk.END, "Parse_Compounds process entered\n")
     if compound == "":
         pass
-    else: print("Parse_Compounds process entered", compound)
+    else:
+        print("Parse_Compounds process entered", compound)
     compound_formula_qty = 1
     element_1 = ''
     current_element = ""
     current_element_multiplier = 1
-    #e_Explanation.
+    # e_Explanation.
     print('Parse_Compounds compound is ', compound)
     ''' Start with a normal compound which does not start with an integer.'''
-     # For example: compound = 'Na2SO4'
+    # For example: compound = 'Na2SO4'
     if compound == "":
         pass
     elif compound[0].isdigit():
         ''' If the leading character is a number, apply it to the whole formuls. '''
-        compound_formula_qty =  compound[0]
+        compound_formula_qty = compound[0]
         ''' Reset the compound to the string after the intial digit. '''
         compound = compound[1:]
-        print('Parse_Compounds compound first character is integer ', compound[0] )
+        print('Parse_Compounds compound first character is integer ', compound[0])
         ''' The first character is not a number. '''
     elif not compound[0].isdigit():
         print('Pass to Parse_Compound_ECI_1')
         Parse_Get_Compound()
-        #Parse_Compound_ECI_1()
-    else:  print('In else clause of Parse_Compounds')
-    #print(' If the leading character is a number, '
+        # Parse_Compound_ECI_1()
+    else:
+        print('In else clause of Parse_Compounds')
+    # print(' If the leading character is a number, '
     #      'need to add it to the result of Parse_Compounds_1(compound).')
+
 
 def Parse_Get_Compound():
     ''' Get a compound from eci_1. Call a function to parse.. '''
@@ -1288,26 +1522,29 @@ def Parse_Get_Compound():
     print('Finish Parse_Get_Compound(): compound = ', compound)
     Parse_Compound(compound)
 
+
 def Parse_Compound(compound):
     ''' Got a compound from eci_1. Parse it. '''
     print('In Parse_Compound(compound): compound = ', compound)
     len_compound = len(compound)
-    current_compound =[]
-    #print('len_compound is ', len_compound)
+    current_compound = []
+    # print('len_compound is ', len_compound)
     while len(compound) >= 3:
-        #print('len(compound) is ', len_compound)
-        if compound[0].isupper() and compound[1].islower() and compound[2].isdigit(): # and compound[3].isupper():
-            print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()') # Re,removed  and compound[3].isupper()
+        # print('len(compound) is ', len_compound)
+        if compound[0].isupper() and compound[1].islower() and compound[2].isdigit():  # and compound[3].isupper():
+            print(
+                'In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()')  # Re,removed  and compound[3].isupper()
             current_element_multiplier = 1
             current_element = compound[:2]
             current_element_multiplier = compound[2:3]
             current_compound.append(current_element)
             current_compound.append(current_element_multiplier)
             compound = compound[3:]
-            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ',
+                  compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound is ', current_compound)
-        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit(): #   and compound[3].isdigit()
+        elif compound[0].isupper() and compound[1].islower() and compound[2].isdigit():  # and compound[3].isdigit()
             print('In compound[0].isupper() and compound[1].islower() and compound[2].isdigit()')
             print("Don't know if there are any of these.")
         elif compound[0].isupper() and compound[1].isupper():
@@ -1329,7 +1566,8 @@ def Parse_Compound(compound):
             current_compound.append(current_element_multiplier)
             compound = compound[2:]
             len_compound = len(compound)
-            print('elif compound[0].isupper() and compound[1].islower() and compound[2].isupper(): compound = ', compound)
+            print('elif compound[0].isupper() and compound[1].islower() and compound[2].isupper(): compound = ',
+                  compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound, and length are ', current_compound, len_compound)
         elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper():
@@ -1340,7 +1578,8 @@ def Parse_Compound(compound):
             current_compound.append(current_element)
             current_compound.append(current_element_multiplier)
             compound = compound[2:]
-            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ',
+                  compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound is ', current_compound)
         elif compound[0].isupper() and compound[1].isdigit() and compound[2].isdigit():
@@ -1352,8 +1591,10 @@ def Parse_Compound(compound):
             current_compound.append(current_element_multiplier)
             if len(compound) > 2:
                 compound = compound[3:]
-            else: compound = ""
-            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ', compound)
+            else:
+                compound = ""
+            print('elif compound[0].isupper() and compound[1].isdigit() and compound[2].isupper(): compound = ',
+                  compound)
             print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
             print('current_compound is ', current_compound)
 
@@ -1371,7 +1612,8 @@ def Parse_Compound(compound):
                     current_compound.append(current_element)
                     current_compound.append(current_element_multiplier)
                     print('In if compound[0].isupper():: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_element is ', current_element, ' current_element_multiplier is ',
+                          current_element_multiplier)
                     print('current_compound is ', current_compound)
                     compound = ""
             elif len(compound) == 2:
@@ -1383,7 +1625,8 @@ def Parse_Compound(compound):
                     current_compound.append(current_element_multiplier)
                     compound = compound[1:]
                     print('In elif compound[1].isupper() and len(compound) > 1: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_element is ', current_element, ' current_element_multiplier is ',
+                          current_element_multiplier)
                     print('current_compound is ', current_compound)
                 elif compound[0].isupper() and compound[1].islower():
                     print('In compound[0].isupper() and compound[1].islower()')
@@ -1393,7 +1636,8 @@ def Parse_Compound(compound):
                     current_compound.append(current_element_multiplier)
                     compound = ""
                     print('In if compound[0].isupper() and compound[1].islower():: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_element is ', current_element, ' current_element_multiplier is ',
+                          current_element_multiplier)
                     print('current_compound is ', current_compound)
                 elif compound[0].isupper() and compound[1].isdigit():
                     print('In compound[0].isupper() and compound[1].isdigit()')
@@ -1404,17 +1648,19 @@ def Parse_Compound(compound):
                     current_compound.append(current_element_multiplier)
                     compound = ""
                     print('In if compound[0].isupper() and compound[1].islower():: compound = ', compound)
-                    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
+                    print('current_element is ', current_element, ' current_element_multiplier is ',
+                          current_element_multiplier)
                     print('current_compound is ', current_compound)
         print('compound =  ', compound)
         compound = ""
         Display_Parsed_Compound(current_compound)
 
+
 def Display_Parsed_Compound(parsed_compound):
     print('Entering Display_Parsed_Compound')
     print(parsed_compound)
     e_eci_1_M_qty.delete(0, END)
-    e_eci_1_M_qty.insert(0,1)
+    e_eci_1_M_qty.insert(0, 1)
 
     cb_Select_CB4.set('elements')
     element_1 = parsed_compound[0]
@@ -1458,6 +1704,7 @@ def Display_Parsed_Compound(parsed_compound):
         e_eci_3_M_qty.delete(0, END)
         e_eci_3_M_qty.insert(0, moles_4)
 
+''' Use decimal instead of float in order to eliminate floating point errors. '''
 def Parse_Compound_Logic():
     ''' Identify the logical steps in parsing compounds'''
     print('In Parse_Compound_Logic')
@@ -1485,25 +1732,30 @@ def Parse_Compound_Logic():
     ''' If len(compound < 3'''
     ''' All the above where length is 2, 1, or 0. '''
 
-def CountElements():    # The following does not work. Need valid test for value
+
+def CountElements():  # The following does not work. Need valid test for value
     e_Explanation.insert(tk.END, "CountElements process entered\n")
     intElementCount = 0
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
     eci_3 = cb_eci_3.get()
-    if eci_1 == "" :     #cb_eci_1
+    if eci_1 == "":  # cb_eci_1
         pass
-    else: intElementCount = 1
-    if eci_2 == "" :
+    else:
+        intElementCount = 1
+    if eci_2 == "":
         pass
-    else: intElementCount = intElementCount + 1
-    if eci_3 == "" :
+    else:
+        intElementCount = intElementCount + 1
+    if eci_3 == "":
         pass
-    else: intElementCount = intElementCount + 1
+    else:
+        intElementCount = intElementCount + 1
     print('element count is', intElementCount)
-    #rtb_Explanation.Text = rtb_Explanation.Text & intElementCount
-    
-def AlphabetizeElements():   #TypeError: '<' not supported between instances of 'StringVar' and 'StringVar'
+    # rtb_Explanation.Text = rtb_Explanation.Text & intElementCount
+
+
+def AlphabetizeElements():  # TypeError: '<' not supported between instances of 'StringVar' and 'StringVar'
     e_Explanation.insert(tk.END, "AlphabetizeElements process entered\n")
     strAlphaElements = ""
     eci_1 = cb_eci_1.get()
@@ -1525,9 +1777,11 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
             strAlphaElements = eci_3 + eci_1 + eci_2
         elif eci_2 < eci_1:
             strAlphaElements = eci_3 + eci_2 + eci_1
-    else: e_Explanation.insert(tk.END, 'Error:Fell to else clause in AlphabetizeElements\n')
-    #e_Explanation.insert(tk.END, 'strAlphaElements is %', strAlphaElements) #How do I insert arguments?
+    else:
+        e_Explanation.insert(tk.END, 'Error:Fell to else clause in AlphabetizeElements\n')
+    # e_Explanation.insert(tk.END, 'strAlphaElements is %', strAlphaElements) #How do I insert arguments?
     print('strAlphaElements is ', strAlphaElements)
+
 
 # Make new dictionaries of elements, compounds and ions to ensure they are current.
 # Also, if the data is changed in a dictionary, it needs to be changed in the database.
@@ -1538,22 +1792,39 @@ def AlphabetizeElements():   #TypeError: '<' not supported between instances of 
 #  to determine which compounds have these elements, and that list will be used to fill the appropriate combo box
 def make_element_dictionary():
     pass
-    #print("In make_element_dictionary")
+    # print("In make_element_dictionary")
+
+
 def make_compound_dictionary():
-    pass    
+    pass
+
+
 def make_ion_dictionary():
     pass
+
+
 def make_compound_alpha_list():
     pass
+
+
 def make_ion_alpha_list():
     pass
-    #a_list = [eci_1, eci_2, eci_3]
-    #alpha = (sorted(a_list)) #Does not concatenate
-    #beta = alpha(0) + alpha(1) + alpha(2)
-    #print('In AlphabetizeElements', alpha)
-    #print('In AlphabetizeElements', sorted(alpha))
-''' *** Learn to sent text and variables to the explanation textbox. *** '''
-    #rtb_Explanation.Text = rtb_Explanation.Text & strAlphaElement
+    # a_list = [eci_1, eci_2, eci_3]
+    # alpha = (sorted(a_list)) #Does not concatenate
+    # beta = alpha(0) + alpha(1) + alpha(2)
+    # print('In AlphabetizeElements', alpha)
+    # print('In AlphabetizeElements', sorted(alpha))
+
+def show_hide_instructions():
+    if btn_show_instructions.text == 'Show Instructions':
+        ''' What code changes button text? '''
+        btn_show_instructions.text == 'Hide Instructions'
+        ''' Code to show the window with instructions. '''
+    else:
+        btn_show_instructions.text == 'Hide Instructions'
+        ''' Code to hide the window with instructions. '''
+
+''' *** Learn to send text and variables to the explanation textbox. *** '''
 
 ''' *** End function descriptions. *** '''
 
@@ -1572,18 +1843,18 @@ lbl_record_create.config(font=labelfont)
 e_recordname = Entry(root, text="")
 e_recordname.grid(row=2, column=1, columnspan=2)
 e_recordname.config(font=labelfont)
-btn_create_record = Button(root, text = 'Create Record', command=create_record)
+btn_create_record = Button(root, text='Create Record', command=create_record)
 btn_create_record.grid(row=2, column=3)
 btn_create_record.config(font=buttonfont)
 btn_create_record.bind("<<ComboboxSelected>>", create_record())
-btn_update_record = Button(root, text = 'Update Record', command=update_record)
+btn_update_record = Button(root, text='Update Record', command=update_record)
 btn_update_record.grid(row=2, column=4)
 btn_update_record.config(font=buttonfont)
 btn_update_record.bind("<<ComboboxSelected>>", update_record)
-btn_Continue = Button(root, text = '* Continue *', command=Continue)
+btn_Continue = Button(root, text='* Continue *', command=Continue)
 btn_Continue.grid(row=2, column=5)
 btn_Continue.config(font=titlefont)
-#btn_Continue.bind("<<ComboboxSelected>>", Continue())
+# btn_Continue.bind("<<ComboboxSelected>>", Continue())
 
 lbl_record_ops = Label(text="Get record:")
 lbl_record_ops.grid(row=3, column=0)
@@ -1592,21 +1863,25 @@ cb_RecordName: Combobox = Combobox(root, values="", width=12)
 cb_RecordName.grid(row=3, column=1)
 cb_RecordName.config(font=entryfont)
 cb_RecordName.bind("<<ComboboxSelected>>", retrieve_record)
-#e_recordname = Entry(root, text="")   #, width=30)
-#e_recordname.grid(row=3, column=3)
-#e_recordname.config(font=labelfont)
-btn_create_record = Button(root, text = 'Get Record', command=get_record)
+# e_recordname = Entry(root, text="")   #, width=30)
+# e_recordname.grid(row=3, column=3)
+# e_recordname.config(font=labelfont)
+btn_create_record = Button(root, text='Get Record', command=get_record)
 btn_create_record.grid(row=3, column=2)
 btn_create_record.config(font=buttonfont)
 btn_create_record.bind("<<ComboboxSelected>>", retrieve_record)
-btn_create_record = Button(root, text = 'Previous Record', command=get_record)
+btn_create_record = Button(root, text='Previous Record', command=get_record)
 btn_create_record.grid(row=3, column=3)
 btn_create_record.config(font=buttonfont)
 btn_create_record.bind("<<ComboboxSelected>>", previous_record)
-btn_create_record = Button(root, text = 'Next Record', command=get_record)
+btn_create_record = Button(root, text='Next Record', command=get_record)
 btn_create_record.grid(row=3, column=4)
 btn_create_record.config(font=buttonfont)
 btn_create_record.bind("<<ComboboxSelected>>", next_record)
+btn_show_instructions = Button(root, text='Show Instructions', command=get_record)
+btn_show_instructions.grid(row=2, column=6)
+btn_show_instructions.config(font=labelfont)
+btn_show_instructions.bind("<<ComboboxSelected>>", show_hide_instructions)
 
 lbl_LU_Compound = Label(text="   Look up compound:")
 lbl_LU_Compound.grid(row=6, column=0)
@@ -1634,7 +1909,7 @@ cb_LU_Environment.config(font=entryfont)
 lbl_Select_Process = Label(text="Select process", width=12)
 lbl_Select_Process.grid(row=7, column=2)
 lbl_Select_Process.config(font=titlefont)
-cb_Select_Process: Combobox = Combobox(root, values=process_list, textvariable=process_selected, width=12)   #, width=30)
+cb_Select_Process: Combobox = Combobox(root, values=process_list, textvariable=process_selected, width=12)
 cb_Select_Process.grid(row=7, column=3)
 cb_Select_Process.config(font=entryfont)
 cb_Select_Process.bind("<<ComboboxSelected>>", process_selected)
@@ -1655,10 +1930,10 @@ cb_Select_CB1: Combobox = Combobox(root, values=eci_cb_values, width=10)
 cb_Select_CB1.grid(row=9, column=3, sticky=W)
 cb_Select_CB1.config(font=entryfont)
 cb_Select_CB1.bind("<<ComboboxSelected>>", select_eci_1_type)
-#cb_Select_CB1.bind("<<ComboboxSelected>>", callback1)
-#cb_Process = Combobox(root, values=process_list, width=20)
-#cb_Process.grid(row=9, column=3) # , columnspan=2
-#cb_Process.config(font=entryfont)
+# cb_Select_CB1.bind("<<ComboboxSelected>>", callback1)
+# cb_Process = Combobox(root, values=process_list, width=20)
+# cb_Process.grid(row=9, column=3) # , columnspan=2
+# cb_Process.config(font=entryfont)
 lbl_eci_4 = Label(root, text="Select Element, Compound or Ion for ComboBox 4")
 lbl_eci_4.grid(row=9, column=4, columnspan=3, sticky=W)
 lbl_eci_4.config(font=labelfont)
@@ -1695,7 +1970,8 @@ lbl_eci_4_valence.config(font=labelfont)
 e_eci_1_qty = Entry(root, text="", textvariable=eci_1_qty, width=8)
 e_eci_1_qty.grid(row=12, column=0)
 e_eci_1_qty.config(font=entryfont)
-e_eci_1_qty.bind('<FocusOut>', (lambda event: check_entry_changes())) #'''  does not work'''
+''' Can I generalize the following to: set_eci_db_eci_1_qty = e_eci_1_qty.get()'''
+e_eci_1_qty.bind('<FocusOut>', lambda event: set_eci_db_eci_1_qty(e_eci_1_qty.get()))
 cb_eci_1_units: Combobox = Combobox(root, values=unit_values, textvariable=eci_1_units, width=10)
 cb_eci_1_units.grid(row=12, column=1)
 cb_eci_1_units.config(font=entryfont)
@@ -1717,8 +1993,8 @@ cb_eci_4_units: Combobox = Combobox(root, values=unit_values, textvariable=eci_4
 cb_eci_4_units.grid(row=12, column=5)
 cb_eci_4_units.config(font=entryfont)
 cb_eci_4_units.bind("<<ComboboxSelected>>", eci_units_selected)
-#cb_eci_4_units.bind("<<ComboboxSelected>>", callback_eci_4_units)
-cb_eci_4: Combobox = Combobox(root, textvariable=eci_4, width=12)   # , values=compound_values
+# cb_eci_4_units.bind("<<ComboboxSelected>>", callback_eci_4_units)
+cb_eci_4: Combobox = Combobox(root, textvariable=eci_4, width=12)
 cb_eci_4.grid(row=12, column=6)
 cb_eci_4.config(font=entryfont)
 cb_eci_4['values'] = compound_symbols_list
@@ -1731,11 +2007,12 @@ cb_eci_4_valence['values'] = valences
 e_eci_1_M_qty = Entry(root, text="", textvariable=eci_1_M_qty, width=8)
 e_eci_1_M_qty.grid(row=13, column=0)
 e_eci_1_M_qty.config(font=entryfont)
+e_eci_1_M_qty.bind('<FocusOut>', (lambda event: check_entry_changes()))  # '''  does not work'''
 lbl_eci_1_units_M = Label(root, text="Moles", width=12)
 lbl_eci_1_units_M.grid(row=13, column=1)
 lbl_eci_1_units_M.config(font=labelfont)
 # cb_Elements1 = Combobox(root, values=elements, width=30)
-cb_eci_1_N: Combobox = Combobox(root,  textvariable=eci_1_name, width=12)
+cb_eci_1_N: Combobox = Combobox(root, textvariable=eci_1_name, width=12)
 cb_eci_1_N.grid(row=13, column=2)
 cb_eci_1_N.config(font=entryfont)
 cb_eci_1_N['values'] = compound_names_list
@@ -1777,31 +2054,32 @@ lbl_Press_Qty_4 = Label(root, text="Press Qty", width=10)
 lbl_Press_Qty_4.grid(row=14, column=7, sticky=W)
 lbl_Press_Qty_4.config(font=labelfont)
 
-cb_1_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_1_temp_units, width=10) # eci_temp_1_units
+cb_1_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_1_temp_units,
+                                     width=10)  # eci_temp_1_units
 cb_1_Temp_Units.grid(row=15, column=0)
 cb_1_Temp_Units.config(font=entryfont)
-cb_1_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_1_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected) #callback_set_temp_units)
 e_Temp_Qty_1 = Entry(root, text="", textvariable=eci_temp_1_qty, width=8)
 e_Temp_Qty_1.grid(row=15, column=1)
 e_Temp_Qty_1.config(font=entryfont)
 cb_1_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_1_press_units, width=10)
-cb_1_Press_Units.grid(row=15, column=2)  #, padx=4)
+cb_1_Press_Units.grid(row=15, column=2)  # , padx=4)
 cb_1_Press_Units.config(font=entryfont)
-cb_1_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_1_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected) #callback_set_press_units)
 e_Press_Qty_1 = Entry(root, text="", textvariable=eci_press_1_qty, width=8)
 e_Press_Qty_1.grid(row=15, column=3)
 e_Press_Qty_1.config(font=entryfont)
 cb_4_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_4_temp_units, width=10)
 cb_4_Temp_Units.grid(row=15, column=4)
 cb_4_Temp_Units.config(font=entryfont)
-cb_4_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_4_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_4 = Entry(root, text="", textvariable=eci_temp_4_qty, width=8)
 e_Temp_Qty_4.grid(row=15, column=5, sticky=W)
 e_Temp_Qty_4.config(font=entryfont)
 cb_4_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_4_press_units, width=10)
 cb_4_Press_Units.grid(row=15, column=6)
 cb_4_Press_Units.config(font=entryfont)
-cb_4_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_4_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_4 = Entry(root, text="", textvariable=eci_press_4_qty, width=8)
 e_Press_Qty_4.grid(row=15, column=7)
 e_Press_Qty_4.config(font=entryfont)
@@ -1817,13 +2095,13 @@ cb_Select_CB2: Combobox = Combobox(root, values=eci_cb_values, width=10)
 cb_Select_CB2.grid(row=17, column=3, sticky=W)
 cb_Select_CB2.config(font=entryfont)
 cb_Select_CB2.bind("<<ComboboxSelected>>", select_eci_2_type)
-#btn_Select_CB2 = Button(root, command=Synthesis(variables), text = 'Elements')
-#btn_Select_CB2.grid(row=17, column=2)
-#btn_Select_CB2.config(font=buttonfont)
+# btn_Select_CB2 = Button(root, command=Synthesis(variables), text = 'Elements')
+# btn_Select_CB2.grid(row=17, column=2)
+# btn_Select_CB2.config(font=buttonfont)
 lbl_eci_5 = Label(root, text="Select Element, Compound or Ion for ComboBox 5")
 lbl_eci_5.grid(row=17, column=4, columnspan=2, sticky=W)
 lbl_eci_5.config(font=labelfont)
-cb_Select_CB5: Combobox = Combobox(root, values=eci_cb_values, width=10)   #, width=20)
+cb_Select_CB5: Combobox = Combobox(root, values=eci_cb_values, width=10)  # , width=20)
 cb_Select_CB5.grid(row=17, column=6)
 cb_Select_CB5.config(font=entryfont)
 cb_Select_CB5.bind("<<ComboboxSelected>>", select_eci_5_type)
@@ -1861,7 +2139,7 @@ cb_eci_2_units: Combobox = Combobox(root, values=unit_values, textvariable=eci_2
 cb_eci_2_units.grid(row=20, column=1)
 cb_eci_2_units.config(font=entryfont)
 cb_eci_2_units.bind("<<ComboboxSelected>>", eci_units_selected)
-cb_eci_2: Combobox = Combobox(root,  textvariable=eci_2, width=12)
+cb_eci_2: Combobox = Combobox(root, textvariable=eci_2, width=12)
 cb_eci_2.grid(row=20, column=2)
 cb_eci_2.config(font=entryfont)
 cb_eci_2['values'] = elements_symbols_list
@@ -1889,16 +2167,16 @@ cb_eci_5_valence['values'] = valences
 '''    e_eci_2_M_qty.delete(0)
 UnboundLocalError: local variable 'e_eci_2_M_qty' referenced before assignment
 '''
-#e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
-#e_eci_1_M_qty.grid(row=13, column=0)
-#e_eci_1_M_qty.config(font=entryfont)
-e_eci_2_M_qty = Entry(root, text="", textvariable = eci_2_M_qty, width=8)
+# e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
+# e_eci_1_M_qty.grid(row=13, column=0)
+# e_eci_1_M_qty.config(font=entryfont)
+e_eci_2_M_qty = Entry(root, text="", textvariable=eci_2_M_qty, width=8)
 e_eci_2_M_qty.grid(row=21, column=0)
 e_eci_2_M_qty.config(font=entryfont)
 lbl_eci_2_units_M = Label(root, text="Moles", width=10)
 lbl_eci_2_units_M.grid(row=21, column=1)
 lbl_eci_2_units_M.config(font=labelfont)
-cb_eci_2_N: Combobox = Combobox(root, values=elements_name_list,  textvariable=eci_2_name, width=12)
+cb_eci_2_N: Combobox = Combobox(root, values=elements_name_list, textvariable=eci_2_name, width=12)
 cb_eci_2_N.grid(row=21, column=2)
 cb_eci_2_N.config(font=entryfont)
 cb_eci_2_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
@@ -1941,28 +2219,28 @@ lbl_Press_Qty_5.config(font=labelfont)
 cb_2_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_2_temp_units, width=10)
 cb_2_Temp_Units.grid(row=23, column=0)
 cb_2_Temp_Units.config(font=entryfont)
-cb_2_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_2_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_2 = Entry(root, text="", textvariable=eci_temp_2_qty, width=8)
 e_Temp_Qty_2.grid(row=23, column=1)
 e_Temp_Qty_2.config(font=entryfont)
 cb_2_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_2_press_units, width=10)
 cb_2_Press_Units.grid(row=23, column=2)
 cb_2_Press_Units.config(font=entryfont)
-cb_2_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_2_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_2 = Entry(root, text="", textvariable=eci_press_2_qty, width=8)
 e_Press_Qty_2.grid(row=23, column=3)
 e_Press_Qty_2.config(font=entryfont)
 cb_5_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_5_temp_units, width=10)
 cb_5_Temp_Units.grid(row=23, column=4)
 cb_5_Temp_Units.config(font=entryfont)
-cb_5_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_5_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_5 = Entry(root, text="", textvariable=eci_temp_2_qty, width=8)
 e_Temp_Qty_5.grid(row=23, column=5, sticky=W)
 e_Temp_Qty_5.config(font=entryfont)
 cb_5_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_5_press_units, width=10)
 cb_5_Press_Units.grid(row=23, column=6)
 cb_5_Press_Units.config(font=entryfont)
-cb_5_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_5_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_5 = Entry(root, text="", textvariable=eci_press_5_qty, width=8)
 e_Press_Qty_5.grid(row=23, column=7)
 e_Press_Qty_5.config(font=entryfont)
@@ -2019,7 +2297,7 @@ cb_eci_3_units: Combobox = Combobox(root, values=unit_values, textvariable=eci_3
 cb_eci_3_units.grid(row=28, column=1, sticky=W)
 cb_eci_3_units.config(font=entryfont)
 cb_eci_3_units.bind("<<ComboboxSelected>>", eci_units_selected)
-cb_eci_3: Combobox = Combobox(root,  textvariable=eci_3, width=12)
+cb_eci_3: Combobox = Combobox(root, textvariable=eci_3, width=12)
 cb_eci_3.grid(row=28, column=2, sticky=W)
 cb_eci_3.config(font=entryfont)
 cb_eci_3['values'] = elements_symbols_list
@@ -2050,7 +2328,7 @@ e_eci_3_M_qty.config(font=entryfont, textvariable=eci_3_M_qty)
 lbl_eci_3_units_M = Label(root, text="Moles", width=8)
 lbl_eci_3_units_M.grid(row=29, column=1)
 lbl_eci_3_units_M.config(font=labelfont)
-cb_eci_3_N: Combobox = Combobox(root, values=elements_name_list,  textvariable=eci_3_name, width=12)
+cb_eci_3_N: Combobox = Combobox(root, values=elements_name_list, textvariable=eci_3_name, width=12)
 cb_eci_3_N.grid(row=29, column=2)
 cb_eci_3_N.config(font=entryfont)
 cb_eci_3_N.bind("<<ComboboxSelected>>", setSelectedItemFormula)
@@ -2093,28 +2371,28 @@ lbl_Press_Qty_6.config(font=labelfont)
 cb_3_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_3_temp_units, width=10)
 cb_3_Temp_Units.grid(row=31, column=0)
 cb_3_Temp_Units.config(font=entryfont)
-cb_3_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_3_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_3 = Entry(root, text="", textvariable=eci_temp_3_qty, width=8)
 e_Temp_Qty_3.grid(row=31, column=1)
 e_Temp_Qty_3.config(font=entryfont)
 cb_3_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_3_press_units, width=10)
 cb_3_Press_Units.grid(row=31, column=2)
 cb_3_Press_Units.config(font=entryfont)
-cb_3_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_3_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_3 = Entry(root, text="", textvariable=eci_press_3_qty, width=8)
 e_Press_Qty_3.grid(row=31, column=3)
 e_Press_Qty_3.config(font=entryfont)
 cb_6_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_6_temp_units, width=10)
 cb_6_Temp_Units.grid(row=31, column=4)
 cb_6_Temp_Units.config(font=entryfont)
-cb_6_Temp_Units.bind("<<ComboboxSelected>>", callback_set_temp_units)
+cb_6_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_6 = Entry(root, text="", textvariable=eci_temp_6_qty, width=8)
 e_Temp_Qty_6.grid(row=31, column=5)
 e_Temp_Qty_6.config(font=entryfont)
 cb_6_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_6_press_units, width=10)
 cb_6_Press_Units.grid(row=31, column=6)
 cb_6_Press_Units.config(font=entryfont)
-cb_6_Press_Units.bind("<<ComboboxSelected>>", callback_set_press_units)
+cb_6_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_6 = Entry(root, text="", textvariable=eci_press_6_qty, width=8)
 e_Press_Qty_6.grid(row=31, column=7)
 e_Press_Qty_6.config(font=entryfont)
@@ -2179,7 +2457,7 @@ lbl_Explanation.config(font=labelfont)
 lbl_Explanation = Label(root, text="Super subscript ", width=12)
 lbl_Explanation.grid(row=35, column=1)
 lbl_Explanation.config(font=labelfont)
-lbl_LU_Process = Label(text='360\u2070 \u2070C H\u2082O') # C2H3O2-
+lbl_LU_Process = Label(text='360\u2070 \u2070C H\u2082O')  # C2H3O2-
 lbl_LU_Process.grid(row=35, column=2)
 lbl_LU_Process.config(font=labelfont)
 '''
@@ -2190,7 +2468,7 @@ lbl_LU_Process = Label(text='X\u2074 + X\u00B2 = 0')
 lbl_LU_Process.grid(row=35, column=3)
 lbl_LU_Process.config(font=labelfont)
 lbl_LU_Process = Label(text='C\u2082H\u2083O\u2082\u207B C\u2082H\u2083O\u00B2\u207B')
-#lbl_LU_Process = Label(text='C\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
+# lbl_LU_Process = Label(text='C\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
 lbl_LU_Process.grid(row=35, column=4)
 lbl_LU_Process.config(font=labelfont)
 lbl_LU_Process = Label(text='Cl\u2091 Fe\u00B3\u207A ')
@@ -2201,7 +2479,7 @@ e_Explanation.grid(row=36, column=0, columnspan=6, sticky=W)
 e_Explanation.config(font=entryfont)
 e_Explanation.rowconfigure(99)
 
-#e_Explanation.insert(1, 'Fe\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
+# e_Explanation.insert(1, 'Fe\u00B2\u207A Fe\u00B3\u207A Cl\u207B e\u207B')
 S = tk.Scrollbar(root)
 S.grid(row=36, column=7, sticky=E)
 S.config(command=e_Explanation.yview)
@@ -2218,14 +2496,14 @@ lbl_blank.config(font=labelfont)
 # *** End GUI layout
 
 if __name__ == '__main__':
-    #set_temp_and_press_settings()
-    #make_element_dictionary()
-    #make_compound_dictionary()
-    #make_ion_dictionary()
-    #make_compound_alpha_list()
-    #make_ion_alpha_list()
+    # set_temp_and_press_settings()
+    # make_element_dictionary()
+    # make_compound_dictionary()
+    # make_ion_dictionary()
+    # make_compound_alpha_list()
+    # make_ion_alpha_list()
     root.mainloop()
-    #print(element)
+    # print(element)
 
 ''' *** e_eci_1_qty.bind('<FocusOut>', (lambda event: check_entry_changes())) ***'''
 '''
