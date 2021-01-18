@@ -109,19 +109,14 @@ def vol_from_prt():
 
 def p_from_vrt():
     ''' Calculate pressure given volume, R constant, and temperature. pv = nRt'''
-    n= 10.5
+    #n= 10.5
     R = 0.08206 # R value for these units
     T = 273.15 + 452   # Temp in K
     V = 565    # P in atm
     P = n*R*T/V
     print(P)
 
-#print(f_factorial(0))
-#print(f_factorial(2))
-#print(f_factorial(4))
-#print(f_factorial(0))
-#print(f_factorial(2))
-#print(f_factorial(4))
+
 ''' lambda expressions do not with if statements.'''
 ''' example of lambda expression with if expressions.'''
 # (lambda gp: 'good' if gp > 7 else 'satisfactory' if gp > 7 else 'insufficient')(6)
