@@ -13,6 +13,7 @@ Especially, each step in the process, the equipment and energy used, the side ef
 import sys
 from tkinter import *  # get widget classes
 from tkinter.ttk import Combobox, Entry, Label
+#import ttk
 import logging
 logging.basicConfig(
     filename = 'app.log',            # Name of the log file (omit to use stderr)
@@ -57,13 +58,22 @@ from collections import defaultdict
 
 root = tk.Tk()
 root.title('Chemistry')
+
 titlefont = ('Ariel', 14, 'bold')
 labelfont = ('Ariel', 14)  # , 'bold')
 buttonfont = ('Ariel', 12)  # , 'bold')
 entryfont = ('Ariel', 12)  # , 'bold')
 font1 = font.Font(name='TkCaptionFont', exists=True)
 font1.config(family='courier new', size=20)
+winInstructions = Toplevel()
+e_Instructions = Text(winInstructions, height=20, width=50)
+e_Instructions.grid(row=0, column=0) #, columnspan=6, sticky=W)
+e_Instructions.config(font=entryfont)
+e_Instructions.insert(tk.END, "Program instructions will be provided in this window. \n")
+e_Instructions.insert(tk.END, "Move this window so it is always visible, or minimize it are resize it as needed. \n")
+e_Instructions.insert(tk.END, "Process instructions will be provided in this window. \n")
 
+#e_Instructions.rowconfigure(99)
 ''' *** e_eci_1_qty.insert(0, eci_1_M_qty) WORKS to insert a value into an entry box !!! *** '''
 ''' fahrenheit = [((9/5)*temp + 32) for temp in celsius '''
 
@@ -80,6 +90,7 @@ Text with unicode can be included in combo boxes. Such use requires setting up a
 to associate the text with elements that have quantities different from the standard.
 
 Not all the elements and their attributes have been added to the database. H\u2082 works for H2 subscript'''
+''' The following are not lists, but have list in the title because the string lists the items.'''
 elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
                         "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
                         "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
@@ -191,14 +202,14 @@ ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper
 unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
 eci_cb_values = "elements compounds ions"
 environment = "Laboratory Industry Nature"
-temp_umits = "K F C"
-press_umits = "ATM torr psi hg"
+temp_units = "K F C"
+press_units = "ATM torr psi hg"
 
 #c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
 record_name = ""  # This is a placeholder for a record name to store the process in the database.
 ''' The following are lists of variables to fill various combo boxes until proper lists are made. '''
-process_list = "Parse_Reactants Parse_Products Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
+process_list = "Balance_Equation Set_default_T_and_P Parse_Reactants Parse_Products Acid_Base Calculate Oxidation_Reduction Oxidation_Rate Precipitation Synthesis Decompose Refine Metathesis "
 equipment = "refinery blah1 blah2"
 energy_type = "heat electricity"
 catalyst = "blah1 blah2 blah3 blah4"
@@ -214,6 +225,7 @@ side_effect_selected = ""
 by_product_selected = ""
 variable_selected = ""
 variable_value = DoubleVar()
+Init_default_T_and_P = FALSE
 Av = DoubleVar()
 Bv = DoubleVar()
 Cv = DoubleVar()
@@ -245,6 +257,11 @@ Usage: db[eci_1]['name'] is a reference to a dictionary or dictionaries.
 '''
 ''' Many of the variables below are needed because they record selection of items in combo boxes. 
 The extraneous ones will be deleted as they are identified. '''
+#def create_variables():
+default_temp_units = StringVar()
+default_temp_qty = DoubleVar()
+default_press_units = StringVar()
+default_press_qty = DoubleVar()
 eci_1 = StringVar()
 eci_2 = StringVar()
 eci_3 = StringVar()
@@ -341,8 +358,33 @@ eci_press_3_qty = DoubleVar()
 eci_press_4_qty = DoubleVar()
 eci_press_5_qty = DoubleVar()
 eci_press_6_qty = DoubleVar()
-
 energy_amount = DoubleVar()
+
+def Initialize_default_T_and_P():
+    ''' Set the initial values for temperature and pressure used
+    to determine if an eci starts as a solid, liquid, or gas. '''
+    cb_1_Temp_Units.set("C")
+    e_Temp_Qty_1.delete(0, END)
+    e_Temp_Qty_1.insert(0, 25)
+    cb_1_Press_Units.set("ATM")
+    e_Press_Qty_1.delete(0, END)
+    e_Press_Qty_1.insert(0, 1.000)
+    Init_default_T_and_P = TRUE
+
+def Set_default_T_and_P():
+    ''' User should re-set the initial values for temperature and pressure
+    used to determine if an eci starts as a solid, liquid, or gas. '''
+    print('Input the default units and quantities you want to use.')
+    default_temp_units = cb_1_Temp_Units.get()
+    default_temp_qty = e_Temp_Qty_1.get()
+    default_press_units = cb_1_Press_Units.get()
+    default_press_qty = e_Press_Qty_1.get()
+    #print('default_temp_units are ', default_temp_units)
+    #print('default_temp_qty is ', default_temp_qty)
+    #print('default_press_units are ', default_press_units)
+    #print('default_press_qty is ', default_press_qty)
+
+
 ''' Initialize values -- because I have need to do that in other programs. '''
 cb_1_type = ""  # elements compounds ions
 cb_2_type = ""
@@ -398,7 +440,8 @@ def select_eci_1_type(eventObject):
     '''
     cb_1_type = cb_Select_CB1.get()  # use cb_1_type as a local variable to improve readability
     eci_d['eci_1']['eci_type'] = cb_Select_CB1.get()
-    # print("cb_1_type is ", cb_1_type)
+    print("eci_d['eci_1']['eci_type'] is ", eci_d['eci_1']['eci_type'])
+    print("cb_1_type is ", cb_1_type)
     ''' Both of the assignments below work. '''
     # print("eci_db['eci_1']['eci_type'] is ", eci_db['eci_1']['eci_type'])
     # print("eci_db['eci_1']['eci_type'] is ", cb_1_type)
@@ -545,7 +588,7 @@ def check_entry_changes():
                  temp_units= "", temp_qty="", press_units= "", press_qty= "")
     '''
     print("In check_entry_changes")
-    #pdb.set_trace()
+
     eci_1_type = cb_Select_CB1.get()
     eci_1 = cb_eci_1.get()
     eci_1_qty = e_eci_1_qty.get()
@@ -605,10 +648,12 @@ def Continue():
     process_selected = cb_Select_Process.get()
     print("Process selected is ", process_selected)
     # check_entry_changes()
-
+    #
     if process_selected == "Acid_Base":
         ''' Continue the Acid_Base process '''
         Acid_Base()
+    elif process_selected == "Balance_Equation":
+        Balance_Equation()
     elif process_selected == "Calculate":
         ''' Continue the Calculate process '''
         check_entry_changes()
@@ -616,6 +661,19 @@ def Continue():
     elif process_selected == "Decompose":
         """ Continue the Decompose process """
         Decompose()
+    elif process_selected == "Set_default_T_and_P":
+        """ Continue the Initialize_default_T_and_P process """
+        #if Init_default_T_and_P == FALSE:
+        #    pdb.set_trace()
+        #    Initialize_default_T_and_P()
+        #    Init_default_T_and_P == TRUE
+        set_t_and_p_inst = "Set the default temperature and pressure settings you want to use" \
+                           "for the current process. Select Set_default_T_and_P from the Process " \
+                           "combobox, then select/set the temperature and pressure units and quantities" \
+                           "in the first eci frame. Then press the Continue button. After you have set these" \
+                           "defaults, select the next process. "
+        e_Explanation.insert(END, set_t_and_p_inst)
+        Set_default_T_and_P()
     elif process_selected == "Oxidation_Reduction":
         """ Continue the Oxidation_Reduction process """
         Oxidation_Reduction()
@@ -654,6 +712,36 @@ def Continue():
     # print('eci_1 = ', eci_1)
     # print("Pressed Continue button")
 
+def Balance_Equation():
+    be = ""
+    print("Started Balance_Equation")
+    e_Explanation.insert(END, "Started Balance_Equation")
+    e_Explanation.insert(END, '\n')
+    e_Explanation.insert(END, "Step 1: ")
+    if cb_eci_1.get() != "":
+        be = cb_eci_1.get()
+        print("cb_eci_1 is ", be)
+        #e_Explanation.insert(END, cb_eci_1.get())
+    if cb_eci_2.get() != "":
+        be = be + " + " + cb_eci_2.get()
+        print("cb_eci_2 is ", be)
+        #e_Explanation.insert(END, be)
+    if cb_eci_3.get() != "":
+        be = be + " + " + cb_eci_3.get()
+        print("cb_eci_3 is ", be)
+        #e_Explanation.insert(END, be)
+    if cb_eci_4.get() != "":
+        be = be + " --> " + cb_eci_4.get()
+        print("cb_eci_4 is ", be)
+        #e_Explanation.insert(END, be)
+    if cb_eci_5.get() != "":
+        be = be + " + " + cb_eci_5.get()
+        print("cb_eci_5 is ", be)
+        #e_Explanation.insert(END, be)
+    if cb_eci_6.get() != "":
+        be = be + " + " + cb_eci_6.get()
+        print("cb_eci_6 is ", be)
+    e_Explanation.insert(END, be)
 
 def calculate():
     ''' A step toward performing general chemistry related calculations.
@@ -1414,6 +1502,7 @@ def eci_units_selected(*arg):
     the units and quantities actually used to calculate quantities used by the program.  '''
     print("In process eci_units_selected")
     #print("cb_eci_1_units.get() is ", cb_eci_1_units.get())
+
     eci_1_units = cb_eci_1_units.get()
     eci_2_units = cb_eci_2_units.get()
     eci_3_units = cb_eci_3_units.get()
@@ -1582,6 +1671,22 @@ def set_temp_and_press_settings():
     eci_db['eci_5']['display_press_units'] = cb_5_Press_Units.get()
     eci_db['eci_6']['display_press_units'] = cb_6_Press_Units.get()
 '''
+def Reset_Product_Boxes():
+    cb_eci_2.set("")
+    cb_eci_2_N.set("")
+    e_eci_2_M_qty.delete(0, END)
+    cb_eci_3.set("")
+    cb_eci_3_N.set("")
+    e_eci_3_M_qty.delete(0, END)
+    #cb_eci_4.set("")
+    #cb_eci_4_N.set("")
+    #e_eci_4_M_qty.delete(0, END)
+    cb_eci_5.set("")
+    cb_eci_5_N.set("")
+    e_eci_5_M_qty.delete(0, END)
+    cb_eci_6.set("")
+    cb_eci_6_N.set("")
+    e_eci_6_M_qty.delete(0, END)
 
 def Parse_Reactants():  # 'He2SO4'
     ''' I need to parse for number, uppercase, and lowercase. Leading number always applies to an element or formula,
@@ -1638,10 +1743,7 @@ def Parse_Products():  # 'He2SO4'
 
     else: print("Parse_Products process entered", cb_eci_4.get())
 
-
-    #print('Parse_Products compound is ', compound)
     ''' Start with a normal compound which does not start with an integer.'''
-    # For example: compound = 'Na2SO4'
     if compound == "":
         e_Explanation.insert(tk.END, "Parse_Products process entered, but compound is empty string. \n")
     elif compound[0].isdigit():
@@ -1798,9 +1900,10 @@ def Parse_Compound(compound):
 def Display_Parsed_Reactant(parsed_compound):
     print('Entering Display_Parsed_Compound')
     print(parsed_compound)
+    ''' Need to reset all possible product boxes to empty strings'''
+    Reset_Product_Boxes()
     e_eci_1_M_qty.delete(0, END)
     e_eci_1_M_qty.insert(0, 1)
-
     cb_Select_CB4.set('elements')
     element_1 = parsed_compound[0]
     print('element_1 is ', element_1)
@@ -1850,6 +1953,8 @@ def Display_Parsed_Reactant(parsed_compound):
 def Display_Parsed_Product(parsed_compound):
     print('Entering Display_Parsed_Compound')
     print(parsed_compound)
+    ''' Need to reset all possible product boxes to empty strings'''
+    Reset_Product_Boxes()
     e_eci_4_M_qty.delete(0, END)
     e_eci_4_M_qty.insert(0, 1)
 
@@ -1949,7 +2054,6 @@ def CountElements():  # The following does not work. Need valid test for value
     print('element count is', intElementCount)
     # rtb_Explanation.Text = rtb_Explanation.Text & intElementCount
 
-
 def AlphabetizeElements():  # TypeError: '<' not supported between instances of 'StringVar' and 'StringVar'
     e_Explanation.insert(tk.END, "AlphabetizeElements process entered\n")
     strAlphaElements = ""
@@ -1977,7 +2081,6 @@ def AlphabetizeElements():  # TypeError: '<' not supported between instances of 
     # e_Explanation.insert(tk.END, 'strAlphaElements is %', strAlphaElements) #How do I insert arguments?
     print('strAlphaElements is ', strAlphaElements)
 
-
 # Make new dictionaries of elements, compounds and ions to ensure they are current.
 # Also, if the data is changed in a dictionary, it needs to be changed in the database.
 # Current, data will be changed in a dictionary and then changed in the database.
@@ -1988,7 +2091,6 @@ def AlphabetizeElements():  # TypeError: '<' not supported between instances of 
 def make_element_dictionary():
     pass
     # print("In make_element_dictionary")
-
 
 def make_compound_dictionary():
     pass
@@ -2052,7 +2154,21 @@ def popup():
 ''' *** End function descriptions. *** '''
 
 ''' *** Start GUI layout. *** '''
+'''
 #def mcf(): #make_main_chemistry_form
+main_frame = Frame(root)
+main_frame.pack(fill = BOTH, expand = 1)
+main_canvas = Canvas(main_frame)
+main_canvas.pack(side=LEFT, fill=BOTH, expand = 1)
+sb = Scrollbar(main_frame, orient=VERTICAL,command=main_canvas.yview)
+sb.pack(side=RIGHT, fill=Y)
+main_canvas.configure(yscrollcommand=sb.set)
+main_canvas.bind('<Configure>', lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all")))
+#sb.pack( side = RIGHT, fill = Y )
+#sb.grid(row = 1, rowspan = 30, column = 12)
+#sb.grid(rowspan = 30)
+#sb.grid_anchor(anchor='e')
+'''
 lbl_Title = Label(root, text="Chemistry")
 lbl_Title.grid(row=0, column=3)
 lbl_Title.config(font=titlefont)
@@ -2278,7 +2394,7 @@ lbl_Press_Qty_4 = Label(root, text="Press Qty", width=10)
 lbl_Press_Qty_4.grid(row=14, column=7, sticky=W)
 lbl_Press_Qty_4.config(font=labelfont)
 
-cb_1_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_1_temp_units,
+cb_1_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_1_temp_units,
                                      width=10)  # eci_temp_1_units
 cb_1_Temp_Units.grid(row=15, column=0)
 cb_1_Temp_Units.config(font=entryfont)
@@ -2286,21 +2402,21 @@ cb_1_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected) #callback_set_t
 e_Temp_Qty_1 = Entry(root, text="", textvariable=eci_temp_1_qty, width=8)
 e_Temp_Qty_1.grid(row=15, column=1)
 e_Temp_Qty_1.config(font=entryfont)
-cb_1_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_1_press_units, width=10)
+cb_1_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_1_press_units, width=10)
 cb_1_Press_Units.grid(row=15, column=2)  # , padx=4)
 cb_1_Press_Units.config(font=entryfont)
 cb_1_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected) #callback_set_press_units)
 e_Press_Qty_1 = Entry(root, text="", textvariable=eci_press_1_qty, width=8)
 e_Press_Qty_1.grid(row=15, column=3)
 e_Press_Qty_1.config(font=entryfont)
-cb_4_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_4_temp_units, width=10)
+cb_4_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_4_temp_units, width=10)
 cb_4_Temp_Units.grid(row=15, column=4)
 cb_4_Temp_Units.config(font=entryfont)
 cb_4_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_4 = Entry(root, text="", textvariable=eci_temp_4_qty, width=8)
 e_Temp_Qty_4.grid(row=15, column=5, sticky=W)
 e_Temp_Qty_4.config(font=entryfont)
-cb_4_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_4_press_units, width=10)
+cb_4_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_4_press_units, width=10)
 cb_4_Press_Units.grid(row=15, column=6)
 cb_4_Press_Units.config(font=entryfont)
 cb_4_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
@@ -2440,28 +2556,28 @@ lbl_Press_Qty_5 = Label(root, text="Press Qty", width=10)
 lbl_Press_Qty_5.grid(row=22, column=7)
 lbl_Press_Qty_5.config(font=labelfont)
 
-cb_2_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_2_temp_units, width=10)
+cb_2_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_2_temp_units, width=10)
 cb_2_Temp_Units.grid(row=23, column=0)
 cb_2_Temp_Units.config(font=entryfont)
 cb_2_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_2 = Entry(root, text="", textvariable=eci_temp_2_qty, width=8)
 e_Temp_Qty_2.grid(row=23, column=1)
 e_Temp_Qty_2.config(font=entryfont)
-cb_2_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_2_press_units, width=10)
+cb_2_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_2_press_units, width=10)
 cb_2_Press_Units.grid(row=23, column=2)
 cb_2_Press_Units.config(font=entryfont)
 cb_2_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_2 = Entry(root, text="", textvariable=eci_press_2_qty, width=8)
 e_Press_Qty_2.grid(row=23, column=3)
 e_Press_Qty_2.config(font=entryfont)
-cb_5_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_5_temp_units, width=10)
+cb_5_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_5_temp_units, width=10)
 cb_5_Temp_Units.grid(row=23, column=4)
 cb_5_Temp_Units.config(font=entryfont)
 cb_5_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_5 = Entry(root, text="", textvariable=eci_temp_2_qty, width=8)
 e_Temp_Qty_5.grid(row=23, column=5, sticky=W)
 e_Temp_Qty_5.config(font=entryfont)
-cb_5_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_5_press_units, width=10)
+cb_5_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_5_press_units, width=10)
 cb_5_Press_Units.grid(row=23, column=6)
 cb_5_Press_Units.config(font=entryfont)
 cb_5_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
@@ -2592,28 +2708,28 @@ lbl_Press_Qty_6 = Label(root, text="Press Qty", width=10)
 lbl_Press_Qty_6.grid(row=30, column=7)
 lbl_Press_Qty_6.config(font=labelfont)
 
-cb_3_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_3_temp_units, width=10)
+cb_3_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_3_temp_units, width=10)
 cb_3_Temp_Units.grid(row=31, column=0)
 cb_3_Temp_Units.config(font=entryfont)
 cb_3_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_3 = Entry(root, text="", textvariable=eci_temp_3_qty, width=8)
 e_Temp_Qty_3.grid(row=31, column=1)
 e_Temp_Qty_3.config(font=entryfont)
-cb_3_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_3_press_units, width=10)
+cb_3_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_3_press_units, width=10)
 cb_3_Press_Units.grid(row=31, column=2)
 cb_3_Press_Units.config(font=entryfont)
 cb_3_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Press_Qty_3 = Entry(root, text="", textvariable=eci_press_3_qty, width=8)
 e_Press_Qty_3.grid(row=31, column=3)
 e_Press_Qty_3.config(font=entryfont)
-cb_6_Temp_Units: Combobox = Combobox(root, values=temp_umits, textvariable=eci_6_temp_units, width=10)
+cb_6_Temp_Units: Combobox = Combobox(root, values=temp_units, textvariable=eci_6_temp_units, width=10)
 cb_6_Temp_Units.grid(row=31, column=4)
 cb_6_Temp_Units.config(font=entryfont)
 cb_6_Temp_Units.bind("<<ComboboxSelected>>", eci_units_selected)
 e_Temp_Qty_6 = Entry(root, text="", textvariable=eci_temp_6_qty, width=8)
 e_Temp_Qty_6.grid(row=31, column=5)
 e_Temp_Qty_6.config(font=entryfont)
-cb_6_Press_Units: Combobox = Combobox(root, values=press_umits, textvariable=eci_6_press_units, width=10)
+cb_6_Press_Units: Combobox = Combobox(root, values=press_units, textvariable=eci_6_press_units, width=10)
 cb_6_Press_Units.grid(row=31, column=6)
 cb_6_Press_Units.config(font=entryfont)
 cb_6_Press_Units.bind("<<ComboboxSelected>>", eci_units_selected)
@@ -2720,6 +2836,7 @@ lbl_blank.config(font=labelfont)
 # *** End GUI layout
 
 if __name__ == '__main__':
+    #create_variables()
     #mcf()
     # set_temp_and_press_settings()
     # make_element_dictionary()
@@ -2732,158 +2849,3 @@ if __name__ == '__main__':
     # print(element)
 
 ''' *** e_eci_1_qty.bind('<FocusOut>', (lambda event: check_entry_changes())) ***'''
-'''
-sys.path is:
-['C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\pydev',
-'C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\third_party\\thriftpy',
-'C:\\Program Files\\JetBrains\\PyCharm Edu 2020.1\\plugins\\python-ce\\helpers\\pydev', 
-'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\python38.zip', 
-'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\DLLs', 
-'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38\\lib', 
-'C:\\Users\\Owner\\AppData\\Local\\Programs\\Python\\Python38', 
-'C:\\Users\\Owner\\Chemistry101A', 
-'C:\\Users\\Owner\\Chemistry101A\\lib\\site-packages', 
-'C:\\projects\\Chemistry101A', 
-'C:/projects/Chemistry101A']
-
-elif (compound[1].islower()) and len(compound) > 0:
-# If the second character is an lowercase letter, 
-#the first two characters are an element.
-current_element = compound[0:2]
-if compound[2].isupper() and len(compound) > 1:
-# If the third character is an uppercase letter,  
-current_element_multiplier = 1
-current_compound.append(current_element)
-current_compound.append(current_element_multiplier)
-compound = compound[3:]
-print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-print('current_compound is ', current_compound)
-elif (compound[2].isdigit() and len(compound) > 1):
-If the third character is a number, 
-it is a subscript for the 2 character element. 
-
-current_compound.append(current_element)
-current_compound.append(current_element_multiplier)
-current_element_multiplier = 1
-compound = compound[3:]
-#print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-#print('current_compound is ', current_compound)
-elif (compound[1].isdigit()) and len(compound) > 0:
-current_element_multiplier =  compound[1]
-current_compound.append(current_element)
-current_compound.append(current_element_multiplier)
-current_element_multiplier = 1
-compound = compound[2:]
-print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-print('current_compound is ', current_compound)
-else: compound = compound[2:]
-print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-print('current_compound is ', current_compound)
-#Following shouldnt happen
-elif compound[0].isdigit():
-current_element = compound[0]
-current_element_multiplier =  compound[1]
-current_compound.append(current_element)
-#current_compound.append(":")
-current_compound.append(current_element_multiplier)
-compound = compound[2:]
-print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-print('current_compound is ', current_compound)
-
-#total_mass = 3 * db[eci_1]['mass']  #total_mass is  26.98153826.98153826.981538 prints mass 3 times
-
-try:
-    f = open(arg, 'r')
-except OSError:
-    print('cannot open', arg)
-else:
-    print(arg, 'has', len(f.readlines()), 'lines')
-    f.close()
-print("eci_db['eci_1']['display_press_units'] is ", eci_db['eci_1']['display_press_units'])
-print("eci_db['eci_2']['display_press_units'] is ", eci_db['eci_2']['display_press_units'])
-print("eci_db['eci_3']['display_press_units'] is ", eci_db['eci_3']['display_press_units'])
-print("eci_db['eci_4']['display_press_units'] is ", eci_db['eci_4']['display_press_units'])
-print("eci_db['eci_5']['display_press_units'] is ", eci_db['eci_5']['display_press_units'])
-print("eci_db['eci_6']['display_press_units'] is ", eci_db['eci_6']['display_press_units'])        
-#cb_eci_1_units.set('grams')
-#cb_eci_1.select_clear()
-#cb_eci_1.set(compounds_names_dict[cb_eci_1_N.get()])
-#print('cb_eci_1 is ', compounds_names_dict[cb_eci_1_N.get()])
-#print("In setItemFormula if not eci_1_N == ")
-#print('cb_1_type is ', cb_1_type)
-#index_N_1 = cb_eci_2_N.selection_get()
-#print('index_N_1 is ', index_N_1)
-#lbl_LU_Process = Label(text='H\u2082O')
-#lbl_LU_Process.grid(row=36, column=4)  #, columnspan=1)
-#lbl_LU_Process.config(font=labelfont)
-lbl_blank = Label(root, text="", width=4)
-lbl_blank.grid(row=35, column=8)   #, columnspan=2)
-lbl_blank.config(font=labelfont)
-    #H = dict(id= 1, symbol= 'H', name= 'Hydrogen', atomic_number= 1, mass= '1.008', period= 1, row= 1, column= 1, _group= '1A 7A',
-    # protons= 1, neutrons= 0, electrons= 1, _1s= 1, _2s= 0, _2p= 0, _3s= 0, _3p= 0, _4s= 0, _3d= 0, _4p= 0, _4d= 0, _5s= 0, _5p= 0, _6s= 0, _5d= 0, _6p= 0, _7s= 0,
-    # affinity= '-72', density= '0.00008988', electronegativity= '2.1', melt= '14.01', boil= '-252.76', e_fusion= 'ef', e_vapor= 'ev',
-    # t_crit= '-240.17', p_crit= '12.77', valence= '1 -1', a_radius= '53')
-    #CountElements()
-    #eci_1 = cb_eci_1.get()
-    #eci_1 = cb_eci_1.get()
-    #eci_1 = compounds_names_dict[cb_eci_1_N.get()]
-    #print('eci_1 is ', eci_1)
-    
-elif (compound[1].isdigit()):
-    If the second character is an lowercase letter, 
-    the first two characters are an element.
-    print('In elif (compound[1].isdigit()):')
-    #break
-    current_element = compound[0:1]
-    current_element_multiplier =  compound[1]
-    current_compound.append(current_element)
-    current_compound.append(current_element_multiplier)
-    compound = compound[2:]
-    print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-    print('current_compound is ', current_compound)
-    if counter == 1:
-        cb_4_type.set('elements')
-        cb_eci_4.set(current_element)
-        e_eci_4_M_qty.delete(0, END)
-        e_eci_4_M_qty.insert(0, current_element_multiplier)
-        counter += 1
-        print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-        print('current_compound is ', current_compound)
-    elif counter == 2:
-        cb_5_type.set('elements')
-        cb_eci_5.set(current_element)
-        e_eci_5_M_qty.delete(0, END)
-        e_eci_5_M_qty.insert(0, current_element_multiplier)
-        counter += 1
-        print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-        print('current_compound is ', current_compound)
-    elif counter > 2:
-        print('counter is greater than 2', counter) 
-    if compound[2].isdigit():
-        #If the third character is a number, 
-        #it is a subscript for the 2 character element 
-    #current_element_multiplier =  compound[2]
-        current_compound.append(current_element)
-        #current_compound.append(":")
-        current_compound.append(current_element_multiplier)
-        current_element_multiplier = 1
-        compound = compound[3:]
-        if counter == 1:
-            cb_4_type.set('elements')
-            cb_eci_4.set(current_element)
-            e_eci_4_M_qty.delete(0, END)
-            e_eci_4_M_qty.insert(0, current_element_multiplier)
-            counter += 1
-            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            print('current_compound is ', current_compound)
-        elif counter == 2:
-            cb_5_type.set('elements')
-            cb_eci_5.set(current_element)
-            e_eci_5_M_qty.delete(0, END)
-            e_eci_5_M_qty.insert(0, current_element_multiplier)
-            counter += 1
-            print('current_element is ', current_element, ' current_element_multiplier is ', current_element_multiplier)
-            print('current_compound is ', current_compound)
-        elif counter > 2:
-            print('counter is greater than 2', counter)
-'''
