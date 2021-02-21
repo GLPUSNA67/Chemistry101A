@@ -32,11 +32,11 @@ from ElementsDict import *
 from CompoundsDict import *
 from ionDict import *
 from eciDict import *
+from ConVarFunEtc import *
 from collections import defaultdict
 #import defaultdict
 
 #from Conversions import *
-
 # This file sets up basic configuration of the logging module.
 # Change settings here to adjust logging output as needed.
 #r = Tk()
@@ -59,10 +59,10 @@ from collections import defaultdict
 root = tk.Tk()
 root.title('Chemistry')
 
-titlefont = ('Ariel', 14, 'bold')
-labelfont = ('Ariel', 14)  # , 'bold')
-buttonfont = ('Ariel', 12)  # , 'bold')
-entryfont = ('Ariel', 12)  # , 'bold')
+#titlefont = ('Ariel', 14, 'bold')
+#labelfont = ('Ariel', 14)  # , 'bold')
+#uttonfont = ('Ariel', 12)  # , 'bold')
+#entryfont = ('Ariel', 12)  # , 'bold')
 font1 = font.Font(name='TkCaptionFont', exists=True)
 font1.config(family='courier new', size=20)
 winInstructions = Toplevel()
@@ -73,111 +73,21 @@ e_Instructions.insert(tk.END, "Program instructions will be provided in this win
 e_Instructions.insert(tk.END, "Move this window so it is always visible, or minimize it are resize it as needed. \n")
 e_Instructions.insert(tk.END, "Process instructions will be provided in this window. \n")
 
+
 #e_Instructions.rowconfigure(99)
 ''' *** e_eci_1_qty.insert(0, eci_1_M_qty) WORKS to insert a value into an entry box !!! *** '''
 ''' fahrenheit = [((9/5)*temp + 32) for temp in celsius '''
 
 # *** Start constants and variables
-''' The element list below has been superceded and will be deleted when it has been confirmed to be
-unnecessary. '''
-elements = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
-           "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
-           "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
-           "U V W Xe Y Yb Zn Zr "
-''' The following is a list of all elements that are likely to be used, and a few more. 
+''' All the element, compound and ion lists have been moved to the ConVarFunEtc module'''
 
+''' 
 Text with unicode can be included in combo boxes. Such use requires setting up a dictionary
 to associate the text with elements that have quantities different from the standard.
 
 Not all the elements and their attributes have been added to the database. H\u2082 works for H2 subscript'''
 ''' The following are not lists, but have list in the title because the string lists the items.'''
-elements_symbols_list = "Ac Ag Al Am Ar As At Au B Ba Be Bi Bk Br C Ca Cd Ce Cf Cl Cm Co Cr Cs Cu Dy Er Es Eu " \
-                        "F Fe Fm Fr Ga Gd Ge H He Hf Hg Ho I In Ir K Kr La Li Lu Md Mn Mo N Na Nb Nd Ne Ni Np O Os " \
-                        "P Pa Pb Pd Pm Po Pr Pt Pu Ra Rb Re Rh Rn  Ru S Sb Sc Se Si Sm Sn Sr Ta Tb Tc Te Th Ti Tl Tm" \
-                        "U V W Xe Y Yb Zn Zr "
-''' An element name list is used to fill the element name combo box to help the user who knows 
-the name of an element, but not the symbols. '''
-elements_name_list = "Actinium Silver Aluminum Americium Argon Arsenic Astatine Gold Boron Barium Beryllium " \
-                     "Bismuth Berkelium Bromine Carbon Calcium Cadmium Cerium Californium Chlorine Curium Cobalt Chromium " \
-                     "Cesium Copper Dysprosium Erbium Einsteinium Europium Fluorine Iron Fermium Francium Gallium Gadolinium " \
-                     "Germanium Hydrogen Helium Hafnium Mercury Holmium Iodine Indium Iridium Potassium Krypton " \
-                     "Lanthanum Lithium Lutetium Mendelevium Manganese Molybdenum Nitrogen Na Niobium Neodymium Neon Nickel " \
-                     "Neptunium Oxygen Osmium Phosphorus Protactinium Lead Palladium Promethium Polonium Praseodymium " \
-                     "Platnum Plutonium Radium Rubidium Rhenium Rhodium Radon Rutherfordium Sulfur Antimony Scandium Selenium Silicon " \
-                     "Samarium Tin Strontium Tantalum Terbium Technetium Tellurium Thorium Titanium " \
-                     "Thallium Thulium Uranium Vanadium Tungsten Xenon Yttrium Ytterbium Zinc Zirconium "
 
-''' This list of elements and names will help retrieve names from symbols. '''
-# element = zip(elements_symbols_list, elements_name_list)
-element_names_Dict = {'Actinium': 'Ac', 'Silver': 'Ag', 'Aluminum': 'Al', 'Americium': 'Am', 'Argon': 'Ar',
-                      'Arsenic': 'As', 'Astatine': 'At', 'Gold': 'Au', 'Boron': 'B', 'Barium': 'Ba',
-                      'Beryllium': 'Be', 'Bismuth': 'Bi', 'Berkelium': 'Bk', 'Bromine': 'Br', 'Carbon': 'C',
-                      'Calcium': 'Ca', 'Cadmium': 'Cd', 'Cerium': 'Ce', 'Californium': 'Cf', 'Chlorine': 'Cl',
-                      'Curium': 'Cm', 'Cobalt': 'Co', 'Chromium': 'Cr', 'Cesium': 'Cs', 'Copper': 'Cu',
-                      'Dysprosium': 'Dy', 'Erbium': 'Er', 'Einsteinium': 'Es', 'Europium': 'Eu', 'Fluorine': 'F',
-                      'Iron': 'Fe', 'Fermium': 'Fm', 'Francium': 'Fr', 'Gallium': 'Ga', 'Gadolinium': 'Gd',
-                      'Germanium': 'Ge', 'Hydrogen': 'H', 'Helium': 'He', 'Hafnium': 'Hf', 'Mercury': 'Hg',
-                      'Holmium': 'Ho', 'Iodine': 'I', 'Indium': 'In', 'Iridium': 'Ir', 'Potassium': 'K',
-                      'Krypton': 'Kr', 'Lanthanum': 'La', 'Lithium': 'Li', 'Lutetium': 'Lu', 'Mendelevium': 'Md',
-                      'Manganese': 'Mn', 'Molybdenum': 'Mo', 'Nitrogen': 'N', 'Na': 'Na', 'Niobium': 'Nb',
-                      'Neodymium': 'Nd', 'Neon': 'Ne', 'Nickel': 'Ni', 'Neptunium': 'Np', 'Oxygen': 'O',
-                      'Osmium': 'Os', 'Phosphorus': 'P', 'Protactinium': 'Pa', 'Lead': 'Pb', 'Palladium': 'Pd',
-                      'Promethium': 'Pm', 'Polonium': 'Po', 'Praseodymium': 'Pr', 'Platnum': 'Pt', 'Plutonium': 'Pu',
-                      'Radium': 'Ra', 'Rubidium': 'Rb', 'Rhenium': 'Re', 'Rhodium': 'Rh', 'Radon': 'Rn',
-                      'Rutherfordium': 'Ru', 'Sulfur': 'S', 'Antimony': 'Sb', 'Scandium': 'Sc', 'Selenium': 'Se',
-                      'Silicon': 'Si', 'Samarium': 'Sm', 'Tin': 'Sn', 'Strontium': 'Sr', 'Tantalum': 'Ta',
-                      'Terbium': 'Tb', 'Technetium': 'Tc', 'Tellurium': 'Te', 'Thorium': 'Th', 'Titanium': 'Ti',
-                      'Thallium': 'Tl', 'Thulium': 'Tm', 'Uranium': 'U', 'Vanadium': 'V', 'Tungsten': 'W',
-                      'Xenon': 'Xe', 'Yttrium': 'Y', 'Ytterbium': 'Yb', 'Zinc': 'Zn', 'Zirconium': 'Zr'}
-''' Tried to change symbols to use subscripts, but the Compound Dictionary would not accept 
-a subscripted formula as a valid key'''
-compound_symbols_list = "Al4C3 AlCl3 Ar2He2Kr2Ne2Xe2Rn2 BCl3 CH4 C2H6 C3H8 C4H10 C4H10, C5H12 C6H14 C7H16 C8H18 " \
-                        "C9H20 C10H22 C14H30 C18H38 CaH2PO4 CaI CaOH2 Ca3P2 CdS CsF C6H8O7 CH3CO2H C2H4COH " \
-                        "CO CO2 HBr HC2H3O2 HCl HClO4 HCN H2CO3 HF HI " \
-                        "HNO2 HNO3 H3PO4 H2S H2SO3 H2SO4 IF7 KBr KOH LiCl Mg3N2 NaCl NaHCO3 Na2O NaOH " \
-                        "Na2SO4 NH3 N2H4 NO NO2 N2O4 N2O N2O5 PF5 SO2 SO3 "
-
-compound_names_list = "aluminum_carbide aluminum_chloride air boron_trichloride methane ethane propane butane 2-methylpropane" \
-                      " pentane hexane heptane octane nonane decane tetradecane octadecane calcium_dihydrogen_phosphate" \
-                      " calcium_iodide calcium_hydroxide calcium_phosphide cadmium_sulfide cesium_fluoride citric_acid" \
-                      " acetic_acid acetic_acid carbon_monoxide carbon_dioxide hydrogen_bromide " \
-                      " acetic_acid hydrogen_chloride hydrochloric_acid perchloric_acid hydrogen_cyanide" \
-                      " carbonic_acid hydrogen_fluoride hydrofluoric_acid hydrogen_iodide nitrous_acid" \
-                      " nitric_acid phosphoric_acid hydrogen_suflide sulfurous_acid sulfuric_acid" \
-                      " iodine_heptafluoride potassium_bromide potassium_hydroxide lithium_chloride magnesium_nitride" \
-                      " sodium_chloride bicarbonate_of_soda sodium_oxide sodium_hydroxide sodium_sulfate ammonia hydrazine nitric_oxide" \
-                      " nitorgen_dioxide dinitrogen_tetroxide nitrous_oxide dinitrogen_pentoxide phosphorus_pentafluoride" \
-                      " sulfur_dioxide sulfur_trioxide"
-''' This list of compounds and names will help retrieve names from formulas. Doesn't work. Why? '''
-compounds_names_dict = {'aluminum_carbide': 'Al4C3', 'aluminum_chloride': 'AlCl3', 'air': 'Ar2He2Kr2Ne2Xe2Rn2',
-                        'boron_trichloride': 'BCl3', 'methane': 'CH4', 'ethane': 'C2H6', 'propane': 'C3H8',
-                        'butane': 'C4H10', '2-methylpropane': 'C4H10_M', 'pentane': 'C5H12', 'hexane': 'C6H14',
-                        'heptane': 'C7H16', 'octane': 'C8H18', 'nonane': 'C9H20', 'decane': 'C10H22',
-                        'tetradecane': 'C14H30', 'octadecane': 'C18H38', 'calcium_dihydrogen_phosphate': 'CaH2PO4',
-                        'calcium_iodide': 'CaI', 'calcium_hydroxide': 'CaOH2', 'calcium_phosphide': 'Ca3P2',
-                        'cadmium_sulfide': 'CdS', 'cesium_fluoride': 'CsF', 'citric_acid': 'C6H8O7',
-                        'acetic_acid': 'HC2H3O2', 'carbon_monoxide': 'CO', 'carbon_dioxide': 'CO2',
-                        'hydrogen_bromide': 'HBr',
-                        'hydrochloric_acid': 'HCl', 'perchloric_acid': 'HClO4', 'hydrogen_cyanide': 'HCN',
-                        'carbonic_acid': 'H2CO3', 'hydrofluoric_acid': 'HF',
-                        'hydroiodic_acid': 'HI', 'nitrous_acid': 'HNO2',
-                        'nitric_acid': 'HNO3', 'phosphoric_acid': 'H3PO4',
-                        'hydrosulfuric_acid': 'H2S', 'sulfurous_acid': 'H2SO3', 'sulfuric_acid': 'H2SO4',
-                        'iodine_heptafluoride': 'IF7', 'potassium_bromide': 'KBr', 'potassium_hydroxide': 'KOH',
-                        'lithium_chloride': 'LiCl', 'magnesium_nitride': 'Mg3N2', 'sodium_chloride': 'NaCl',
-                        'bicarbonate_of_soda': 'NaHCO3', 'sodium_oxide': 'Na2O', 'sodium_hydroxide': 'NaOH',
-                        'sodium_sulfate': 'Na2SO4', 'ammonia': 'NH3', 'hydrazine': 'N2H4', 'nitric_oxide': 'NO',
-                        'nitorgen_dioxide': 'NO2', 'dinitrogen_tetroxide': 'N2O4', 'nitrous_oxide': 'N2O',
-                        'dinitrogen_pentoxide': 'N2O5', 'phosphorus_pentafluoride': 'PF5', 'sulfur_dioxide': 'SO2',
-                        'sulfur_trioxide': 'SO3'}
-ion_names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', 'perchlorate': 'ClO4',
-                  'cyanide': 'CN', 'carbonate': 'CO32', 'copper_(II)_sulfide': 'CuS', 'iron_(II)_chloride': 'FeCl2',
-                  'iron_(III)_chloride': 'FeCl3', 'dihydrogen_phosphate': 'H2PO4', 'hydrogen_carbonate': 'HCO3',
-                  'mercury_(I)_oxide': 'Hg2O', 'mercury_(II)_oxide': 'HgO', 'hydronium': 'H3O',
-                  'hydrogen_phosphate': 'HPO42', 'hydrogen_sulfate': 'HSO4', 'hydroxide': 'OH',
-                  'ammonium': 'NH4', 'nitrate': 'NO3', 'nitrite': 'NO2',
-                  'permanganate': 'MnO4', 'peroxide': 'H2O22', 'sulfate': 'SO42',
-                  'sulfite': 'SO32', 'phosphate': 'PO43'}
 
 ''' Process documentation 
  A des_list is a dictionary and list. The dictionary key is an alphabetical list of elements 
@@ -190,20 +100,6 @@ ion_names_dict = {'acetate': 'C2H3O2', 'chlorite': 'ClO2', 'chlorate': 'ClO3', '
  the compoounds. This will help a user who knows the name of the compound desired, but not the formula.
  des_lists need to be recreated for compounds and ions when a compound or ion is added to the database.
  '''
-
-''' An initial list of ions and names to fill the combo boxes until a proper list can be made. '''
-
-# ion_names_list = "hydroxide sulfate"
-ion_symbols_list = "C2H3O2 ClO2 ClO3 ClO4 CN CO32 CuS FeCl2 FeCl3 H2PO4 HCO3 Hg2O HgO H3O HPO42 HSO4 OH NH4 NO3 NO2 MnO4 O22 SO42 SO32 PO43"
-ion_names_list = "acetate chlorite chlorate perchlorate cyanide carbonate copper_(II)_sulfide " \
-                 "iron_(II)_chloride iron_(III)_chloride dihydrogen_phosphate hydrogen_carbonate " \
-                 "mercury_(I)_oxide mercury_(II)_oxide hydronium hydrogen_phosphate hydrogen_sulfate " \
-                 "hydroxide ammonium nitrate nitrite permanganate peroxide sulfate sulfite phosphate "
-unit_values = "Moles grams kilograms ounces pounds liters(l) liters(g) ml(l) ml(g)"
-eci_cb_values = "elements compounds ions"
-environment = "Laboratory Industry Nature"
-temp_units = "K F C"
-press_units = "ATM torr psi hg"
 
 #c_alpa_list = "AlC, AlCl, ArHeKrNeXeRn, Ar2He2Kr2Ne2Xe2Rn2, BCl, CH, CaHOP, CaI, CaHO, CaP, CdS, CsF, CHO, CO, CuS, BrH"
 
@@ -274,12 +170,12 @@ eci_3_col = IntVar()
 eci_4_col = IntVar()
 eci_5_col = IntVar()
 eci_6_col = IntVar()
-eci_1_electronegativity = DoubleVar()
-eci_2_electronegativity = DoubleVar()
-eci_3_electronegativity = DoubleVar()
-eci_4_electronegativity = DoubleVar()
-eci_5_electronegativity = DoubleVar()
-eci_6_electronegativity = DoubleVar()
+eci_1_electronegativity = ""
+eci_2_electronegativity = ""
+eci_3_electronegativity = ""
+eci_4_electronegativity = ""
+eci_5_electronegativity = ""
+eci_6_electronegativity = ""
 eci_1_group = StringVar()
 eci_2_group = StringVar()
 eci_3_group = StringVar()
@@ -822,15 +718,36 @@ def calculate_eci_variables():
 
 def Oxidation_Reduction():
     """This function has been entered after elements have been selected and the Continue button pressed."""
-    e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+    #e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+    count = CountElements()
+    if count == 3:
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process three elements.\n")
+    elif count == 2:
+        Oxidation_Rate_Two_Elements()
+        #cb_1_type = cb_Select_CB1.get()
+        #cb_2_type = cb_Select_CB2.get()
+    else: e_Explanation.insert(tk.END, "Oxidation_Rate failed at count equal two elements.\n")
 
+    ''' The following will not be used until compound, ions, or three elements are being considered
+    if cb_1_type == 'elements' and cb_2_type == 'elements' and cb_3_type == 'elements' or cb_3_type == "":
+        Oxidation_Rate_Two_Elements()
+    elif cb_1_type == 'compounds' or cb_2_type == 'compounds' and cb_3_type == 'compounds':
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process compounds.\n")
+        #Oxidation_Rate_Compounds()
+    elif cb_1_type == 'ions' or cb_2_type == 'ions' and cb_3_type == 'ions':
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process ions.\n")
+        Oxidation_Rate_Ions()
+    else:
+        e_Explanation.insert(tk.END, "Oxidation_Rate process failed.\n")
+    '''
+    '''
     Oxidation_Rate()
     cb_1_type = cb_Select_CB1.get()  # Get the selected type of: element, compound, or ion
     print('eci_1_type = ', cb_1_type)
     eci_1 = cb_eci_1.get()
     print('eci_1 = ', eci_1)
     if cb_1_type == 'elements':
-        '''  *** The following works! '''
+        ''''''  *** The following works! ''''''
 
         # eci_db['eci_1']['name']
         eci_d['eci_1']['name'] = db[eci_1]['name']
@@ -856,7 +773,7 @@ def Oxidation_Reduction():
     elif cb_1_type == 'compounds':
         # eci_1 = cb_eci_1.get()
         # print('eci_1 = ', eci_1)
-        e_Explanation.insert(tk.END, "Oxidation_Reduction process entered\n")
+        e_Explanation.insert(tk.END, "Oxidation_Reduction can't process compounds entered\n")
         print("Oxidation_Reduction eci_1 can't process compounds yet")
     elif cb_1_type == 'ions':
         # eci_1 = cb_eci_1.get()
@@ -869,7 +786,7 @@ def Oxidation_Reduction():
     if cb_2_type == 'elements':
         eci_2 = cb_eci_2.get()
         print('eci_2 = ', eci_2)
-        '''  *** The following works! '''
+        ''''''  *** The following works! ''''''
         eci_2_name = db[eci_2]['name']
         eci_2_col = db[eci_2]['column']
         eci_2_mass = db[eci_2]['mass']
@@ -896,7 +813,7 @@ def Oxidation_Reduction():
     if cb_3_type == 'elements':
         # eci_3 = cb_eci_3.get()
         # print('eci_3 = ', eci_3)
-        '''  *** The following works! '''
+        ''''''  *** The following works! ''''''
         eci_3_name = db[eci_3]['name']
         eci_3_col = db[eci_3]['column']
         eci_3_mass = db[eci_3]['mass']
@@ -923,7 +840,7 @@ def Oxidation_Reduction():
     #    eci_1 = cb_eci_1.get()
     #    print('eci_1 = ', eci_1)
     #    print('eci_1_type = ', cb_eci_1.get())
-
+    '''
 
 def Precipitation():
     """ print("Pressed update_record button") """
@@ -932,39 +849,270 @@ def Precipitation():
 
 
 def Oxidation_Rate():   #Based on eci type, call appropriate Oxidation_Rate function
-    cb_1_type = cb_Select_CB1.get()
-    cb_2_type = cb_Select_CB2.get()
-    cb_3_type = cb_Select_CB3.get()
+    ''' Synthesize elements into compounds or ions '''
+    count = CountElements()
+    if count == 3:
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process three elements.\n")
+    elif count == 2:
+        cb_1_type = cb_Select_CB1.get()
+        cb_2_type = cb_Select_CB2.get()
+        #cb_3_type = cb_Select_CB3.get()
+    else: e_Explanation.insert(tk.END, "Oxidation_Rate failed at count equal two elements.\n")
+
+    ''' The following will not be used until compound, ions, or three elements are being considered '''
     if cb_1_type == 'elements' and cb_2_type == 'elements' and cb_3_type == 'elements' or cb_3_type == "":
-        Oxidation_Rate_Elements()
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process three elements.\n")
+        #Oxidation_Rate_Three_Elements()
     elif cb_1_type == 'compounds' or cb_2_type == 'compounds' and cb_3_type == 'compounds':
-        Oxidation_Rate_Compounds()
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process compounds.\n")
+        #Oxidation_Rate_Compounds()
     elif cb_1_type == 'ions' or cb_2_type == 'ions' and cb_3_type == 'ions':
-        Oxidation_Rate_Ions()
+        e_Explanation.insert(tk.END, "Oxidation_Rate can't currently process ions.\n")
+        #Oxidation_Rate_Ions()
     else:
-        e_Explanation.insert(tk.END, "Oxidation_Rate process fell through to else clause\n")
+        e_Explanation.insert(tk.END, "Oxidation_Rate process failed.\n")
 
 
 ''' Oxidation_Rate_Compounds and Oxidation_Rate_Ions are placeholders for future use as needed. '''
 
 
 def Oxidation_Rate_Compounds():
-    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Compounds process\n")
+    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Compounds has not yet been programmed.\n")
 
 
 def Oxidation_Rate_Ions():
-    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions process\n")
+    e_Explanation.insert(tk.END, "Entered Oxidation_Rate_Ions has not yet been programmed.\n")
 
 
-def Oxidation_Rate_Elements():
-    ''' This function has been entered after elements have been selected and the Continue button pressed. Each item is an element. Compounds and ions use a different function.
+def Oxidation_Rate_Two_Elements():
+    ''' This function has been entered after elements have been selected and the Continue button pressed.
+    Each item is an element. Compounds and ions use a different function.
     It is necessary to get the valence and electronegativity values because the valence of some
     elements is determined by the relative electronegativity of the other elements.'''
-    cb_eci_1_units.set('grams')
-    cb_eci_2_units.set('grams')
-    cb_eci_4_units.set('grams')
+    #e_Explanation.insert(tk.END, "Oxidation_Rate_Elements process entered\n")
 
-    e_Explanation.insert(tk.END, "Oxidation_Rate_Elements process entered\n")
+    '''
+    cb_1_type = cb_Select_CB1.get()
+    cb_2_type = cb_Select_CB2.get()
+    '''
+    eci_1 = cb_eci_1.get()
+    eci_2 = cb_eci_2.get()
+
+    ''' if eci_db['eci_1']['eci_type'] == 'elements': is no longer needed because 
+    all non-elements have been moved to another function. '''
+    eci_1_valence = db[eci_1]['valence']
+    eci_2_valence = db[eci_2]['valence']
+    eci_1_electronegativity = db[eci_1]['electronegativity']
+    eci_2_electronegativity = db[eci_2]['electronegativity']
+    print('eci_1_valence is ', eci_1_valence)
+    print('eci_2_valence is ', eci_2_valence)
+    print("db[eci_1]['eci_1_electronegativity'] is ", eci_1_electronegativity)
+    print("db[eci_2]['eci_2_electronegativity'] is ", eci_2_electronegativity)
+    if eci_1_valence.isnumeric():
+        ''' This section of code only works for metals that have single valence values. '''
+        ''' Set the dictionary values. 
+        Oxidation_State only has one value that is set for this case. 
+        Other elements have multiple valence values, these will be dealt with later.
+        '''
+        eci_1_Oxidation_State = eci_1_valence
+        db[eci_1]['valence'] = eci_1_valence
+        db[eci_1]['Oxidation_State'] = eci_1_valence
+        print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
+        print("db[eci_1]['valence'] is numeric ", eci_1_valence)
+        ''' eci_db['eci_2']['eci_type'] == 'elements': '''
+        eci_2_valence = db[eci_2]['valence']
+        if eci_2_valence.isnumeric() or eci_2_valence == "-1":
+            ''' Now we can solve for the valences'''
+            Solve_Two_Single_Valence_Compound(eci_1, eci_1_valence, eci_2, eci_2_valence)
+        elif not eci_2_valence.isnumeric():
+            print("In elif not eci_2_valence.isnumeric")
+            eci_2_group = db[eci_2]['_group']
+            if eci_2_group == "7A":
+                print("db[eci_2]['_group'] is ", eci_2_group)
+                #eci_1_electronegativity = db[eci_1]['electronegativity']
+                #eci_2_electronegativity = db[eci_2]['electronegativity']
+                #print("db[eci_1]['eci_1_electronegativity'] is ", eci_1_electronegativity)
+                #print("db[eci_2]['eci_2_electronegativity'] is ", eci_2_electronegativity)
+                if eci_1_electronegativity < eci_2_electronegativity:
+                    eci_2_valence = -1
+                    Solve_Two_Single_Valence_Compound(eci_1, eci_1_valence, eci_2, eci_2_valence)
+                    eci_2_Oxidation_State = eci_2_valence
+                    db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
+                    print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
+                    ''' The following can be moved to synthesis. '''
+                    eci_1_M_qty = 1
+                    e_eci_1_M_qty.delete(0)
+                    e_eci_1_M_qty.insert(0, eci_1_M_qty)
+                    eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
+                    e_eci_2_M_qty.delete(0, END)
+                    e_eci_2_M_qty.insert(0, eci_2_M_qty)
+                    ''' Set the type and value of the compound.'''
+                    ''' These functions will be moved to other processes when they are defined. 
+                    Oxidation_Rate_Elements will only store the oxidation states in the frame directories. '''
+                    cb_4_type = "compound"
+                    eci_4_type = "compound"
+                    ''' Set a temporary variable to hold the formula variable
+                    because the formula assumes quantity is 1, so it doen't need to be shown'''
+                    eci_1a = eci_1
+                    eci_2a = eci_2
+                    if eci_2_valence == -1:
+                        eci_1a = eci_1
+                    elif not eci_2_valence == -1:
+                        eci_1a = eci_1 + str(eci_2_valence)
+                    if eci_1_valence == '1':
+                        eci_2a = eci_2
+                        print('eci_2a is ', eci_2a)
+                    elif not eci_1_valence == '1':
+                        eci_2a = eci_2 + str(eci_1_valence)
+                    eci_4 = eci_1a + eci_2a
+                    ''' *** Set cb_eci_4 selected item to eci_4 *** '''
+                    cb_eci_4.set(eci_4)
+                    e_eci_4_M_qty.delete(0, END)
+                    e_eci_4_M_qty.insert(0, 1)
+                    print("eci_4 is ", eci_4)
+                    print("e_eci_1_M_qty is ", e_eci_1_M_qty.get())
+                    print("e_eci_2_M_qty is ", e_eci_2_M_qty.get())
+                elif eci_1_electronegativity > eci_2_electronegativity:
+                    print(
+                        "In Oxidation_Rate_Elements eci_2 group 7A -- eci_1_electronegativity > eci_2_electronegativity")
+            elif eci_2_group == "6A":  # Will need to exclude Oxygen for some compounds
+                print("In Oxidation_Rate_Elements eci_2_group == 6A.")
+                db[eci_2]['_group'] = eci_2_group
+                print("db[eci_2]['_group'] is ", eci_2_group)
+                print("db[eci_1]['eci_1_electronegativity'] is ", eci_1_electronegativity)
+                print("db[eci_2]['eci_2_electronegativity'] is ", eci_2_electronegativity)
+                if eci_1_electronegativity < eci_2_electronegativity:
+                    eci_2_valence = -2
+                    eci_1_M_qty = -eci_2_valence
+                    eci_2_M_qty = eci_1_valence
+                    eci_2_Oxidation_State = eci_2_valence
+                    print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
+                    if eci_2_valence == -2 and eci_1_valence == "1":
+                        print("if eci_2_valence == -2 and eci_1_valence == 1:")
+                        print("eci_1 is", eci_1, "eci_2_valence is", eci_2_valence, "eci_2 is", eci_2)
+                        eci_4 = eci_1 + str(abs(eci_2_valence)) + eci_2
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, eci_1_M_qty)
+                        eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, eci_2_M_qty)
+                    elif -int(eci_2_valence) == int(eci_1_valence):
+                        print("-eci_2_valence is", -eci_2_valence)
+                        eci_4 = eci_1 + eci_2
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, 1)
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, 1)
+                    elif not -int(eci_2_valence) == int(eci_1_valence):
+                        eci_4 = eci_1 + str(-eci_2_valence) + eci_2 + str(eci_1_valence)
+                        print("-int(eci_2_valence) is", -int(eci_2_valence))
+                        print("int(eci_1_valence) is", int(eci_1_valence))
+                        # eci_4 = eci_1 + eci_2 + eci_1_valence
+                        e_eci_1_M_qty.delete(0)
+                        e_eci_1_M_qty.insert(0, eci_1_M_qty)
+                        eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
+                        e_eci_2_M_qty.delete(0, END)
+                        e_eci_2_M_qty.insert(0, eci_2_M_qty)
+                    ''' *** Set cb_eci_4 selected item to eci_4 *** '''
+                    cb_eci_4.set(eci_4)
+                    e_eci_4_M_qty.delete(0, END)
+                    e_eci_4_M_qty.insert(0, 1)
+                    print("eci_4 is ", eci_4)
+                    eci_1_massa = float(eci_1_M_qty) * float(eci_1_mass)
+                    print("eci_1_massa is ", eci_1_massa)
+                    e_eci_1_qty.delete(0)
+                    e_eci_1_qty.insert(0, eci_1_massa)
+                    e_eci_2_qty.delete(0)
+                    e_eci_2_qty.insert(0, float(eci_2_M_qty) * float(eci_2_mass))
+                    # eci_1_M_qty = 1
+
+            elif not eci_2_group == "6A" and not eci_2_group == "7A":
+                print("In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.")
+                e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.\n")
+            elif eci_1_electronegativity > eci_1_electronegativity:
+                e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements eci_1_electronegativity > eci_1_electronegativity.\n")
+    elif not eci_1_valence.isnumeric():  # if eci_1_valence is a string of valence values
+        e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements elif not eci_1_valence.isnumeric().\n")
+        print("In Oxidation_Rate_Elements not eci_1_valence.isnumeri.")
+    else:
+        e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements else clause -- no processing option worked.\n")
+        e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
+
+def Solve_Two_Single_Valence_Compound(eci_1, eci_1_valence, eci_2, eci_2_valence):
+    print('Entered Solve_Two_Single_Valence_Compound ', eci_1, eci_1_valence, eci_2, eci_2_valence)
+    ''' Set the values in the eci frame dictionary. '''
+    ''' The following demonstrate the direct assignments of values
+    from the element dictionary to the frame dictionary. '''
+    eci_d['eci_1']['eci'] = cb_eci_1.get()
+    eci_d['eci_2']['eci'] = cb_eci_2.get()
+    eci_d['eci_1']['eci_type'] = cb_Select_CB1.get()
+    eci_d['eci_2']['eci_type'] = cb_Select_CB2.get()
+    eci_1_name = db[eci_1]['name']
+    eci_1_mass = db[eci_1]['mass']
+    eci_1_group = db[eci_1]['_group']
+    eci_1_valence = db[eci_1]['valence']
+    eci_1_Oxidation_State = eci_1_valence
+    eci_1_electronegativity = db[eci_1]['electronegativity']
+    print("eci_db['eci_1']['eci'] is ", eci_d['eci_1']['eci'])
+    print("eci_db['eci_2']['eci'] is ", eci_d['eci_2']['eci'])
+    print("db[eci_1]['name'] is ", eci_1_name)
+    print("db[eci_1]['mass'] is ", eci_1_mass)
+    print("db[eci_1]['_group'] is ", eci_1_group)
+    print("db[eci_1]['valence'] is ", eci_1_valence)
+    print("eci_1_Oxidation_State is ", eci_1_Oxidation_State)
+    print("db[eci_1]['electronegativity'] is ", eci_1_electronegativity)
+    eci_2_name = db[eci_2]['name']
+    eci_2_mass = db[eci_2]['mass']
+    eci_2_group = db[eci_2]['_group']
+    eci_2_valence = db[eci_2]['valence']
+    eci_2_Oxidation_State = eci_2_valence
+    db[eci_2]['valence'] = eci_2_valence
+    db[eci_2]['Oxidation_State'] = eci_2_Oxidation_State
+    eci_2_electronegativity = db[eci_2]['electronegativity']
+    print("db[eci_2]['name'] is ", eci_2_name)
+    print("db[eci_2]['_group'] is ", eci_2_group)
+    print("db[eci_2]['valence'] is ", eci_2_valence)
+    print("db[eci_2]['electronegativity'] is ", eci_2_electronegativity)
+    print("db[eci_2]['valence'] is numeric ", eci_2_valence)
+    print("eci_2_Oxidation_State is ", eci_2_Oxidation_State)
+    eci_1_M_qty = 1
+    e_eci_1_M_qty.delete(0)
+    e_eci_1_M_qty.insert(0, eci_1_M_qty)
+    eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
+    e_eci_2_M_qty.delete(0, END)
+    e_eci_2_M_qty.insert(0, eci_2_M_qty)
+    cb_4_type = "compound"
+    eci_4_type = "compound"
+    eci_1a = eci_1
+    eci_2a = eci_2
+    if eci_2_valence == "-1":
+        eci_1a = eci_1
+    elif not eci_2_valence == "-1":
+        eci_1a = eci_1 + str(eci_2_valence)
+    if eci_1_valence == '1':
+        eci_2a = eci_2
+        print('eci_2a is ', eci_2a)
+    elif not eci_1_valence == '1':
+        eci_2a = eci_2 + str(eci_1_valence)
+    eci_4 = eci_1a + eci_2a
+    ''' *** Set cb_eci_4 selected item to eci_4 *** '''
+    cb_eci_4.set(eci_4)
+    e_eci_4_M_qty.delete(0, END)
+    e_eci_4_M_qty.insert(0, 1)
+    print("eci_4 is ", eci_4)
+    print("e_eci_1_M_qty is ", e_eci_1_M_qty.get())
+    print("e_eci_2_M_qty is ", e_eci_2_M_qty.get())
+
+def Oxidation_Rate_Three_Elements():
+    ''' This function has been entered after elements have been selected and the Continue button pressed.
+    Each item is an element. Compounds and ions use a different function.
+    It is necessary to get the valence and electronegativity values because the valence of some
+    elements is determined by the relative electronegativity of the other elements.'''
+    #cb_eci_1_units.set('grams')
+    #cb_eci_2_units.set('grams')
+    #cb_eci_4_units.set('grams')
+
+    #e_Explanation.insert(tk.END, "Oxidation_Rate_Elements process entered\n")
 
     '''
     cb_1_type = cb_Select_CB1.get()
@@ -973,9 +1121,10 @@ def Oxidation_Rate_Elements():
     '''
     eci_1 = cb_eci_1.get()
     eci_2 = cb_eci_2.get()
-    eci_3 = cb_eci_3.get()
+    #eci_3 = cb_eci_3.get()
     ''' Set the values in the eci frame dictionary. '''
-    eci_1_temp_units = cb_1_Temp_Units.get()
+    #   What was this about? eci_1_temp_units = cb_1_Temp_Units.get()
+    eci_d['eci_1']['eci'] = cb_eci_1.get()
     eci_d['eci_2']['eci'] = cb_eci_2.get()
     eci_d['eci_3']['eci'] = cb_eci_3.get()
     ''' The following demonstrate the direct assignments of frame values 
@@ -1072,7 +1221,7 @@ def Oxidation_Rate_Elements():
                     elif not eci_1_valence == '1':
                         eci_2a = eci_2 + str(eci_1_valence)
                     eci_4 = eci_1a + eci_2a
-                    ''' Need to set cb_eci_4 selected item to eci_4'''
+                    ''' *** Set cb_eci_4 selected item to eci_4 *** '''
                     cb_eci_4.set(eci_4)
                     e_eci_4_M_qty.delete(0, END)
                     e_eci_4_M_qty.insert(0, 1)
@@ -1118,6 +1267,7 @@ def Oxidation_Rate_Elements():
                         eci_2_M_qty = eci_1_valence  # This is correct. Cross assign valences to quantities
                         e_eci_2_M_qty.delete(0, END)
                         e_eci_2_M_qty.insert(0, eci_2_M_qty)
+                    ''' *** Set cb_eci_4 selected item to eci_4 *** '''
                     cb_eci_4.set(eci_4)
                     e_eci_4_M_qty.delete(0, END)
                     e_eci_4_M_qty.insert(0, 1)
@@ -1132,13 +1282,15 @@ def Oxidation_Rate_Elements():
 
             elif not eci_2_group == "6A" and not eci_2_group == "7A":
                 print("In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.")
+                e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements not eci_2_group == 6A or 7A.\n")
             elif eci_1_electronegativity > eci_1_electronegativity:
-                pass
+                e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements eci_1_electronegativity > eci_1_electronegativity.\n")
     elif not eci_1_valence.isnumeric():  # if eci_1_valence is a string of valence values
+        e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements elif not eci_1_valence.isnumeric().\n")
         print("In Oxidation_Rate_Elements not eci_1_valence.isnumeri.")
     else:
+        e_Explanation.insert(tk.END, "In Oxidation_Rate_Elements else clause -- no processing option worked.\n")
         e_Explanation.insert(tk.END, "In Oxidation_Rate process else clause\n")
-
 
 def Acid_Base():
     e_Explanation.insert(tk.END, "Acid_Base process entered\n")
@@ -1672,15 +1824,15 @@ def set_temp_and_press_settings():
     eci_db['eci_6']['display_press_units'] = cb_6_Press_Units.get()
 '''
 def Reset_Product_Boxes():
-    cb_eci_2.set("")
-    cb_eci_2_N.set("")
-    e_eci_2_M_qty.delete(0, END)
-    cb_eci_3.set("")
-    cb_eci_3_N.set("")
-    e_eci_3_M_qty.delete(0, END)
-    #cb_eci_4.set("")
-    #cb_eci_4_N.set("")
-    #e_eci_4_M_qty.delete(0, END)
+    #cb_eci_2.set("")
+    #cb_eci_2_N.set("")
+    #e_eci_2_M_qty.delete(0, END)
+    #cb_eci_3.set("")
+    #cb_eci_3_N.set("")
+    #e_eci_3_M_qty.delete(0, END)
+    cb_eci_4.set("")
+    cb_eci_4_N.set("")
+    e_eci_4_M_qty.delete(0, END)
     cb_eci_5.set("")
     cb_eci_5_N.set("")
     e_eci_5_M_qty.delete(0, END)
@@ -1688,11 +1840,29 @@ def Reset_Product_Boxes():
     cb_eci_6_N.set("")
     e_eci_6_M_qty.delete(0, END)
 
+def Reset_Reactant_Boxes():
+    cb_eci_1.set("")
+    cb_eci_1_N.set("")
+    e_eci_1_M_qty.delete(0, END)
+    cb_eci_2.set("")
+    cb_eci_2_N.set("")
+    e_eci_2_M_qty.delete(0, END)
+    cb_eci_3.set("")
+    cb_eci_3_N.set("")
+    e_eci_3_M_qty.delete(0, END)
+    #cb_eci_5.set("")
+    #cb_eci_5_N.set("")
+    #e_eci_5_M_qty.delete(0, END)
+    #cb_eci_6.set("")
+    #cb_eci_6_N.set("")
+    #e_eci_6_M_qty.delete(0, END)
+
 def Parse_Reactants():  # 'He2SO4'
     ''' I need to parse for number, uppercase, and lowercase. Leading number always applies to an element or formula,
     later numbers are assumed to apply to the preceeding element.
     '''
     e_Explanation.insert(tk.END, "Parse_Reactants process entered\n")
+    #Reset_Product_Boxes()
     if cb_Select_CB1.get() == 'compounds':
         eci_1 = cb_eci_1.get()
         compound = cb_eci_1.get()
@@ -1954,7 +2124,7 @@ def Display_Parsed_Product(parsed_compound):
     print('Entering Display_Parsed_Compound')
     print(parsed_compound)
     ''' Need to reset all possible product boxes to empty strings'''
-    Reset_Product_Boxes()
+    Reset_Reactant_Boxes()
     e_eci_4_M_qty.delete(0, END)
     e_eci_4_M_qty.insert(0, 1)
 
@@ -2052,6 +2222,7 @@ def CountElements():  # The following does not work. Need valid test for value
     else:
         intElementCount = intElementCount + 1
     print('element count is', intElementCount)
+    return intElementCount
     # rtb_Explanation.Text = rtb_Explanation.Text & intElementCount
 
 def AlphabetizeElements():  # TypeError: '<' not supported between instances of 'StringVar' and 'StringVar'
@@ -2120,7 +2291,7 @@ def show_hide_instructions():
         ''' Code to show the window with instructions. '''
     else:
         popup()
-        btn_show_instructions.text == 'Hide Instructions'
+        btn_show_instructions.text == 'Show Instructions'
         ''' Code to hide the window with instructions. '''
 '''
 def makePopup():
@@ -2424,9 +2595,9 @@ e_Press_Qty_4 = Entry(root, text="", textvariable=eci_press_4_qty, width=8)
 e_Press_Qty_4.grid(row=15, column=7)
 e_Press_Qty_4.config(font=entryfont)
 
-lbl_blank = Label(root, text="")
+'''lbl_blank = Label(root, text="")
 lbl_blank.grid(row=16, column=0)
-lbl_blank.config(font=labelfont)
+lbl_blank.config(font=labelfont)'''
 
 lbl_eci_2 = Label(root, text="   Select Element, Compound or Ion for ComboBox 2")
 lbl_eci_2.grid(row=17, column=0, columnspan=3, sticky=W)
